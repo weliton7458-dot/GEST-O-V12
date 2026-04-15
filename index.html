@@ -30,7 +30,7 @@
             box-shadow: 0 12px 32px rgba(0,0,0,0.3);
             animation: fadeIn 0.3s ease;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .hidden { display: none !important; }
         h1, h2, h3 { font-weight: 600; letter-spacing: -0.3px; }
         h2 { border-left: 4px solid #ffcc00; padding-left: 14px; margin-bottom: 20px; font-size: 1.4rem; }
@@ -273,32 +273,16 @@
             <div class="status-item"><i class="fas fa-signal"></i> Rede: <span id="connection-type">--</span></div>
         </div>
         <div id="online-menu" class="status-bar"><i class="fas fa-circle online"></i> Online: <span id="online-count">0</span></div>
-        <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
-            <button class="btn-secondary" style="width:auto; padding:6px 16px;" id="btn-perfil-mobile">Perfil</button>
-            <button class="btn-secondary" style="width:auto; padding:6px 16px;" id="btn-chat-mobile">Chat <span id="chat-notif-badge" style="display:none;" class="chat-badge">!</span></button>
-            <button class="btn-secondary" style="width:auto; padding:6px 16px;" id="btn-equipe-mobile">Equipe</button>
-            <button class="btn-secondary" style="width:auto; padding:6px 16px;" id="btn-acessos-mobile">Acessos</button>
+        <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;" id="top-buttons">
+            <!-- Botões dinâmicos serão inseridos aqui via JS -->
         </div>
     </center>
     <hr style="margin: 16px 0; border-color: rgba(255,255,255,0.1);">
-    <div id="admin-only-mobile" class="hidden">
-        <button class="btn-secondary" id="btn-config-mobile">Configurar Sistema</button>
-        <button class="btn-warning" id="btn-alerta-mobile">Enviar Alerta</button>
-        <button class="btn-secondary" id="btn-relatorio-concluidas">Imprimir Relatórios Concluídos</button>
-        <div class="search-box">
-            <input type="text" id="pesquisa-conta" placeholder="Buscar OS Concluída por Conta...">
-            <button id="btn-buscar-conta" class="btn-primary"><i class="fas fa-search"></i></button>
-        </div>
-        <div id="resultado-busca"></div>
-    </div>
-    <div id="admin-base-mobile" class="hidden">
-        <div class="menu-grid">
-            <button class="btn-primary" id="btn-nova-os-mobile">Nova OS</button>
-            <button class="btn-secondary" id="btn-gerenciar-mobile">Gerenciar Equipe</button>
-            <button id="btn-relatorio-mobile">Relatório Geral PDF</button>
-            <button id="btn-historico-mobile">PDF Histórico</button>
-        </div>
-    </div>
+    
+    <!-- Área de botões que varia conforme perfil -->
+    <div id="dynamic-buttons" class="menu-grid"></div>
+    
+    <!-- Botão Ver OS e Sair sempre visíveis -->
     <div class="menu-grid">
         <div class="button-with-badge" style="width:100%;">
             <button id="btn-ver-os-mobile">Ver OS</button>
@@ -311,29 +295,23 @@
     </div>
 </div>
 
-<!-- TELA DE EQUIPE -->
+<!-- DEMAIS TELAS -->
 <div id="equipe-screen" class="container hidden">
     <h2><i class="fas fa-users"></i> Equipe em Tempo Real</h2>
     <div id="equipe-list" class="equipe-grid"></div>
     <button class="btn-secondary" id="voltar-equipe">Voltar</button>
 </div>
-
-<!-- TELA DE ACESSOS -->
 <div id="acessos-screen" class="container hidden">
     <h2><i class="fas fa-history"></i> Histórico de Acessos</h2>
     <div id="logs-list" class="chat-container" style="max-height: 500px;"></div>
     <button class="btn-secondary" id="voltar-acessos">Voltar</button>
 </div>
-
-<!-- TELA DE ENVIO DE ALERTA (admin) -->
 <div id="alerta-screen" class="container hidden">
     <h2><i class="fas fa-bullhorn"></i> Enviar Alerta para Todos</h2>
     <textarea id="alerta-texto" rows="3" placeholder="Digite a mensagem de alerta..."></textarea>
     <button class="btn-primary" id="btn-enviar-alerta">Enviar Alerta</button>
     <button class="btn-secondary" id="voltar-alerta">Voltar</button>
 </div>
-
-<!-- DEMAIS TELAS -->
 <div id="list-screen" class="container hidden"></div>
 <div id="chat-screen" class="container hidden"></div>
 <div id="profile-screen" class="container hidden"></div>
@@ -341,7 +319,6 @@
 <div id="config-branding-screen" class="container hidden"></div>
 <div id="add-os-screen" class="container hidden"></div>
 <div id="details-screen" class="container hidden"></div>
-
 <div id="pdf-area" style="display:none"></div>
 
 <script>
@@ -390,8 +367,6 @@
             } else document.getElementById('connection-type').innerText = 'n/d';
         } else document.getElementById('connection-type').innerText = 'n/d';
     }
-    
-    // NOVO PING para DNS do Google (8.8.8.8) via fetch
     async function medirPing() {
         const start = performance.now();
         try {
@@ -464,7 +439,7 @@
         });
     }
 
-    // ---------- LISTA DE EQUIPE (CORRIGIDA - USANDO LISTENERS) ----------
+    // ---------- LISTA DE EQUIPE ----------
     let equipeListenerAttached = false;
     function carregarEquipe() {
         const container = document.getElementById('equipe-screen');
@@ -477,14 +452,12 @@
             document.getElementById('menu-screen').classList.remove('hidden');
             showScreen('');
         };
-        
         function renderEquipe() {
             const listDiv = document.getElementById('equipe-list');
             if(!listDiv) return;
             listDiv.innerHTML = '';
             db.users.forEach(user => {
                 if(user.nome === 'admin' || user.nome === 'irlan' || user.nome === 'mike') return;
-                // Buscar status de trabalho e online
                 dbRef.child('usuarios_status/' + user.nome).once('value', snapStatus => {
                     const statusTrab = snapStatus.val()?.status || 'disponivel';
                     dbRef.child('status/' + user.nome).once('value', snapOnline => {
@@ -502,8 +475,6 @@
                 });
             });
         }
-        
-        // Atualiza sempre que houver mudança nos status
         if(!equipeListenerAttached) {
             dbRef.child('usuarios_status').on('value', () => renderEquipe());
             dbRef.child('status').on('value', () => renderEquipe());
@@ -540,7 +511,7 @@
         });
     }
 
-    // ---------- ALERTAS (admin) ----------
+    // ---------- ALERTAS ----------
     function carregarAlerta() {
         const container = document.getElementById('alerta-screen');
         container.innerHTML = `
@@ -587,7 +558,7 @@
         });
     }
 
-    // ---------- NOTIFICAÇÕES DE MENSAGEM ----------
+    // ---------- NOTIFICAÇÕES ----------
     function solicitarPermissaoNotificacao() {
         if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
             Notification.requestPermission();
@@ -601,7 +572,7 @@
         if(badge) badge.style.display = 'inline-block';
     }
 
-    // ---------- CHAT SEM FOTOS ----------
+    // ---------- CHAT ----------
     function setupChatListener() {
         dbRef.child('chat').limitToLast(50).on('child_added', (snap) => {
             const msg = snap.val();
@@ -742,6 +713,7 @@
             iniciarSistema();
         } else alert("Usuário ou senha incorretos");
     }
+
     function iniciarSistema() {
         document.getElementById('welcome-menu').innerHTML = `<i class="fas fa-user-circle"></i> ${session.exibe || session.nome.toUpperCase()}`;
         document.getElementById('user-photo-menu').innerHTML = session.foto ? `<img src="${session.foto}" class="profile-img">` : `<i class="fas fa-user-circle" style="font-size:60px; color:#ffcc00;"></i>`;
@@ -756,61 +728,97 @@
         solicitarPermissaoNotificacao();
         atualizarContadorOS();
         
-        const isAdmin = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'mike');
-        const isBase = (session.role === 'base');
-        const isOperador = (session.role === 'operador');
-        const isTecnico = (session.role === 'tecnico' || session.role === 'auxiliar');
+        const role = session.role;
+        const isAdmin = (role === 'admin' || session.nome === 'admin' || session.nome === 'mike');
+        const isOperador = (role === 'operador');
+        const isTecnicoAux = (role === 'tecnico' || role === 'auxiliar');
+        const isBase = (role === 'base');
         
-        if(isAdmin) {
-            document.getElementById('admin-only-mobile').classList.remove('hidden');
-            document.getElementById('admin-base-mobile').classList.remove('hidden');
+        // Limpar e construir botões dinamicamente conforme perfil
+        const topDiv = document.getElementById('top-buttons');
+        const dynamicDiv = document.getElementById('dynamic-buttons');
+        topDiv.innerHTML = '';
+        dynamicDiv.innerHTML = '';
+        
+        // Botões comuns a todos (Perfil, Chat, Equipe) - exceto para operador que já tem outros
+        if (!isOperador) {
+            if (isTecnicoAux || isBase) {
+                topDiv.innerHTML += `<button class="btn-secondary" id="btn-chat-mobile">Chat <span id="chat-notif-badge" style="display:none;" class="chat-badge">!</span></button>`;
+                topDiv.innerHTML += `<button class="btn-secondary" id="btn-equipe-mobile">Equipe</button>`;
+            }
         }
-        if(isBase || isAdmin) {
-            document.getElementById('admin-base-mobile').classList.remove('hidden');
+        
+        // Para todos, sempre ter o botão Perfil
+        topDiv.innerHTML += `<button class="btn-secondary" id="btn-perfil-mobile">Perfil</button>`;
+        
+        // Configurar botões principais conforme perfil
+        if (isAdmin) {
+            dynamicDiv.innerHTML = `
+                <button class="btn-primary" id="btn-nova-os-mobile">Nova OS</button>
+                <button class="btn-secondary" id="btn-gerenciar-mobile">Gerenciar Equipe</button>
+                <button id="btn-relatorio-mobile">Relatório Geral PDF</button>
+                <button id="btn-historico-mobile">PDF Histórico</button>
+                <button class="btn-secondary" id="btn-config-mobile">Configurar Sistema</button>
+                <button class="btn-warning" id="btn-alerta-mobile">Enviar Alerta</button>
+                <button class="btn-secondary" id="btn-relatorio-concluidas">Imprimir Relatórios Concluídos</button>
+                <div class="search-box">
+                    <input type="text" id="pesquisa-conta" placeholder="Buscar OS Concluída por Conta...">
+                    <button id="btn-buscar-conta" class="btn-primary"><i class="fas fa-search"></i></button>
+                </div>
+                <div id="resultado-busca"></div>
+            `;
+        } else if (isOperador) {
+            dynamicDiv.innerHTML = `
+                <button class="btn-primary" id="btn-nova-os-mobile">Nova OS</button>
+                <button id="btn-relatorio-mobile">Relatório Geral PDF</button>
+                <button id="btn-historico-mobile">PDF Histórico</button>
+            `;
+            topDiv.innerHTML = `<button class="btn-secondary" id="btn-chat-mobile">Chat <span id="chat-notif-badge" style="display:none;" class="chat-badge">!</span></button>` + topDiv.innerHTML;
+        } else if (isTecnicoAux) {
+            dynamicDiv.innerHTML = ``;
+            if (!document.getElementById('btn-equipe-mobile')) {
+                topDiv.innerHTML += `<button class="btn-secondary" id="btn-equipe-mobile">Equipe</button>`;
+            }
+        } else if (isBase) {
+            dynamicDiv.innerHTML = ``;
+            topDiv.innerHTML += `<button class="btn-secondary" id="btn-equipe-mobile">Equipe</button>`;
         }
-        if(isOperador) {
-            document.getElementById('admin-base-mobile').classList.remove('hidden');
-            document.getElementById('btn-gerenciar-mobile').style.display = 'none';
-        }
-        if(isTecnico) {
-            document.getElementById('admin-base-mobile').classList.remove('hidden');
-        }
         
-        document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('menu-screen').classList.remove('hidden');
-        
-        const telas = ['list-screen','chat-screen','profile-screen','manage-users-screen','config-branding-screen','add-os-screen','details-screen','acessos-screen','equipe-screen','alerta-screen'];
-        telas.forEach(id => document.getElementById(id).classList.add('hidden'));
-        
-        document.getElementById('btn-perfil-mobile').onclick = () => carregarPerfil();
-        document.getElementById('btn-chat-mobile').onclick = () => carregarChat();
-        document.getElementById('btn-equipe-mobile').onclick = () => carregarEquipe();
-        document.getElementById('btn-acessos-mobile').onclick = () => carregarAcessos();
-        document.getElementById('btn-config-mobile').onclick = () => carregarConfig();
-        document.getElementById('btn-alerta-mobile').onclick = () => carregarAlerta();
-        document.getElementById('btn-nova-os-mobile').onclick = () => carregarNovaOS();
-        document.getElementById('btn-gerenciar-mobile').onclick = () => carregarGerenciarEquipe();
-        document.getElementById('btn-relatorio-mobile').onclick = () => gerarPDFCompleto();
-        document.getElementById('btn-historico-mobile').onclick = () => gerarPDFHistorico();
-        document.getElementById('btn-relatorio-concluidas').onclick = () => gerarPDFConcluidas();
-        document.getElementById('btn-ver-os-mobile').onclick = () => carregarLista('abertas');
-        document.getElementById('btn-sair-mobile').onclick = () => logout();
-        
-        document.getElementById('btn-buscar-conta').onclick = () => {
+        // Reatribuir eventos após criar os botões (usando event delegation ou seletores)
+        document.getElementById('btn-perfil-mobile')?.addEventListener('click', () => carregarPerfil());
+        document.getElementById('btn-chat-mobile')?.addEventListener('click', () => carregarChat());
+        document.getElementById('btn-equipe-mobile')?.addEventListener('click', () => carregarEquipe());
+        document.getElementById('btn-nova-os-mobile')?.addEventListener('click', () => carregarNovaOS());
+        document.getElementById('btn-gerenciar-mobile')?.addEventListener('click', () => carregarGerenciarEquipe());
+        document.getElementById('btn-relatorio-mobile')?.addEventListener('click', () => gerarPDFCompleto());
+        document.getElementById('btn-historico-mobile')?.addEventListener('click', () => gerarPDFHistorico());
+        document.getElementById('btn-config-mobile')?.addEventListener('click', () => carregarConfig());
+        document.getElementById('btn-alerta-mobile')?.addEventListener('click', () => carregarAlerta());
+        document.getElementById('btn-relatorio-concluidas')?.addEventListener('click', () => gerarPDFConcluidas());
+        document.getElementById('btn-buscar-conta')?.addEventListener('click', () => {
             const conta = document.getElementById('pesquisa-conta').value.trim();
             if(!conta) return;
             const osEncontrada = db.os.find(o => o.conta === conta && o.status === 'Concluído');
             const resultDiv = document.getElementById('resultado-busca');
             if(osEncontrada) {
                 resultDiv.innerHTML = `<div class="info-box">OS encontrada! Clique <a href="#" id="abrir-os-busca">aqui</a> para visualizar.</div>`;
-                document.getElementById('abrir-os-busca').onclick = (e) => {
+                document.getElementById('abrir-os-busca')?.addEventListener('click', (e) => {
                     e.preventDefault();
                     verDetalhes(osEncontrada.id);
-                };
+                });
             } else {
                 resultDiv.innerHTML = `<div class="info-box">Nenhuma OS concluída encontrada com a conta ${conta}.</div>`;
             }
-        };
+        });
+        
+        document.getElementById('btn-ver-os-mobile').onclick = () => carregarLista('abertas');
+        document.getElementById('btn-sair-mobile').onclick = () => logout();
+        
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('menu-screen').classList.remove('hidden');
+        
+        const telas = ['list-screen','chat-screen','profile-screen','manage-users-screen','config-branding-screen','add-os-screen','details-screen','acessos-screen','equipe-screen','alerta-screen'];
+        telas.forEach(id => document.getElementById(id).classList.add('hidden'));
     }
 
     let clockInterval = null;
@@ -827,12 +835,242 @@
 
     function showScreen(screenId) {
         const telas = ['list-screen','chat-screen','profile-screen','manage-users-screen','config-branding-screen','add-os-screen','details-screen','acessos-screen','equipe-screen','alerta-screen'];
-        telas.forEach(id => document.getElementById(id).classList.add('hidden'));
+        telas.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.classList.add('hidden');
+        });
         if(screenId) document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    // ---------- TELAS DE PERFIL, GERENCIAR, CONFIGURAÇÕES, ETC ----------
+    function carregarPerfil() {
+        const container = document.getElementById('profile-screen');
+        container.innerHTML = `
+            <h2>Meu Perfil</h2>
+            <div class="info-box">
+                <label class="label-os">Foto de Perfil</label>
+                <center><img id="preview-foto" src="${session.foto || 'https://via.placeholder.com/100'}" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:10px;"></center>
+                <input type="file" id="upload-foto" accept="image/*">
+                <button class="btn-secondary" id="btn-upload-foto">Atualizar Foto</button>
+            </div>
+            <div class="info-box">
+                <label class="label-os">Alterar nome</label>
+                <input type="text" id="edit-nome" placeholder="Novo nome">
+                <button class="btn-primary" id="btn-alterar-nome">Atualizar</button>
+            </div>
+            <div class="info-box">
+                <label class="label-os">Alterar senha</label>
+                <input type="password" id="edit-senha-atual" placeholder="Senha atual">
+                <input type="password" id="edit-senha-nova" placeholder="Nova senha">
+                <input type="password" id="edit-senha-confirma" placeholder="Confirmar">
+                <button class="btn-primary" id="btn-alterar-senha">Alterar Senha</button>
+            </div>
+            <div id="profile-create-user" class="info-box" style="${(session.role === 'admin' || session.nome === 'admin' || session.nome === 'irlan' || session.nome === 'mike') ? 'display:block;' : 'display:none;'}">
+                <label class="label-os">Criar novo usuário</label>
+                <input type="text" id="novo-user-nome" placeholder="Nome">
+                <select id="novo-user-role">
+                    <option value="operador">Operador</option>
+                    <option value="tecnico">Técnico</option>
+                    <option value="auxiliar">Auxiliar</option>
+                    <option value="base">Base</option>
+                </select>
+                <button class="btn-secondary" id="btn-criar-user">Criar</button>
+                <small>Senha padrão: 123456</small>
+            </div>
+            <button class="btn-secondary" id="voltar-perfil">Voltar</button>
+        `;
+        document.getElementById('btn-upload-foto').onclick = () => {
+            const fileInput = document.getElementById('upload-foto');
+            const file = fileInput.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    session.foto = e.target.result;
+                    const idx = db.users.findIndex(u => u.nome === session.nome);
+                    if(idx !== -1) db.users[idx].foto = e.target.result;
+                    saveToFirebase('users', db.users);
+                    document.getElementById('preview-foto').src = e.target.result;
+                    document.getElementById('user-photo-menu').innerHTML = `<img src="${session.foto}" class="profile-img">`;
+                    alert("Foto atualizada!");
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        document.getElementById('btn-alterar-nome').onclick = () => {
+            const novo = document.getElementById('edit-nome').value.trim();
+            if(!novo) return;
+            session.exibe = novo;
+            const idx = db.users.findIndex(u => u.nome === session.nome);
+            if(idx !== -1) db.users[idx].exibe = novo;
+            saveToFirebase('users', db.users);
+            document.getElementById('welcome-menu').innerHTML = `<i class="fas fa-user-circle"></i> ${novo.toUpperCase()}`;
+            alert("Nome atualizado!");
+        };
+        document.getElementById('btn-alterar-senha').onclick = () => {
+            const atual = document.getElementById('edit-senha-atual').value;
+            const nova = document.getElementById('edit-senha-nova').value;
+            const confirma = document.getElementById('edit-senha-confirma').value;
+            if(atual !== session.pass) return alert("Senha atual incorreta");
+            if(nova !== confirma) return alert("Nova senha não confere");
+            if(nova.length < 4) return alert("Mínimo 4 caracteres");
+            session.pass = nova;
+            const idx = db.users.findIndex(u => u.nome === session.nome);
+            if(idx !== -1) db.users[idx].pass = nova;
+            saveToFirebase('users', db.users);
+            salvarSessao(session);
+            alert("Senha alterada! Faça login novamente.");
+            logout();
+        };
+        document.getElementById('btn-criar-user')?.addEventListener('click', () => {
+            const nome = document.getElementById('novo-user-nome').value.trim().toLowerCase();
+            const role = document.getElementById('novo-user-role').value;
+            if(!nome) return;
+            if(db.users.find(u => u.nome === nome)) return alert("Já existe");
+            const novo = {nome, pass: "123456", role, foto: "", exibe: nome};
+            db.users.push(novo);
+            saveToFirebase('users', db.users);
+            alert(`Usuário ${nome} (${role}) criado com senha 123456`);
+            document.getElementById('novo-user-nome').value = '';
+        });
+        document.getElementById('voltar-perfil').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
+        showScreen('profile-screen');
+    }
+
+    function carregarGerenciarEquipe() {
+        const podeGerenciar = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'irlan' || session.nome === 'mike');
+        if(!podeGerenciar) {
+            alert("Apenas administradores podem gerenciar a equipe.");
+            return;
+        }
+        const container = document.getElementById('manage-users-screen');
+        container.innerHTML = `
+            <h2>Gerenciar Equipe</h2>
+            <div class="info-box">
+                <label class="label-os">Adicionar técnico/auxiliar/operador</label>
+                <input type="text" id="new-user-name" placeholder="Nome">
+                <select id="new-user-role">
+                    <option value="operador">Operador</option>
+                    <option value="tecnico">Técnico</option>
+                    <option value="auxiliar">Auxiliar</option>
+                </select>
+                <button class="btn-secondary" id="btn-add-user">Adicionar</button>
+            </div>
+            <div id="user-list-render"></div>
+            <button class="btn-secondary" id="voltar-gerenciar">Voltar</button>
+        `;
+        document.getElementById('btn-add-user').onclick = () => {
+            const nome = document.getElementById('new-user-name').value.trim().toLowerCase();
+            const role = document.getElementById('new-user-role').value;
+            if(!nome) return;
+            if(db.users.find(u => u.nome === nome)) return alert("Usuário já existe");
+            const novo = {nome, pass: "123456", role, foto: "", exibe: nome};
+            db.users.push(novo);
+            saveToFirebase('users', db.users);
+            renderUserList();
+            alert("Usuário adicionado!");
+            document.getElementById('new-user-name').value = '';
+        };
+        document.getElementById('voltar-gerenciar').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
+        renderUserList();
+        showScreen('manage-users-screen');
+    }
+
+    function renderUserList() {
+        const area = document.getElementById('user-list-render');
+        if(!area) return;
+        area.innerHTML = "";
+        db.users.filter(u => u.nome !== 'admin' && u.nome !== 'irlan' && u.nome !== 'mike').forEach(u => {
+            area.innerHTML += `<div class="info-box" style="display:flex; justify-content:space-between;">
+                <div><b>${u.exibe || u.nome}</b> (${u.role})<br>Senha: ${u.pass}</div>
+                <button onclick="removerU('${u.nome}')" style="background:#d32f2f; width:auto;">Remover</button>
+            </div>`;
+        });
+    }
+    function removerU(n) {
+        if(n === session.nome) return alert("Não pode remover a si mesmo");
+        db.users = db.users.filter(u => u.nome !== n);
+        saveToFirebase('users', db.users);
+        renderUserList();
+    }
+
+    function carregarConfig() {
+        const podeConfig = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'mike');
+        if(!podeConfig) {
+            alert("Apenas administradores podem acessar configurações.");
+            return;
+        }
+        const container = document.getElementById('config-branding-screen');
+        container.innerHTML = `
+            <h2>Configurações</h2>
+            <input type="text" id="cfg-name" placeholder="Nome da Empresa" value="${db.config.name || ''}">
+            <input type="email" id="cfg-email" placeholder="E-mail para OS concluídas" value="${db.config.emailDestino || ''}">
+            <input type="file" accept="image/*" id="logo-input">
+            <center><img id="cfg-logo-preview" style="max-width:100px; display:none;"></center>
+            <div class="info-box">
+                <label class="label-os">EmailJS (envio automático)</label>
+                <input type="text" id="emailjs-service" placeholder="Service ID" value="${db.config.emailjs?.service || ''}">
+                <input type="text" id="emailjs-template" placeholder="Template ID" value="${db.config.emailjs?.template || ''}">
+                <input type="text" id="emailjs-public" placeholder="Public Key" value="${db.config.emailjs?.publicKey || ''}">
+                <small><a href="https://www.emailjs.com/" target="_blank" style="color:#ffcc00;">Crie conta gratuita</a></small>
+            </div>
+            <button class="btn-primary" id="save-config">Salvar</button>
+            <button class="btn-secondary" id="voltar-config">Voltar</button>
+        `;
+        document.getElementById('logo-input').onchange = (e) => {
+            const file = e.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    tempSystemLogo = ev.target.result;
+                    document.getElementById('cfg-logo-preview').src = tempSystemLogo;
+                    document.getElementById('cfg-logo-preview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+        document.getElementById('save-config').onclick = () => {
+            db.config.name = document.getElementById('cfg-name').value;
+            db.config.emailDestino = document.getElementById('cfg-email').value;
+            db.config.emailjs = {
+                service: document.getElementById('emailjs-service').value,
+                template: document.getElementById('emailjs-template').value,
+                publicKey: document.getElementById('emailjs-public').value
+            };
+            if(tempSystemLogo) db.config.logo = tempSystemLogo;
+            saveToFirebase('config', db.config);
+            applyBranding();
+            alert("Configurações salvas!");
+            document.getElementById('menu-screen').classList.remove('hidden');
+            showScreen('');
+        };
+        document.getElementById('voltar-config').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
+        showScreen('config-branding-screen');
+    }
+
+    function carregarAcessos() {
+        const podeVer = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'mike');
+        if(!podeVer) {
+            alert("Apenas administradores podem ver o histórico de acessos.");
+            return;
+        }
+        const container = document.getElementById('acessos-screen');
+        container.innerHTML = `
+            <h2><i class="fas fa-history"></i> Histórico de Acessos</h2>
+            <div id="logs-list" class="chat-container" style="max-height: 500px;"></div>
+            <button class="btn-secondary" id="voltar-acessos">Voltar</button>
+        `;
+        document.getElementById('voltar-acessos').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
+        carregarLogs();
+        showScreen('acessos-screen');
     }
 
     // ---------- NOVA OS ----------
     function carregarNovaOS() {
+        const podeCriar = (session.role === 'admin' || session.role === 'operador' || session.nome === 'admin' || session.nome === 'mike');
+        if(!podeCriar) {
+            alert("Você não tem permissão para criar novas OS.");
+            return;
+        }
         const container = document.getElementById('add-os-screen');
         container.innerHTML = `
             <h2>Nova OS</h2>
@@ -884,7 +1122,7 @@
         showScreen('add-os-screen');
     }
 
-    // ---------- LISTAGEM ----------
+    // ---------- LISTAGEM DE OS ----------
     function carregarLista(filtro) {
         currentFiltro = filtro;
         const container = document.getElementById('list-screen');
@@ -966,11 +1204,11 @@
                         <tr><th>Data/Hora Abertura</th><td>${o.dataAbertura} ${o.horaAbertura || ''}</td></tr>
                         <tr><th>Técnico que concluiu</th><td>${o.tecnicoExec || 'N/A'}</td></tr>
                         <tr><th>Auxiliares presentes</th><td>${o.auxiliares?.join(', ') || 'Nenhum'}</td></tr>
-                        <tr><th>Observação do que foi feito</th><td>${o.resolucao || 'Não informado'}NonNull
-                        <tr><th>Solução</th><td>${o.resolucao || 'Não informado'}NonNull
-                        <tr><th>Tipo de serviço</th><td>${o.tipo || 'N/A'}NonNull
-                        <tr><th>Material usado</th><td>${o.materiaisTec || 'Não informado'}NonNull
-                        <tr><th>Cidade</th><td>${o.cidade || 'Não informada'}NonNull
+                        <tr><th>Observação do que foi feito</th><td>${o.resolucao || 'Não informado'}</td></tr>
+                        <tr><th>Solução</th><td>${o.resolucao || 'Não informado'}</td></tr>
+                        <tr><th>Tipo de serviço</th><td>${o.tipo || 'N/A'}</td></tr>
+                        <tr><th>Material usado</th><td>${o.materiaisTec || 'Não informado'}</td></tr>
+                        <tr><th>Cidade</th><td>${o.cidade || 'Não informada'}</td></tr>
                     </table>
                     <div style="text-align: center;">
                         <button class="print-btn" onclick="window.print();">🖨️ Imprimir / Salvar PDF</button>
@@ -1124,231 +1362,6 @@
             message: `OS Concluída\nConta: ${os.conta}\nEmpresa: ${os.empresa}\nTécnico: ${os.tecnicoExec}\nRelatório: ${os.resolucao}\nMateriais: ${os.materiaisTec}\nPeríodo: ${os.horaInicio} → ${os.horaFim}`
         };
         try { await emailjs.send(cfg.service, cfg.template, templateParams); } catch(e) { console.warn(e); }
-    }
-
-    // ---------- PERFIL ----------
-    function carregarPerfil() {
-        const container = document.getElementById('profile-screen');
-        container.innerHTML = `
-            <h2>Meu Perfil</h2>
-            <div class="info-box">
-                <label class="label-os">Foto de Perfil</label>
-                <center><img id="preview-foto" src="${session.foto || 'https://via.placeholder.com/100'}" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:10px;"></center>
-                <input type="file" id="upload-foto" accept="image/*">
-                <button class="btn-secondary" id="btn-upload-foto">Atualizar Foto</button>
-            </div>
-            <div class="info-box">
-                <label class="label-os">Alterar nome</label>
-                <input type="text" id="edit-nome" placeholder="Novo nome">
-                <button class="btn-primary" id="btn-alterar-nome">Atualizar</button>
-            </div>
-            <div class="info-box">
-                <label class="label-os">Alterar senha</label>
-                <input type="password" id="edit-senha-atual" placeholder="Senha atual">
-                <input type="password" id="edit-senha-nova" placeholder="Nova senha">
-                <input type="password" id="edit-senha-confirma" placeholder="Confirmar">
-                <button class="btn-primary" id="btn-alterar-senha">Alterar Senha</button>
-            </div>
-            <div id="profile-create-user" class="info-box" style="${(session.role === 'admin' || session.nome === 'admin' || session.nome === 'irlan' || session.nome === 'mike') ? 'display:block;' : 'display:none;'}">
-                <label class="label-os">Criar novo usuário</label>
-                <input type="text" id="novo-user-nome" placeholder="Nome">
-                <select id="novo-user-role">
-                    <option value="operador">Operador</option>
-                    <option value="tecnico">Técnico</option>
-                    <option value="auxiliar">Auxiliar</option>
-                    <option value="base">Base</option>
-                </select>
-                <button class="btn-secondary" id="btn-criar-user">Criar</button>
-                <small>Senha padrão: 123456</small>
-            </div>
-            <button class="btn-secondary" id="voltar-perfil">Voltar</button>
-        `;
-        document.getElementById('btn-upload-foto').onclick = () => {
-            const fileInput = document.getElementById('upload-foto');
-            const file = fileInput.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    session.foto = e.target.result;
-                    const idx = db.users.findIndex(u => u.nome === session.nome);
-                    if(idx !== -1) db.users[idx].foto = e.target.result;
-                    saveToFirebase('users', db.users);
-                    document.getElementById('preview-foto').src = e.target.result;
-                    document.getElementById('user-photo-menu').innerHTML = `<img src="${session.foto}" class="profile-img">`;
-                    alert("Foto atualizada!");
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-        document.getElementById('btn-alterar-nome').onclick = () => {
-            const novo = document.getElementById('edit-nome').value.trim();
-            if(!novo) return;
-            session.exibe = novo;
-            const idx = db.users.findIndex(u => u.nome === session.nome);
-            if(idx !== -1) db.users[idx].exibe = novo;
-            saveToFirebase('users', db.users);
-            document.getElementById('welcome-menu').innerHTML = `<i class="fas fa-user-circle"></i> ${novo.toUpperCase()}`;
-            alert("Nome atualizado!");
-        };
-        document.getElementById('btn-alterar-senha').onclick = () => {
-            const atual = document.getElementById('edit-senha-atual').value;
-            const nova = document.getElementById('edit-senha-nova').value;
-            const confirma = document.getElementById('edit-senha-confirma').value;
-            if(atual !== session.pass) return alert("Senha atual incorreta");
-            if(nova !== confirma) return alert("Nova senha não confere");
-            if(nova.length < 4) return alert("Mínimo 4 caracteres");
-            session.pass = nova;
-            const idx = db.users.findIndex(u => u.nome === session.nome);
-            if(idx !== -1) db.users[idx].pass = nova;
-            saveToFirebase('users', db.users);
-            salvarSessao(session);
-            alert("Senha alterada! Faça login novamente.");
-            logout();
-        };
-        document.getElementById('btn-criar-user')?.addEventListener('click', () => {
-            const nome = document.getElementById('novo-user-nome').value.trim().toLowerCase();
-            const role = document.getElementById('novo-user-role').value;
-            if(!nome) return;
-            if(db.users.find(u => u.nome === nome)) return alert("Já existe");
-            const novo = {nome, pass: "123456", role, foto: "", exibe: nome};
-            db.users.push(novo);
-            saveToFirebase('users', db.users);
-            alert(`Usuário ${nome} (${role}) criado com senha 123456`);
-            document.getElementById('novo-user-nome').value = '';
-        });
-        document.getElementById('voltar-perfil').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
-        showScreen('profile-screen');
-    }
-
-    // GERENCIAR EQUIPE (apenas admin/irlan/mike)
-    function carregarGerenciarEquipe() {
-        const podeGerenciar = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'irlan' || session.nome === 'mike');
-        if(!podeGerenciar) {
-            alert("Apenas administradores podem gerenciar a equipe.");
-            return;
-        }
-        const container = document.getElementById('manage-users-screen');
-        container.innerHTML = `
-            <h2>Gerenciar Equipe</h2>
-            <div class="info-box">
-                <label class="label-os">Adicionar técnico/auxiliar/operador</label>
-                <input type="text" id="new-user-name" placeholder="Nome">
-                <select id="new-user-role">
-                    <option value="operador">Operador</option>
-                    <option value="tecnico">Técnico</option>
-                    <option value="auxiliar">Auxiliar</option>
-                </select>
-                <button class="btn-secondary" id="btn-add-user">Adicionar</button>
-            </div>
-            <div id="user-list-render"></div>
-            <button class="btn-secondary" id="voltar-gerenciar">Voltar</button>
-        `;
-        document.getElementById('btn-add-user').onclick = () => {
-            const nome = document.getElementById('new-user-name').value.trim().toLowerCase();
-            const role = document.getElementById('new-user-role').value;
-            if(!nome) return;
-            if(db.users.find(u => u.nome === nome)) return alert("Usuário já existe");
-            const novo = {nome, pass: "123456", role, foto: "", exibe: nome};
-            db.users.push(novo);
-            saveToFirebase('users', db.users);
-            renderUserList();
-            alert("Usuário adicionado!");
-            document.getElementById('new-user-name').value = '';
-        };
-        document.getElementById('voltar-gerenciar').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
-        renderUserList();
-        showScreen('manage-users-screen');
-    }
-
-    function renderUserList() {
-        const area = document.getElementById('user-list-render');
-        if(!area) return;
-        area.innerHTML = "";
-        db.users.filter(u => u.nome !== 'admin' && u.nome !== 'irlan' && u.nome !== 'mike').forEach(u => {
-            area.innerHTML += `<div class="info-box" style="display:flex; justify-content:space-between;">
-                <div><b>${u.exibe || u.nome}</b> (${u.role})<br>Senha: ${u.pass}</div>
-                <button onclick="removerU('${u.nome}')" style="background:#d32f2f; width:auto;">Remover</button>
-            </div>`;
-        });
-    }
-    function removerU(n) {
-        if(n === session.nome) return alert("Não pode remover a si mesmo");
-        db.users = db.users.filter(u => u.nome !== n);
-        saveToFirebase('users', db.users);
-        renderUserList();
-    }
-
-    // CONFIGURAÇÕES
-    function carregarConfig() {
-        const podeConfig = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'mike');
-        if(!podeConfig) {
-            alert("Apenas administradores podem acessar configurações.");
-            return;
-        }
-        const container = document.getElementById('config-branding-screen');
-        container.innerHTML = `
-            <h2>Configurações</h2>
-            <input type="text" id="cfg-name" placeholder="Nome da Empresa" value="${db.config.name || ''}">
-            <input type="email" id="cfg-email" placeholder="E-mail para OS concluídas" value="${db.config.emailDestino || ''}">
-            <input type="file" accept="image/*" id="logo-input">
-            <center><img id="cfg-logo-preview" style="max-width:100px; display:none;"></center>
-            <div class="info-box">
-                <label class="label-os">EmailJS (envio automático)</label>
-                <input type="text" id="emailjs-service" placeholder="Service ID" value="${db.config.emailjs?.service || ''}">
-                <input type="text" id="emailjs-template" placeholder="Template ID" value="${db.config.emailjs?.template || ''}">
-                <input type="text" id="emailjs-public" placeholder="Public Key" value="${db.config.emailjs?.publicKey || ''}">
-                <small><a href="https://www.emailjs.com/" target="_blank" style="color:#ffcc00;">Crie conta gratuita</a></small>
-            </div>
-            <button class="btn-primary" id="save-config">Salvar</button>
-            <button class="btn-secondary" id="voltar-config">Voltar</button>
-        `;
-        document.getElementById('logo-input').onchange = (e) => {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = ev => {
-                    tempSystemLogo = ev.target.result;
-                    document.getElementById('cfg-logo-preview').src = tempSystemLogo;
-                    document.getElementById('cfg-logo-preview').style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-        document.getElementById('save-config').onclick = () => {
-            db.config.name = document.getElementById('cfg-name').value;
-            db.config.emailDestino = document.getElementById('cfg-email').value;
-            db.config.emailjs = {
-                service: document.getElementById('emailjs-service').value,
-                template: document.getElementById('emailjs-template').value,
-                publicKey: document.getElementById('emailjs-public').value
-            };
-            if(tempSystemLogo) db.config.logo = tempSystemLogo;
-            saveToFirebase('config', db.config);
-            applyBranding();
-            alert("Configurações salvas!");
-            document.getElementById('menu-screen').classList.remove('hidden');
-            showScreen('');
-        };
-        document.getElementById('voltar-config').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
-        showScreen('config-branding-screen');
-    }
-
-    // ACESSOS (admin)
-    function carregarAcessos() {
-        const podeVer = (session.role === 'admin' || session.nome === 'admin' || session.nome === 'mike');
-        if(!podeVer) {
-            alert("Apenas administradores podem ver o histórico de acessos.");
-            return;
-        }
-        const container = document.getElementById('acessos-screen');
-        container.innerHTML = `
-            <h2><i class="fas fa-history"></i> Histórico de Acessos</h2>
-            <div id="logs-list" class="chat-container" style="max-height: 500px;"></div>
-            <button class="btn-secondary" id="voltar-acessos">Voltar</button>
-        `;
-        document.getElementById('voltar-acessos').onclick = () => { document.getElementById('menu-screen').classList.remove('hidden'); showScreen(''); };
-        carregarLogs();
-        showScreen('acessos-screen');
     }
 
     // ---------- PDF EM NOVA ABA ----------
