@@ -1164,7 +1164,7 @@
         });
     }
 
-    // Função auxiliar para compartilhar PDF via WhatsApp
+    // Função auxiliar para compartilhar PDF via WhatsApp (sem "NonNull")
     async function compartilharPDF(o) {
         const container = document.createElement('div');
         container.style.padding = '20px';
@@ -1220,7 +1220,7 @@
         }
     }
 
-    // ---------- DETALHES E EDIÇÃO (COM TÉCNICO SEPARADO) ----------
+    // ---------- DETALHES E EDIÇÃO (COM TÉCNICO SEPARADO) - RELATÓRIO SEM "NonNull" ----------
     function verDetalhes(id) {
         const o = db.os.find(x => x.id === id);
         if(!o) return;
@@ -1248,15 +1248,15 @@
                     <p style="text-align:center;">Gerado em: ${new Date().toLocaleString()}</p>
                     <hr>
                     <table>
-                        <tr><th>Empresa / Cliente</th><td>${o.empresa || 'N/A'}NonNull
-                        <tr><th>Aberto por</th><td>${o.abertoPor || 'N/A'}NonNull
-                        <tr><th>Data/Hora Abertura</th><td>${o.dataAbertura} ${o.horaAbertura || ''}NonNull
-                        <tr><th>Técnico que concluiu</th><td>${o.tecnicoExec || 'N/A'}NonNull
-                        <tr><th>Auxiliares presentes</th><td>${o.auxiliares?.join(', ') || 'Nenhum'}NonNull
-                        <tr><th>Observação do que foi feito</th><td>${o.resolucao || 'Não informado'}NonNull
-                        <tr><th>Tipo de serviço</th><td>${o.tipo || 'N/A'}NonNull
-                        <tr><th>Material usado</th><td>${o.materiaisTec || 'Não informado'}NonNull
-                        <tr><th>Cidade</th><td>${o.cidade || 'Não informada'}NonNull
+                        <tr><th>Empresa / Cliente</th><td>${o.empresa || 'N/A'}</td></tr>
+                        <tr><th>Aberto por</th><td>${o.abertoPor || 'N/A'}</td></tr>
+                        <tr><th>Data/Hora Abertura</th><td>${o.dataAbertura} ${o.horaAbertura || ''}</td></tr>
+                        <tr><th>Técnico que concluiu</th><td>${o.tecnicoExec || 'N/A'}</td></tr>
+                        <tr><th>Auxiliares presentes</th><td>${o.auxiliares?.join(', ') || 'Nenhum'}</td></tr>
+                        <tr><th>Observação do que foi feito</th><td>${o.resolucao || 'Não informado'}</td></tr>
+                        <tr><th>Tipo de serviço</th><td>${o.tipo || 'N/A'}</td></tr>
+                        <tr><th>Material usado</th><td>${o.materiaisTec || 'Não informado'}</td></tr>
+                        <tr><th>Cidade</th><td>${o.cidade || 'Não informada'}</td></tr>
                     </table>
                     <div style="text-align: center;">
                         <button class="print-btn" onclick="window.print();">🖨️ Imprimir / Salvar PDF</button>
