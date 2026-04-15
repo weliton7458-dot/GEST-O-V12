@@ -273,16 +273,10 @@
             <div class="status-item"><i class="fas fa-signal"></i> Rede: <span id="connection-type">--</span></div>
         </div>
         <div id="online-menu" class="status-bar"><i class="fas fa-circle online"></i> Online: <span id="online-count">0</span></div>
-        <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;" id="top-buttons">
-            <!-- Botões dinâmicos serão inseridos aqui via JS -->
-        </div>
+        <div style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;" id="top-buttons"></div>
     </center>
     <hr style="margin: 16px 0; border-color: rgba(255,255,255,0.1);">
-    
-    <!-- Área de botões que varia conforme perfil -->
     <div id="dynamic-buttons" class="menu-grid"></div>
-    
-    <!-- Botão Ver OS e Sair sempre visíveis -->
     <div class="menu-grid">
         <div class="button-with-badge" style="width:100%;">
             <button id="btn-ver-os-mobile">Ver OS</button>
@@ -734,24 +728,19 @@
         const isTecnicoAux = (role === 'tecnico' || role === 'auxiliar');
         const isBase = (role === 'base');
         
-        // Limpar e construir botões dinamicamente conforme perfil
         const topDiv = document.getElementById('top-buttons');
         const dynamicDiv = document.getElementById('dynamic-buttons');
         topDiv.innerHTML = '';
         dynamicDiv.innerHTML = '';
         
-        // Botões comuns a todos (Perfil, Chat, Equipe) - exceto para operador que já tem outros
         if (!isOperador) {
             if (isTecnicoAux || isBase) {
                 topDiv.innerHTML += `<button class="btn-secondary" id="btn-chat-mobile">Chat <span id="chat-notif-badge" style="display:none;" class="chat-badge">!</span></button>`;
                 topDiv.innerHTML += `<button class="btn-secondary" id="btn-equipe-mobile">Equipe</button>`;
             }
         }
-        
-        // Para todos, sempre ter o botão Perfil
         topDiv.innerHTML += `<button class="btn-secondary" id="btn-perfil-mobile">Perfil</button>`;
         
-        // Configurar botões principais conforme perfil
         if (isAdmin) {
             dynamicDiv.innerHTML = `
                 <button class="btn-primary" id="btn-nova-os-mobile">Nova OS</button>
@@ -784,7 +773,6 @@
             topDiv.innerHTML += `<button class="btn-secondary" id="btn-equipe-mobile">Equipe</button>`;
         }
         
-        // Reatribuir eventos após criar os botões (usando event delegation ou seletores)
         document.getElementById('btn-perfil-mobile')?.addEventListener('click', () => carregarPerfil());
         document.getElementById('btn-chat-mobile')?.addEventListener('click', () => carregarChat());
         document.getElementById('btn-equipe-mobile')?.addEventListener('click', () => carregarEquipe());
@@ -842,7 +830,7 @@
         if(screenId) document.getElementById(screenId).classList.remove('hidden');
     }
 
-    // ---------- TELAS DE PERFIL, GERENCIAR, CONFIGURAÇÕES, ETC ----------
+    // ---------- PERFIL ----------
     function carregarPerfil() {
         const container = document.getElementById('profile-screen');
         container.innerHTML = `
@@ -1176,45 +1164,115 @@
         });
     }
 
-    // ---------- DETALHES E EDIÇÃO ----------
+    // Função auxiliar para compartilhar PDF via WhatsApp
+    async function compartilharPDF(o) {
+        const container = document.createElement('div');
+        container.style.padding = '20px';
+        container.style.fontFamily = 'Arial, sans-serif';
+        container.style.backgroundColor = 'white';
+        container.style.color = '#000';
+        
+        let logoTemplate = '';
+        if (db.config.logo) {
+            logoTemplate = `<div style="text-align:center; margin-bottom:20px;"><img src="${db.config.logo}" style="max-width:150px;"></div>`;
+        }
+        
+        container.innerHTML = `
+            ${logoTemplate}
+            <h1 style="color:#ffcc00; text-align:center;">Relatório da ${o.empresa}</h1>
+            <p style="text-align:center;">Gerado em: ${new Date().toLocaleString()}</p>
+            <hr>
+            <table style="width:100%; border-collapse:collapse;">
+                <tr><th style="border:1px solid #ddd; padding:8px; text-align:left; background:#ffcc00;">Campo</th><th style="border:1px solid #ddd; padding:8px; text-align:left; background:#ffcc00;">Informação</th></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Empresa / Cliente</td><td style="border:1px solid #ddd; padding:8px;">${o.empresa || 'N/A'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Aberto por</td><td style="border:1px solid #ddd; padding:8px;">${o.abertoPor || 'N/A'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Data/Hora Abertura</td><td style="border:1px solid #ddd; padding:8px;">${o.dataAbertura} ${o.horaAbertura || ''}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Técnico que concluiu</td><td style="border:1px solid #ddd; padding:8px;">${o.tecnicoExec || 'N/A'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Auxiliares presentes</td><td style="border:1px solid #ddd; padding:8px;">${o.auxiliares?.join(', ') || 'Nenhum'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Observação do que foi feito</td><td style="border:1px solid #ddd; padding:8px;">${o.resolucao || 'Não informado'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Tipo de serviço</td><td style="border:1px solid #ddd; padding:8px;">${o.tipo || 'N/A'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Material usado</td><td style="border:1px solid #ddd; padding:8px;">${o.materiaisTec || 'Não informado'}</td></tr>
+                <tr><td style="border:1px solid #ddd; padding:8px;">Cidade</td><td style="border:1px solid #ddd; padding:8px;">${o.cidade || 'Não informada'}</td></tr>
+            </table>
+        `;
+        
+        const opt = {
+            margin: 0.5,
+            filename: `Relatorio_${o.empresa}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        
+        try {
+            const pdfBlob = await html2pdf().set(opt).from(container).outputPdf('blob');
+            const url = URL.createObjectURL(pdfBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Relatorio_${o.empresa}.pdf`;
+            a.click();
+            URL.revokeObjectURL(url);
+            const texto = `Olá! Segue o relatório da OS concluída da empresa ${o.empresa}. O arquivo PDF foi baixado e pode ser anexado a esta conversa.`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, '_blank');
+        } catch(err) {
+            console.error(err);
+            alert("Erro ao gerar PDF. Tente novamente.");
+        }
+    }
+
+    // ---------- DETALHES E EDIÇÃO (COM TÉCNICO SEPARADO) ----------
     function verDetalhes(id) {
         const o = db.os.find(x => x.id === id);
         if(!o) return;
         if(o.status === 'Concluído') {
+            const logoTemplate = db.config.logo ? `<div style="text-align:center; margin-bottom:20px;"><img src="${db.config.logo}" style="max-width:150px;"></div>` : '';
             const htmlContent = `
                 <!DOCTYPE html>
-                <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>OS Concluída - ${o.conta}</title>
+                <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Relatório da ${o.empresa}</title>
                 <style>
                     body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
                     .relatorio-container { max-width: 800px; width: 100%; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-                    h1 { color: #ffcc00; border-bottom: 3px solid #ffcc00; padding-bottom: 8px; }
+                    h1 { color: #ffcc00; border-bottom: 3px solid #ffcc00; padding-bottom: 8px; text-align: center; }
                     table { width: 100%; border-collapse: collapse; margin: 15px 0; }
                     th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
                     th { background: #ffcc00; color: #000; width: 35%; }
-                    .print-btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 20px; margin-right: 10px; }
-                    @media print { .print-btn { display: none; } body { background: white; } .relatorio-container { box-shadow: none; padding: 0; } }
+                    .print-btn, .share-btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 20px; margin-right: 10px; }
+                    .share-btn { background: #25D366; }
+                    @media print { .print-btn, .share-btn { display: none; } body { background: white; } .relatorio-container { box-shadow: none; padding: 0; } }
                 </style>
                 </head>
                 <body>
                 <div class="relatorio-container">
-                    <h1>📄 Relatório da OS Concluída</h1>
+                    ${logoTemplate}
+                    <h1>Relatório da ${o.empresa}</h1>
+                    <p style="text-align:center;">Gerado em: ${new Date().toLocaleString()}</p>
+                    <hr>
                     <table>
-                        <tr><th>Empresa / Cliente</th><td>${o.empresa || 'N/A'}</td></tr>
-                        <tr><th>Aberto por</th><td>${o.abertoPor || 'N/A'}</td></tr>
-                        <tr><th>Data/Hora Abertura</th><td>${o.dataAbertura} ${o.horaAbertura || ''}</td></tr>
-                        <tr><th>Técnico que concluiu</th><td>${o.tecnicoExec || 'N/A'}</td></tr>
-                        <tr><th>Auxiliares presentes</th><td>${o.auxiliares?.join(', ') || 'Nenhum'}</td></tr>
-                        <tr><th>Observação do que foi feito</th><td>${o.resolucao || 'Não informado'}</td></tr>
-                        <tr><th>Solução</th><td>${o.resolucao || 'Não informado'}</td></tr>
-                        <tr><th>Tipo de serviço</th><td>${o.tipo || 'N/A'}</td></tr>
-                        <tr><th>Material usado</th><td>${o.materiaisTec || 'Não informado'}</td></tr>
-                        <tr><th>Cidade</th><td>${o.cidade || 'Não informada'}</td></tr>
+                        <tr><th>Empresa / Cliente</th><td>${o.empresa || 'N/A'}NonNull
+                        <tr><th>Aberto por</th><td>${o.abertoPor || 'N/A'}NonNull
+                        <tr><th>Data/Hora Abertura</th><td>${o.dataAbertura} ${o.horaAbertura || ''}NonNull
+                        <tr><th>Técnico que concluiu</th><td>${o.tecnicoExec || 'N/A'}NonNull
+                        <tr><th>Auxiliares presentes</th><td>${o.auxiliares?.join(', ') || 'Nenhum'}NonNull
+                        <tr><th>Observação do que foi feito</th><td>${o.resolucao || 'Não informado'}NonNull
+                        <tr><th>Tipo de serviço</th><td>${o.tipo || 'N/A'}NonNull
+                        <tr><th>Material usado</th><td>${o.materiaisTec || 'Não informado'}NonNull
+                        <tr><th>Cidade</th><td>${o.cidade || 'Não informada'}NonNull
                     </table>
                     <div style="text-align: center;">
                         <button class="print-btn" onclick="window.print();">🖨️ Imprimir / Salvar PDF</button>
-                        <button class="print-btn" style="background:#6c757d;" onclick="window.close();">Fechar</button>
+                        <button class="share-btn" id="shareBtn">📤 Compartilhar</button>
                     </div>
                 </div>
+                <script>
+                    document.getElementById('shareBtn').addEventListener('click', () => {
+                        if(window.opener && window.opener.compartilharPDF) {
+                            window.opener.compartilharPDF(${JSON.stringify(o)});
+                            window.close();
+                        } else {
+                            alert('Erro: não foi possível compartilhar. Tente novamente.');
+                        }
+                    });
+                <\/script>
                 </body>
                 </html>
             `;
@@ -1238,7 +1296,9 @@
             <div id="details-content"></div>
             ${podeEditar ? `
             <div class="info-box">
-                <label class="label-os">Auxiliares (clique para selecionar):</label>
+                <label class="label-os">Técnico Responsável (selecione um):</label>
+                <div id="tecnico-select" class="aux-grid"></div>
+                <label class="label-os">Auxiliares (selecione vários):</label>
                 <div id="aux-check-list" class="aux-grid"></div>
                 <textarea id="tec-obs" placeholder="Relatório da execução..."></textarea>
                 <textarea id="tec-materiais" placeholder="Materiais utilizados"></textarea>
@@ -1278,10 +1338,32 @@
         document.getElementById('details-content').innerHTML = content;
         
         if(podeEditar) {
+            // Técnico Responsável (único)
+            const tecDiv = document.getElementById('tecnico-select');
+            tecDiv.innerHTML = '';
+            const tecnicos = db.users.filter(u => u.role === 'tecnico');
+            tecnicos.forEach(u => {
+                const isSelected = (o.tecnicoExec === (u.exibe || u.nome));
+                const foto = u.foto || 'https://via.placeholder.com/50';
+                tecDiv.innerHTML += `
+                    <div class="aux-card ${isSelected ? 'selected' : ''}" data-nome="${u.exibe || u.nome}">
+                        <img src="${foto}" onerror="this.src='https://via.placeholder.com/50'">
+                        <div>${u.exibe || u.nome}</div>
+                    </div>
+                `;
+            });
+            document.querySelectorAll('#tecnico-select .aux-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('#tecnico-select .aux-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+            });
+            
+            // Auxiliares (múltiplos)
             const auxDiv = document.getElementById('aux-check-list');
             auxDiv.innerHTML = '';
-            const usuariosTec = db.users.filter(u => u.role === 'tecnico' || u.role === 'auxiliar');
-            usuariosTec.forEach(u => {
+            const auxiliares = db.users.filter(u => u.role === 'auxiliar');
+            auxiliares.forEach(u => {
                 const isSelected = o.auxiliares && o.auxiliares.includes(u.exibe || u.nome);
                 const foto = u.foto || 'https://via.placeholder.com/50';
                 auxDiv.innerHTML += `
@@ -1291,11 +1373,12 @@
                     </div>
                 `;
             });
-            document.querySelectorAll('.aux-card').forEach(card => {
+            document.querySelectorAll('#aux-check-list .aux-card').forEach(card => {
                 card.addEventListener('click', () => {
                     card.classList.toggle('selected');
                 });
             });
+            
             document.getElementById('tec-obs').value = o.resolucao || '';
             document.getElementById('tec-materiais').value = o.materiaisTec || '';
             document.getElementById('tec-status').value = o.status;
@@ -1324,12 +1407,18 @@
         o.resolucao = document.getElementById('tec-obs').value;
         o.materiaisTec = document.getElementById('tec-materiais').value;
         
+        const tecSelecionado = document.querySelector('#tecnico-select .aux-card.selected');
+        if(tecSelecionado) {
+            o.tecnicoExec = tecSelecionado.getAttribute('data-nome');
+        } else {
+            o.tecnicoExec = '';
+        }
+        
         const novosAuxiliares = [];
-        document.querySelectorAll('.aux-card.selected').forEach(card => {
+        document.querySelectorAll('#aux-check-list .aux-card.selected').forEach(card => {
             novosAuxiliares.push(card.getAttribute('data-nome'));
         });
         o.auxiliares = novosAuxiliares;
-        o.tecnicoExec = session.exibe || session.nome.toUpperCase();
         
         if(novoStatus === 'Cancelado' && (session.role === 'base' || session.role === 'admin' || session.nome === 'admin' || session.nome === 'mike')) {
             const dataServico = document.getElementById('data-servico').value;
@@ -1364,7 +1453,7 @@
         try { await emailjs.send(cfg.service, cfg.template, templateParams); } catch(e) { console.warn(e); }
     }
 
-    // ---------- PDF EM NOVA ABA ----------
+    // ---------- PDF (SEM SOLUÇÃO) ----------
     function gerarPDFCompleto() {
         if(db.os.length === 0) { alert("Nenhuma OS cadastrada."); return; }
         let htmlContent = `<html><head><meta charset="UTF-8"><title>Relatório Completo</title>
@@ -1453,6 +1542,9 @@
         win.document.write(htmlContent);
         win.document.close();
     }
+
+    // Expor função global para compartilhamento
+    window.compartilharPDF = compartilharPDF;
 
     window.onload = () => {
         loadFirebaseData();
