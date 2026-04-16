@@ -32,18 +32,17 @@
 
         .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 120px; animation: winShow 0.8s ease; }
 
-        /* Banner de Anúncios */
         #bannerAds { display: none; padding: 20px; margin-bottom: 30px; border-left: 4px solid var(--win-accent); background: linear-gradient(90deg, rgba(0,120,212,0.2), transparent); }
 
         header { text-align: center; margin-bottom: 50px; }
         .logo-main { font-size: 3rem; font-weight: 800; background: linear-gradient(#fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
         /* Grid de Botões Rápidos */
-        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 40px; }
         .btn-win { 
             background: var(--win-glass); color: white; border: 1px solid var(--win-border); 
             padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; font-size: 0.9rem;
         }
         .btn-win:hover { background: var(--win-accent); transform: translateY(-5px); border-color: #fff; }
         .btn-win i { font-size: 1.5rem; }
@@ -52,22 +51,15 @@
         .app-window { display: none; margin-bottom: 30px; height: 600px; overflow: hidden; border: 1px solid var(--win-accent); border-radius: 15px; }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* Planos */
         .planos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .plano-card { padding: 30px; text-align: center; border: 1px solid var(--win-border); position: relative; overflow: hidden; }
-        .plano-card h3 { color: var(--win-accent); font-size: 1.5rem; }
-        .plano-card .price { font-size: 2.5rem; margin: 20px 0; font-weight: bold; }
+        .plano-card { padding: 30px; text-align: center; border: 1px solid var(--win-border); }
         .btn-buy { background: var(--win-accent); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
 
-        /* Taskbar Estilo Windows 11 */
-        .taskbar { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); padding: 8px 30px; display: flex; gap: 30px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .taskbar i { font-size: 1.6rem; color: var(--win-accent); cursor: pointer; transition: 0.2s; }
-        .taskbar i:hover { transform: scale(1.2) translateY(-5px); color: #fff; }
+        /* Taskbar */
+        .taskbar { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); padding: 8px 30px; display: flex; gap: 30px; z-index: 9999; }
+        .taskbar i { font-size: 1.6rem; color: var(--win-accent); cursor: pointer; }
 
         @keyframes winShow { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Responsividade */
-        @media (max-width: 600px) { .logo-main { font-size: 2rem; } .quick-actions { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
@@ -76,10 +68,7 @@
     <div id="bannerAds" class="glass">
         <div style="display: flex; align-items: center; gap: 15px;">
             <i class="fas fa-bullhorn" style="font-size: 1.5rem; color: var(--win-accent);"></i>
-            <div>
-                <strong id="adTitulo">Promoção Ativa!</strong>
-                <p id="adTexto" style="opacity: 0.8; font-size: 0.9rem;">Carregando ofertas exclusivas...</p>
-            </div>
+            <div><strong id="adTitulo">Carregando...</strong><p id="adTexto"></p></div>
         </div>
     </div>
 
@@ -89,28 +78,42 @@
     </header>
 
     <div class="quick-actions">
-        <button class="btn-win" onclick="toggleApp('centralApp')"><i class="fas fa-user-invoice"></i>Central do Assinante</button>
-        <button class="btn-win" onclick="toggleApp('speedApp')"><i class="fas fa-tachometer-alt"></i>Teste de Velocidade</button>
-        <button class="btn-win" onclick="window.open('https://wa.me/559392282874')"><i class="fab fa-whatsapp"></i>Suporte Técnico</button>
-        <button class="btn-win" id="btnOpenAdmin"><i class="fas fa-user-shield"></i>Painel Admin</button>
+        <button class="btn-win" onclick="toggleApp('centralApp')">
+            <i class="fas fa-user-invoice"></i>Central do Assinante
+        </button>
+        
+        <button class="btn-win" onclick="toggleApp('speedApp')">
+            <i class="fas fa-tachometer-alt"></i>Teste de Velocidade
+        </button>
+
+        <button class="btn-win" onclick="toggleApp('downApp')">
+            <i class="fas fa-exclamation-triangle"></i>Status Global
+        </button>
+
+        <button class="btn-win" onclick="window.open('https://wa.me/559392282874')">
+            <i class="fab fa-whatsapp"></i>Suporte Técnico
+        </button>
+        
+        <button class="btn-win" id="btnOpenAdmin">
+            <i class="fas fa-user-shield"></i>Painel Admin
+        </button>
     </div>
 
     <div id="centralApp" class="app-window glass"><iframe src="https://wkbtelecom.centralassinante.com.br/#/login"></iframe></div>
-    <div id="speedApp" class="app-window glass"><iframe src="https://openspeedtest.com/Get-speedtest.php"></iframe></div>
+    <div id="speedApp" class="app-window glass"><iframe src="https://www.speedtest.net/pt"></iframe></div>
+    <div id="downApp" class="app-window glass"><iframe src="https://downdetector.com/"></iframe></div>
 
-    <h2 style="margin-bottom: 25px; display: flex; align-items: center; gap: 10px;"><i class="fas fa-wifi" style="color:var(--win-accent)"></i> Planos Disponíveis</h2>
-    <div class="planos-grid" id="listaPlanos">
-        </div>
+    <h2 style="margin-bottom: 25px;"><i class="fas fa-wifi" style="color:var(--win-accent)"></i> Nossos Planos</h2>
+    <div class="planos-grid" id="listaPlanos"></div>
 </div>
 
 <div class="taskbar glass">
-    <i class="fas fa-home" title="Início" onclick="window.scrollTo({top:0, behavior:'smooth'})"></i>
-    <i class="fas fa-th-large" title="Planos" onclick="document.getElementById('listaPlanos').scrollIntoView({behavior:'smooth'})"></i>
-    <i class="fab fa-whatsapp" title="WhatsApp" onclick="window.open('https://wa.me/559392282874')"></i>
+    <i class="fas fa-home" onclick="window.scrollTo({top:0, behavior:'smooth'})"></i>
+    <i class="fab fa-whatsapp" onclick="window.open('https://wa.me/559392282874')"></i>
 </div>
 
 <script>
-    // Configuração do Firebase
+    // Configurações do Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyDV10JNJNCz7AwEQ12Ji4ASa67i18iRUfg",
         authDomain: "total-sistemas-a2b2f.firebaseapp.com",
@@ -120,55 +123,47 @@
     const db = firebase.database();
     const rootRef = db.ref("wkb_telecom");
 
-    // 1. RASTREAMENTO (TRACKER)
+    // Rastreador de acessos
     async function trackAccess() {
         try {
             const res = await fetch('https://ipapi.co/json/');
             const data = await res.json();
-            const log = {
+            rootRef.child("acessos").push({
                 ip: data.ip,
                 local: data.city + " / " + data.region,
-                dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? "Telemóvel" : "Computador",
+                dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "PC",
                 data: new Date().toLocaleString(),
                 timestamp: firebase.database.ServerValue.TIMESTAMP
-            };
-            rootRef.child("acessos").push(log);
-        } catch(e) { console.log("Erro no rastreio"); }
+            });
+        } catch(e) {}
     }
     trackAccess();
 
-    // 2. RENDERIZAÇÃO EM TEMPO REAL
+    // Sincronização em tempo real
     rootRef.on("value", snap => {
         const d = snap.val();
         if(!d) return;
 
-        // Identidade
-        document.getElementById("siteNome").innerText = d.config.logoNome || "WKB TELECOM";
-        document.getElementById("siteSlogan").innerText = d.config.slogan || "Conectando você";
+        document.getElementById("siteNome").innerText = d.config.logoNome;
+        document.getElementById("siteSlogan").innerText = d.config.slogan;
 
-        // Anúncios
         if(d.ads && d.ads.ativo) {
             document.getElementById("bannerAds").style.display = "block";
-            document.getElementById("adTitulo").innerText = d.ads.titulo || "Aviso";
-            document.getElementById("adTexto").innerText = d.ads.texto || "";
+            document.getElementById("adTitulo").innerText = d.ads.titulo;
+            document.getElementById("adTexto").innerText = d.ads.texto;
         } else {
             document.getElementById("bannerAds").style.display = "none";
         }
 
-        // Planos
-        const planosDiv = document.getElementById("listaPlanos");
-        planosDiv.innerHTML = "";
-        const planos = d.planos || [];
-        Object.keys(planos).forEach(key => {
-            const p = planos[key];
-            planosDiv.innerHTML += `
+        const pDiv = document.getElementById("listaPlanos");
+        pDiv.innerHTML = "";
+        (d.planos || []).forEach(p => {
+            pDiv.innerHTML += `
                 <div class="plano-card glass">
                     <h3>${p.nome}</h3>
-                    <div class="price">R$ ${p.preco},00</div>
-                    <p style="opacity:0.7; margin-bottom:20px;">${p.desc || 'Fibra Óptica Ultra'}</p>
-                    <button class="btn-buy" onclick="window.open('https://wa.me/559392282874?text=Olá, quero assinar o plano ${p.nome}')">Assinar Agora</button>
-                </div>
-            `;
+                    <div style="font-size: 2rem; margin: 15px 0;">R$ ${p.preco},00</div>
+                    <button class="btn-buy" onclick="window.open('https://wa.me/559392282874')">Assinar</button>
+                </div>`;
         });
     });
 
@@ -180,15 +175,13 @@
         if(!isOpen) app.scrollIntoView({behavior:'smooth'});
     }
 
-    // 3. LOGICA DO ADMIN
+    // Painel Admin
     document.getElementById("btnOpenAdmin").onclick = () => {
-        const pass = prompt("Introduza a senha de Administrador:");
+        const pass = prompt("Senha Admin:");
         rootRef.child("admin/senha").once("value", snap => {
             if(pass === (snap.val() || "admin123")) {
                 abrirPainelAdmin();
-            } else {
-                alert("Senha inválida!");
-            }
+            } else { alert("Senha incorreta!"); }
         });
     };
 
@@ -197,117 +190,55 @@
         win.document.write(`
             <html>
             <head>
-                <title>Painel Admin | WKB TELECOM</title>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                <title>Admin WKB</title>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
                 <style>
-                    body { font-family: sans-serif; background: #f0f2f5; margin: 0; display: flex; height: 100vh; }
-                    .side { width: 250px; background: #fff; border-right: 1px solid #ddd; padding: 20px; }
-                    .main { flex: 1; padding: 30px; overflow-y: auto; }
-                    .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-                    input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
-                    button { background: #0078d4; color: #fff; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; }
-                    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; font-size: 13px; }
-                    .nav-btn { padding: 12px; cursor: pointer; border-radius: 5px; margin-bottom: 5px; }
-                    .nav-btn:hover { background: #eee; }
+                    body { font-family: sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
+                    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+                    input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
+                    button { background: #0078d4; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+                    table { width: 100%; border-collapse: collapse; }
+                    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; }
                 </style>
             </head>
             <body>
-                <div class="side">
-                    <h2>WKB ADMIN</h2>
-                    <div class="nav-btn" onclick="document.getElementById('sec-stats').scrollIntoView()">Dashboard</div>
-                    <div class="nav-btn" onclick="document.getElementById('sec-site').scrollIntoView()">Identidade</div>
-                    <div class="nav-btn" onclick="document.getElementById('sec-ads').scrollIntoView()">Anúncios/Ads</div>
-                    <div class="nav-btn" onclick="document.getElementById('sec-planos').scrollIntoView()">Planos</div>
+                <h1>Painel de Controle - WKB TELECOM</h1>
+                <div class="card">
+                    <h3>Estatísticas de Acesso</h3>
+                    <canvas id="graficoAcessos" height="80"></canvas>
                 </div>
-                <div class="main">
-                    <section id="sec-stats">
-                        <h1>Acessos ao Site</h1>
-                        <div class="card"><canvas id="chartAcessos" height="100"></canvas></div>
-                        <div class="card">
-                            <h3>Logs de Visitantes</h3>
-                            <div id="logsView">Carregando visitantes...</div>
-                        </div>
-                    </section>
-
-                    <section id="sec-site">
-                        <div class="card">
-                            <h3>Editar Site</h3>
-                            Nome: <input type="text" id="edNome">
-                            Slogan: <input type="text" id="edSlogan">
-                            <button onclick="saveSite()">Salvar Alterações</button>
-                        </div>
-                    </section>
-
-                    <section id="sec-ads">
-                        <div class="card">
-                            <h3>Gerir Anúncios (Publicidade)</h3>
-                            Ativar Anúncio: <input type="checkbox" id="edAdAtivo" style="width: auto;"><br>
-                            Título: <input type="text" id="edAdTitulo">
-                            Texto/Descrição: <textarea id="edAdTexto"></textarea>
-                            <button onclick="saveAds()">Publicar Anúncio</button>
-                        </div>
-                    </section>
-
-                    <section id="sec-planos">
-                        <div class="card">
-                            <h3>Editar Planos</h3>
-                            <div id="adminPlanos"></div>
-                        </div>
-                    </section>
+                <div class="card">
+                    <h3>Logs Recentes</h3>
+                    <div id="logsTable"></div>
                 </div>
-
+                <div class="card">
+                    <h3>Configuração do Site</h3>
+                    Nome: <input type="text" id="inNome">
+                    Slogan: <input type="text" id="inSlogan">
+                    <button id="btnSave">Salvar Alterações</button>
+                </div>
                 <script>
                     const ref = window.opener.firebase.database().ref("wkb_telecom");
-
                     ref.on("value", snap => {
                         const d = snap.val();
-                        // Logs
                         const logs = Object.values(d.acessos || {}).reverse();
-                        document.getElementById("logsView").innerHTML = "<table><tr><th>Data</th><th>IP</th><th>Local</th><th>Disp.</th></tr>" + 
-                            logs.slice(0,10).map(l => \`<tr><td>\${l.data}</td><td>\${l.ip}</td><td>\${l.local}</td><td>\${l.dispositivo}</td></tr>\`).join("") + "</table>";
+                        document.getElementById("logsTable").innerHTML = "<table><tr><th>Data</th><th>IP</th><th>Local</th></tr>" + 
+                            logs.slice(0,10).map(l => "<tr><td>"+l.data+"</td><td>"+l.ip+"</td><td>"+l.local+"</td></tr>").join("") + "</table>";
                         
-                        // Inputs
-                        document.getElementById("edNome").value = d.config.logoNome;
-                        document.getElementById("edSlogan").value = d.config.slogan;
-                        document.getElementById("edAdAtivo").checked = d.ads.ativo;
-                        document.getElementById("edAdTitulo").value = d.ads.titulo;
-                        document.getElementById("edAdTexto").value = d.ads.texto;
-
-                        // Gráfico Simplificado
-                        const ctx = document.getElementById('chartAcessos').getContext('2d');
-                        new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: logs.slice(0,7).map(l => l.data.split(",")[0]),
-                                datasets: [{ label: 'Visitas', data: [5, 10, 8, 15, 20, 18, 25], borderColor: '#0078d4', tension: 0.3 }]
-                            }
-                        });
+                        document.getElementById("inNome").value = d.config.logoNome;
+                        document.getElementById("inSlogan").value = d.config.slogan;
                     });
-
-                    window.saveSite = () => {
+                    document.getElementById("btnSave").onclick = () => {
                         ref.child("config").update({
-                            logoNome: document.getElementById("edNome").value,
-                            slogan: document.getElementById("edSlogan").value
+                            logoNome: document.getElementById("inNome").value,
+                            slogan: document.getElementById("inSlogan").value
                         });
-                        alert("Site atualizado!");
-                    };
-
-                    window.saveAds = () => {
-                        ref.child("ads").update({
-                            ativo: document.getElementById("edAdAtivo").checked,
-                            titulo: document.getElementById("edAdTitulo").value,
-                            texto: document.getElementById("edAdTexto").value
-                        });
-                        alert("Publicidade atualizada!");
+                        alert("Sucesso!");
                     };
                 <\/script>
-            </body>
-            </html>
+            </body></html>
         `);
     }
 </script>
-
 </body>
 </html>
