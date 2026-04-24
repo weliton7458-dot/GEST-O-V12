@@ -2,243 +2,629 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB TELECOM | Oficial</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>Belbet - Carregando...</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
     <style>
-        :root {
-            --win-accent: #0078d4;
-            --win-bg: #000000;
-            --win-card: rgba(32, 32, 32, 0.7);
-            --win-glass: rgba(255, 255, 255, 0.05);
-            --win-border: rgba(255, 255, 255, 0.1);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
         body {
-            font-family: 'Segoe UI Variable', 'Segoe UI', sans-serif;
-            background: var(--win-bg);
-            background-image: radial-gradient(circle at 10% 20%, rgba(0, 120, 212, 0.15), transparent 40%);
-            color: #fff;
+            background: linear-gradient(145deg, #0a1f1e 0%, #0c2a2a 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 16px;
         }
-
-        .glass { background: var(--win-card); backdrop-filter: blur(20px); border: 1px solid var(--win-border); border-radius: 12px; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px 120px; animation: winShow 0.8s ease; }
-
-        #bannerAds { display: none; padding: 20px; margin-bottom: 30px; border-left: 4px solid var(--win-accent); background: linear-gradient(90deg, rgba(0,120,212,0.2), transparent); }
-
-        header { text-align: center; margin-bottom: 50px; }
-        .logo-main { font-size: 3rem; font-weight: 800; background: linear-gradient(#fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* Grid de Botões Rápidos */
-        .quick-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 40px; }
-        .btn-win { 
-            background: var(--win-glass); color: white; border: 1px solid var(--win-border); 
-            padding: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s;
-            display: flex; flex-direction: column; align-items: center; gap: 10px; text-decoration: none; font-size: 0.9rem;
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #0affb3;
+            font-size: 1.5rem;
+            flex-direction: column;
+            gap: 20px;
         }
-        .btn-win:hover { background: var(--win-accent); transform: translateY(-5px); border-color: #fff; }
-        .btn-win i { font-size: 1.5rem; }
-
-        /* Iframes */
-        .app-window { display: none; margin-bottom: 30px; height: 600px; overflow: hidden; border: 1px solid var(--win-accent); border-radius: 15px; }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        .planos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .plano-card { padding: 30px; text-align: center; border: 1px solid var(--win-border); }
-        .btn-buy { background: var(--win-accent); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
-
-        /* Taskbar */
-        .taskbar { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); padding: 8px 30px; display: flex; gap: 30px; z-index: 9999; }
-        .taskbar i { font-size: 1.6rem; color: var(--win-accent); cursor: pointer; }
-
-        @keyframes winShow { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #1e5a52;
+            border-top: 4px solid #0affb3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .app-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(8, 28, 26, 0.92);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            overflow: hidden;
+            border: 1px solid #00ffaa30;
+        }
+        .header {
+            background: #071a18e0;
+            padding: 1rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #00ffaa40;
+        }
+        .logo h1 {
+            color: #00f7b0;
+            font-size: 1.8rem;
+            text-shadow: 0 0 5px #00cc88;
+        }
+        .logo span {
+            font-size: 0.7rem;
+            color: #9bffe0;
+            display: block;
+        }
+        .user-area {
+            background: #0b2a26;
+            padding: 6px 16px;
+            border-radius: 60px;
+            display: flex;
+            gap: 12px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .balance {
+            background: #00a87e40;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: #ccffea;
+            font-weight: bold;
+        }
+        .btn-logout, .btn-admin {
+            background: #3a2c2c;
+            border: none;
+            padding: 4px 14px;
+            border-radius: 30px;
+            color: #ffc5c5;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-admin { background: #1e5a52; color: #0affb3; }
+        .dashboard { padding: 20px; }
+        .section-title {
+            color: #9effdf;
+            font-weight: 600;
+            border-left: 4px solid #0affb3;
+            padding-left: 14px;
+            margin: 16px 0;
+            font-size: 1.3rem;
+        }
+        .match-card {
+            background: #0b2926;
+            border-radius: 1.4rem;
+            margin-bottom: 18px;
+            padding: 14px;
+            border: 1px solid #2d5e57;
+        }
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+        }
+        .league { background: #0e403a; padding: 2px 10px; border-radius: 30px; }
+        .live-badge { color: #ff9f9f; animation: pulse 1s infinite; font-weight: bold; }
+        @keyframes pulse { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+        .teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #ffffe0;
+            margin: 10px 0;
+        }
+        .score {
+            font-size: 1.8rem;
+            font-family: monospace;
+            background: #04100e;
+            padding: 0 12px;
+            border-radius: 40px;
+        }
+        .odds-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .odd-btn {
+            background: #152e2b;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+            min-width: 80px;
+            border-bottom: 2px solid #00ad85;
+            font-size: 0.85rem;
+        }
+        .bet-panel {
+            background: #071f1cee;
+            border-radius: 1.6rem;
+            padding: 1.2rem;
+            margin-top: 20px;
+            border: 1px solid #00cca360;
+        }
+        .selected-match {
+            background: #0d3a34;
+            padding: 10px;
+            border-radius: 50px;
+            text-align: center;
+            margin: 12px 0;
+        }
+        .bet-input {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .bet-input input {
+            flex: 2;
+            background: #0b1f1c;
+            border: 1px solid #2ebb9b;
+            padding: 12px;
+            border-radius: 60px;
+            color: white;
+            font-size: 1rem;
+        }
+        .place-bet {
+            background: #00d69e;
+            border: none;
+            padding: 0 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: #001e1a;
+            cursor: pointer;
+        }
+        .place-bet:disabled { background: #517a6f; cursor: not-allowed; }
+        .message { background: #0e2c28; padding: 8px; border-radius: 40px; text-align: center; font-size: 0.8rem; margin-top: 10px; }
+        .history-list { max-height: 200px; overflow-y: auto; margin-top: 15px; font-size: 0.7rem; }
+        .history-item { background: #12302c; margin: 6px 0; padding: 8px; border-radius: 20px; }
+        .form-container { padding: 30px 20px; }
+        .form-card { background: #07211ee0; border-radius: 2rem; padding: 25px; }
+        .form-card input { width: 100%; margin: 10px 0; padding: 14px; border-radius: 60px; background: #1e3e3a; border: none; color: white; font-size: 1rem; }
+        .form-card button { background: #0affb3; width: 100%; padding: 12px; border-radius: 60px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .switch-link { color: #bcffe6; margin-top: 15px; display: inline-block; text-decoration: underline; cursor: pointer; }
+        .hidden { display: none; }
+        .footer { text-align: center; padding: 12px; font-size: 0.65rem; color: #4dae97; border-top: 1px solid #248b74; }
+        .suspended-banner { background: #aa3333cc; text-align: center; padding: 12px; color: white; font-weight: bold; }
+        .alert-message { background: #ffaa33; color: #1a1a2e; padding: 10px; text-align: center; border-radius: 20px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div id="bannerAds" class="glass">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <i class="fas fa-bullhorn" style="font-size: 1.5rem; color: var(--win-accent);"></i>
-            <div><strong id="adTitulo">Carregando...</strong><p id="adTexto"></p></div>
-        </div>
+<div id="root">
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <div>Carregando Belbet...</div>
     </div>
-
-    <header>
-        <div class="logo-main" id="siteNome">WKB TELECOM</div>
-        <p id="siteSlogan" style="opacity: 0.6; margin-top: 5px;">Conectando você ao futuro</p>
-    </header>
-
-    <div class="quick-actions">
-        <button class="btn-win" onclick="toggleApp('centralApp')">
-            <i class="fas fa-user-invoice"></i>Central do Assinante
-        </button>
-        
-        <button class="btn-win" onclick="toggleApp('speedApp')">
-            <i class="fas fa-tachometer-alt"></i>Teste de Velocidade
-        </button>
-
-        <button class="btn-win" onclick="toggleApp('downApp')">
-            <i class="fas fa-exclamation-triangle"></i>Status Global
-        </button>
-
-        <button class="btn-win" onclick="window.open('https://wa.me/559392282874')">
-            <i class="fab fa-whatsapp"></i>Suporte Técnico
-        </button>
-        
-        <button class="btn-win" id="btnOpenAdmin">
-            <i class="fas fa-user-shield"></i>Painel Admin
-        </button>
-    </div>
-
-    <div id="centralApp" class="app-window glass"><iframe src="https://wkbtelecom.centralassinante.com.br/#/login"></iframe></div>
-    <div id="speedApp" class="app-window glass"><iframe src="https://www.speedtest.net/pt"></iframe></div>
-    <div id="downApp" class="app-window glass"><iframe src="https://downdetector.com/"></iframe></div>
-
-    <h2 style="margin-bottom: 25px;"><i class="fas fa-wifi" style="color:var(--win-accent)"></i> Nossos Planos</h2>
-    <div class="planos-grid" id="listaPlanos"></div>
-</div>
-
-<div class="taskbar glass">
-    <i class="fas fa-home" onclick="window.scrollTo({top:0, behavior:'smooth'})"></i>
-    <i class="fab fa-whatsapp" onclick="window.open('https://wa.me/559392282874')"></i>
 </div>
 
 <script>
-    // Configurações do Firebase
+    // FIREBASE CONFIG
     const firebaseConfig = {
-        apiKey: "AIzaSyDV10JNJNCz7AwEQ12Ji4ASa67i18iRUfg",
-        authDomain: "total-sistemas-a2b2f.firebaseapp.com",
-        databaseURL: "https://total-sistemas-a2b2f-default-rtdb.firebaseio.com",
+        apiKey: "AIzaSyCWAopv0PtTL9VrqnYyLlOqEVksrPSiGwE",
+        authDomain: "shop-mall-ce15d.firebaseapp.com",
+        projectId: "shop-mall-ce15d",
+        storageBucket: "shop-mall-ce15d.firebasestorage.app",
+        messagingSenderId: "320942334972",
+        appId: "1:320942334972:web:0807308db6ae1b51944879",
+        measurementId: "G-G65P6NCK32"
     };
+    
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    const rootRef = db.ref("wkb_telecom");
-
-    // Rastreador de acessos
-    async function trackAccess() {
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const data = await res.json();
-            rootRef.child("acessos").push({
-                ip: data.ip,
-                local: data.city + " / " + data.region,
-                dispositivo: /Mobi|Android/i.test(navigator.userAgent) ? "Mobile" : "PC",
-                data: new Date().toLocaleString(),
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            });
-        } catch(e) {}
-    }
-    trackAccess();
-
-    // Sincronização em tempo real
-    rootRef.on("value", snap => {
-        const d = snap.val();
-        if(!d) return;
-
-        document.getElementById("siteNome").innerText = d.config.logoNome;
-        document.getElementById("siteSlogan").innerText = d.config.slogan;
-
-        if(d.ads && d.ads.ativo) {
-            document.getElementById("bannerAds").style.display = "block";
-            document.getElementById("adTitulo").innerText = d.ads.titulo;
-            document.getElementById("adTexto").innerText = d.ads.texto;
+    const db = firebase.firestore();
+    
+    // Coleções
+    const USERS_COLL = "belbet_users_v2";
+    const BETS_COLL = "belbet_bets_v2";
+    const MATCHES_COLL = "belbet_matches_v2";
+    const CONFIG_COLL = "belbet_config";
+    
+    let currentUser = null;
+    let matches = [];
+    let currentSelected = null;
+    let siteConfig = { name: "Belbet", logo: "⚽", primaryColor: "#0affb3" };
+    
+    // Partidas padrão
+    const defaultMatches = [
+        { id: 1, league: "UEFA Champions", home: "Real Madrid", away: "Bayern", homeScore: 1, awayScore: 1, minute: 34, odds: { home: 2.10, draw: 3.40, away: 3.20 } },
+        { id: 2, league: "Premier League", home: "Manchester City", away: "Arsenal", homeScore: 0, awayScore: 0, minute: 18, odds: { home: 1.85, draw: 3.60, away: 4.00 } },
+        { id: 3, league: "Brasileirão", home: "Flamengo", away: "Palmeiras", homeScore: 1, awayScore: 1, minute: 56, odds: { home: 2.30, draw: 3.20, away: 2.90 } },
+        { id: 4, league: "LaLiga", home: "Barcelona", away: "Atlético", homeScore: 0, awayScore: 0, minute: 27, odds: { home: 1.95, draw: 3.30, away: 3.80 } }
+    ];
+    
+    async function loadConfig() {
+        const doc = await db.collection(CONFIG_COLL).doc("siteConfig").get();
+        if (doc.exists) {
+            siteConfig = doc.data();
         } else {
-            document.getElementById("bannerAds").style.display = "none";
+            await db.collection(CONFIG_COLL).doc("siteConfig").set(siteConfig);
         }
-
-        const pDiv = document.getElementById("listaPlanos");
-        pDiv.innerHTML = "";
-        (d.planos || []).forEach(p => {
-            pDiv.innerHTML += `
-                <div class="plano-card glass">
-                    <h3>${p.nome}</h3>
-                    <div style="font-size: 2rem; margin: 15px 0;">R$ ${p.preco},00</div>
-                    <button class="btn-buy" onclick="window.open('https://wa.me/559392282874')">Assinar</button>
-                </div>`;
-        });
-    });
-
-    function toggleApp(id) {
-        const app = document.getElementById(id);
-        const isOpen = app.style.display === "block";
-        document.querySelectorAll('.app-window').forEach(w => w.style.display = 'none');
-        app.style.display = isOpen ? "none" : "block";
-        if(!isOpen) app.scrollIntoView({behavior:'smooth'});
     }
-
-    // Painel Admin
-    document.getElementById("btnOpenAdmin").onclick = () => {
-        const pass = prompt("Senha Admin:");
-        rootRef.child("admin/senha").once("value", snap => {
-            if(pass === (snap.val() || "admin123")) {
-                abrirPainelAdmin();
-            } else { alert("Senha incorreta!"); }
-        });
-    };
-
-    function abrirPainelAdmin() {
-        const win = window.open("", "_blank");
-        win.document.write(`
-            <html>
-            <head>
-                <title>Admin WKB</title>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
-                <style>
-                    body { font-family: sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
-                    .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-                    input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
-                    button { background: #0078d4; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-                    table { width: 100%; border-collapse: collapse; }
-                    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; }
-                </style>
-            </head>
-            <body>
-                <h1>Painel de Controle - WKB TELECOM</h1>
-                <div class="card">
-                    <h3>Estatísticas de Acesso</h3>
-                    <canvas id="graficoAcessos" height="80"></canvas>
-                </div>
-                <div class="card">
-                    <h3>Logs Recentes</h3>
-                    <div id="logsTable"></div>
-                </div>
-                <div class="card">
-                    <h3>Configuração do Site</h3>
-                    Nome: <input type="text" id="inNome">
-                    Slogan: <input type="text" id="inSlogan">
-                    <button id="btnSave">Salvar Alterações</button>
-                </div>
-                <script>
-                    const ref = window.opener.firebase.database().ref("wkb_telecom");
-                    ref.on("value", snap => {
-                        const d = snap.val();
-                        const logs = Object.values(d.acessos || {}).reverse();
-                        document.getElementById("logsTable").innerHTML = "<table><tr><th>Data</th><th>IP</th><th>Local</th></tr>" + 
-                            logs.slice(0,10).map(l => "<tr><td>"+l.data+"</td><td>"+l.ip+"</td><td>"+l.local+"</td></tr>").join("") + "</table>";
-                        
-                        document.getElementById("inNome").value = d.config.logoNome;
-                        document.getElementById("inSlogan").value = d.config.slogan;
-                    });
-                    document.getElementById("btnSave").onclick = () => {
-                        ref.child("config").update({
-                            logoNome: document.getElementById("inNome").value,
-                            slogan: document.getElementById("inSlogan").value
-                        });
-                        alert("Sucesso!");
-                    };
-                <\/script>
-            </body></html>
-        `);
+    
+    async function initMatches() {
+        const snapshot = await db.collection(MATCHES_COLL).get();
+        if (snapshot.empty) {
+            for (let m of defaultMatches) {
+                await db.collection(MATCHES_COLL).doc(m.id.toString()).set(m);
+            }
+            matches = [...defaultMatches];
+        } else {
+            matches = [];
+            snapshot.forEach(doc => matches.push(doc.data()));
+            matches.sort((a,b) => a.id - b.id);
+        }
+        return matches;
     }
+    
+    async function updateMatchInFirestore(match) {
+        await db.collection(MATCHES_COLL).doc(match.id.toString()).set(match);
+    }
+    
+    function startLiveSimulation() {
+        setInterval(async () => {
+            for (let i = 0; i < matches.length; i++) {
+                const m = matches[i];
+                if (m.minute >= 90) continue;
+                let newMinute = Math.min(90, m.minute + Math.floor(Math.random() * 3));
+                let newHome = m.homeScore;
+                let newAway = m.awayScore;
+                if (newMinute < 90 && Math.random() < 0.08) {
+                    if (Math.random() > 0.5) newHome += 1;
+                    else newAway += 1;
+                }
+                let diff = newHome - newAway;
+                let newOdds = { ...m.odds };
+                if (diff > 0) {
+                    newOdds.home = Math.max(1.2, m.odds.home - 0.07);
+                    newOdds.draw = m.odds.draw + 0.12;
+                    newOdds.away = m.odds.away + 0.20;
+                } else if (diff < 0) {
+                    newOdds.away = Math.max(1.2, m.odds.away - 0.07);
+                    newOdds.draw = m.odds.draw + 0.12;
+                    newOdds.home = m.odds.home + 0.20;
+                } else {
+                    newOdds.draw = Math.max(2.3, m.odds.draw - 0.05);
+                }
+                matches[i] = {
+                    ...m,
+                    minute: newMinute,
+                    homeScore: newHome,
+                    awayScore: newAway,
+                    odds: {
+                        home: parseFloat(newOdds.home.toFixed(2)),
+                        draw: parseFloat(newOdds.draw.toFixed(2)),
+                        away: parseFloat(newOdds.away.toFixed(2))
+                    }
+                };
+                await updateMatchInFirestore(matches[i]);
+            }
+            if (currentUser) {
+                await resolveFinishedBets();
+                await refreshUserData();
+                renderApp();
+            } else {
+                renderApp();
+            }
+        }, 8000);
+    }
+    
+    async function resolveFinishedBets() {
+        if (!currentUser) return;
+        const finishedMatches = matches.filter(m => m.minute >= 90);
+        if (finishedMatches.length === 0) return;
+        const betsSnapshot = await db.collection(BETS_COLL).where("username", "==", currentUser.username).get();
+        let balanceDelta = 0;
+        const historyUpdates = [];
+        for (const docSnap of betsSnapshot.docs) {
+            const bet = docSnap.data();
+            const match = matches.find(m => m.id === bet.matchId);
+            if (match && match.minute >= 90) {
+                let result = match.homeScore > match.awayScore ? "home" : (match.homeScore < match.awayScore ? "away" : "draw");
+                const won = (bet.selection === result);
+                if (won) {
+                    balanceDelta += bet.stake * bet.odds;
+                } else {
+                    balanceDelta -= bet.stake;
+                }
+                historyUpdates.push({
+                    date: new Date().toLocaleString(),
+                    match: `${match.home} x ${match.away}`,
+                    betPick: bet.selection,
+                    stake: bet.stake,
+                    result: won ? "VENCEU" : "PERDEU",
+                    profit: won ? (bet.stake * bet.odds - bet.stake) : -bet.stake
+                });
+                await docSnap.ref.delete();
+            }
+        }
+        if (balanceDelta !== 0 && currentUser && !currentUser.suspended) {
+            const newBalance = Math.max(0, currentUser.balance + balanceDelta);
+            await db.collection(USERS_COLL).doc(currentUser.username).update({
+                balance: newBalance,
+                history: firebase.firestore.FieldValue.arrayUnion(...historyUpdates)
+            });
+            currentUser.balance = newBalance;
+            if (!currentUser.history) currentUser.history = [];
+            currentUser.history.unshift(...historyUpdates);
+        }
+    }
+    
+    async function refreshUserData() {
+        if (!currentUser) return;
+        const userDoc = await db.collection(USERS_COLL).doc(currentUser.username).get();
+        if (userDoc.exists) currentUser = userDoc.data();
+    }
+    
+    // Cadastro completo
+    async function register(fullData) {
+        const { username, password, fullName, cpf, phone } = fullData;
+        const userDoc = await db.collection(USERS_COLL).doc(username).get();
+        if (userDoc.exists) return false;
+        const newUser = {
+            username, password, fullName, cpf, phone,
+            balance: 150.00,
+            history: [],
+            suspended: false,
+            suspensionReason: "",
+            createdAt: new Date().toISOString()
+        };
+        await db.collection(USERS_COLL).doc(username).set(newUser);
+        return true;
+    }
+    
+    async function login(username, password) {
+        const userDoc = await db.collection(USERS_COLL).doc(username).get();
+        if (userDoc.exists && userDoc.data().password === password) {
+            currentUser = userDoc.data();
+            if (currentUser.suspended) {
+                const msg = currentUser.suspensionReason || "Conta suspensa. Contate o suporte.";
+                alert(`⚠️ CONTA SUSPENSA: ${msg}`);
+                currentUser = null;
+                return false;
+            }
+            renderApp();
+            return true;
+        }
+        return false;
+    }
+    
+    async function logout() {
+        currentUser = null;
+        renderApp();
+    }
+    
+    async function placeBet(matchId, selection, oddsValue, stake) {
+        if (!currentUser) return { ok: false, msg: "Faça login" };
+        if (currentUser.suspended) return { ok: false, msg: "Conta suspensa" };
+        const match = matches.find(m => m.id === matchId);
+        if (!match || match.minute >= 90) return { ok: false, msg: "Partida encerrada" };
+        if (stake <= 0) return { ok: false, msg: "Valor inválido" };
+        if (currentUser.balance < stake) return { ok: false, msg: "Saldo insuficiente" };
+        
+        const newBalance = currentUser.balance - stake;
+        await db.collection(USERS_COLL).doc(currentUser.username).update({ balance: newBalance });
+        currentUser.balance = newBalance;
+        await db.collection(BETS_COLL).add({
+            username: currentUser.username,
+            matchId, selection, stake, odds: oddsValue,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        return { ok: true, msg: `Aposta de R$ ${stake.toFixed(2)} realizada!` };
+    }
+    
+    // Renderização
+    function renderApp() {
+        const root = document.getElementById('root');
+        if (!currentUser) {
+            root.innerHTML = renderLoginRegister();
+            attachLoginEvents();
+        } else {
+            root.innerHTML = renderDashboard();
+            attachDashboardEvents();
+            const stakeInput = document.getElementById('stakeAmount');
+            if (stakeInput && !stakeInput.value) stakeInput.value = '25';
+        }
+        // Atualizar título
+        document.title = `${siteConfig.name} - Apostas`;
+    }
+    
+    function renderLoginRegister() {
+        return `
+            <div class="app-container">
+                <div class="form-container">
+                    <div class="form-card">
+                        <h2 style="color:${siteConfig.primaryColor}">${siteConfig.logo} ${siteConfig.name}</h2>
+                        <p style="color:#bbf5e4">Cadastro completo (CPF, Nome, Telefone)</p>
+                        <div id="loginArea">
+                            <input type="text" id="loginUser" placeholder="Nome de usuário">
+                            <input type="password" id="loginPass" placeholder="Senha">
+                            <button id="doLoginBtn">🔐 Entrar</button>
+                            <div class="switch-link" id="showRegister">Não tenho conta → Cadastrar</div>
+                            <div class="switch-link" id="goToAdmin" style="color:#ffaa66;">👑 Acesso Administrador</div>
+                        </div>
+                        <div id="registerArea" class="hidden">
+                            <input type="text" id="regUsername" placeholder="Nome de usuário *">
+                            <input type="text" id="regFullName" placeholder="Nome completo *">
+                            <input type="text" id="regCpf" placeholder="CPF *">
+                            <input type="tel" id="regPhone" placeholder="Telefone (WhatsApp) *">
+                            <input type="password" id="regPass" placeholder="Senha *">
+                            <button id="doRegisterBtn">📝 Cadastrar (+R$150 bônus)</button>
+                            <div class="switch-link" id="showLogin">← Voltar ao login</div>
+                        </div>
+                        <div id="authMsg" style="margin-top:12px; color:#ffbc6e;"></div>
+                    </div>
+                </div>
+                <div class="footer">Dados seguros em nuvem · Suporte 24h</div>
+            </div>
+        `;
+    }
+    
+    function renderDashboard() {
+        const isSuspended = currentUser.suspended;
+        const alertMsg = currentUser.alertMessage;
+        const matchesHtml = matches.map(m => {
+            const isFinished = m.minute >= 90;
+            return `
+                <div class="match-card">
+                    <div class="match-header"><span class="league">${m.league}</span><span class="live-badge">${isFinished ? "🏁 ENCERRADA" : `⚡ ${m.minute}'`}</span></div>
+                    <div class="teams"><span>${m.home}</span><span class="score">${m.homeScore}:${m.awayScore}</span><span>${m.away}</span></div>
+                    <div class="odds-row">
+                        <button class="odd-btn" data-matchid="${m.id}" data-selection="home" data-odds="${m.odds.home}" ${isFinished || isSuspended ? 'disabled' : ''}>🏠 ${m.home}<br><strong>${m.odds.home.toFixed(2)}</strong></button>
+                        <button class="odd-btn" data-matchid="${m.id}" data-selection="draw" data-odds="${m.odds.draw}" ${isFinished || isSuspended ? 'disabled' : ''}>🤝 Empate<br><strong>${m.odds.draw.toFixed(2)}</strong></button>
+                        <button class="odd-btn" data-matchid="${m.id}" data-selection="away" data-odds="${m.odds.away}" ${isFinished || isSuspended ? 'disabled' : ''}>✈️ ${m.away}<br><strong>${m.odds.away.toFixed(2)}</strong></button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        const historyItems = (currentUser.history || []).slice(0, 10).map(h => `
+            <div class="history-item">📅 ${h.date} | ${h.match} | ${h.betPick} | R$ ${h.stake} | ${h.result} | ${h.profit >= 0 ? `+R$ ${h.profit.toFixed(2)}` : `-R$ ${(-h.profit).toFixed(2)}`}</div>
+        `).join('');
+        
+        return `
+            <div class="app-container">
+                ${alertMsg ? `<div class="alert-message">📢 AVISO: ${alertMsg}</div>` : ''}
+                ${isSuspended ? `<div class="suspended-banner">⛔ CONTA SUSPENSA: ${currentUser.suspensionReason || "Motivo não informado"} | Entre em contato com o suporte.</div>` : ''}
+                <div class="header">
+                    <div class="logo"><h1>${siteConfig.logo} ${siteConfig.name}</h1><span>apostas ao vivo</span></div>
+                    <div class="user-area">
+                        <span>👤 ${currentUser.fullName?.split(' ')[0] || currentUser.username}</span>
+                        <span class="balance">💰 R$ ${currentUser.balance.toFixed(2)}</span>
+                        <button class="btn-logout" id="logoutBtn">Sair</button>
+                    </div>
+                </div>
+                <div class="dashboard">
+                    <div class="section-title">📡 PARTIDAS AO VIVO</div>
+                    ${matchesHtml}
+                    <div class="bet-panel">
+                        <div class="section-title">📌 MINHA APOSTA</div>
+                        <div id="selectedInfo" class="selected-match">🔽 Clique numa odd acima</div>
+                        <div class="bet-input">
+                            <input type="number" id="stakeAmount" placeholder="Valor R$" step="5" min="5" ${isSuspended ? 'disabled' : ''}>
+                            <button id="confirmBetBtn" class="place-bet" disabled ${isSuspended ? 'disabled' : ''}>✔️ Apostar</button>
+                        </div>
+                        <div id="betMessage" class="message"></div>
+                        <div class="section-title">📜 HISTÓRICO</div>
+                        <div class="history-list">${historyItems.length ? historyItems : '<div style="padding:8px;text-align:center;">Nenhuma aposta</div>'}</div>
+                    </div>
+                </div>
+                <div class="footer">${siteConfig.name} · Suporte: (11) 99999-9999</div>
+            </div>
+        `;
+    }
+    
+    function attachLoginEvents() {
+        const loginDiv = document.getElementById('loginArea');
+        const regDiv = document.getElementById('registerArea');
+        const showRegister = document.getElementById('showRegister');
+        const showLogin = document.getElementById('showLogin');
+        const goToAdmin = document.getElementById('goToAdmin');
+        const doLogin = document.getElementById('doLoginBtn');
+        const doRegister = document.getElementById('doRegisterBtn');
+        const authMsg = document.getElementById('authMsg');
+        
+        if (showRegister) showRegister.onclick = () => { loginDiv.classList.add('hidden'); regDiv.classList.remove('hidden'); };
+        if (showLogin) showLogin.onclick = () => { regDiv.classList.add('hidden'); loginDiv.classList.remove('hidden'); };
+        if (goToAdmin) goToAdmin.onclick = () => { window.location.href = 'admin.html'; };
+        
+        if (doLogin) {
+            doLogin.onclick = async () => {
+                const user = document.getElementById('loginUser').value.trim();
+                const pass = document.getElementById('loginPass').value.trim();
+                const ok = await login(user, pass);
+                if (!ok) authMsg.innerText = 'Usuário/senha incorretos ou conta suspensa';
+                else authMsg.innerText = '';
+            };
+        }
+        if (doRegister) {
+            doRegister.onclick = async () => {
+                const username = document.getElementById('regUsername').value.trim();
+                const fullName = document.getElementById('regFullName').value.trim();
+                const cpf = document.getElementById('regCpf').value.trim();
+                const phone = document.getElementById('regPhone').value.trim();
+                const password = document.getElementById('regPass').value.trim();
+                if (!username || !fullName || !cpf || !phone || !password) {
+                    authMsg.innerText = 'Preencha todos os campos obrigatórios *';
+                    return;
+                }
+                if (cpf.length < 11) { authMsg.innerText = 'CPF inválido (mínimo 11 dígitos)'; return; }
+                const ok = await register({ username, password, fullName, cpf, phone });
+                if (ok) {
+                    authMsg.innerText = 'Cadastro realizado! Faça login.';
+                    regDiv.classList.add('hidden');
+                    loginDiv.classList.remove('hidden');
+                } else {
+                    authMsg.innerText = 'Usuário já existe';
+                }
+            };
+        }
+    }
+    
+    function attachDashboardEvents() {
+        document.getElementById('logoutBtn')?.addEventListener('click', logout);
+        const oddsBtns = document.querySelectorAll('.odd-btn:not([disabled])');
+        oddsBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentUser.suspended) { alert("Conta suspensa"); return; }
+                const matchId = parseInt(btn.dataset.matchid);
+                const selection = btn.dataset.selection;
+                const odds = parseFloat(btn.dataset.odds);
+                const match = matches.find(m => m.id === matchId);
+                if (!match || match.minute >= 90) { document.getElementById('betMessage').innerHTML = '<span style="color:#ffa098">Partida encerrada!</span>'; return; }
+                let selName = selection === 'home' ? match.home : (selection === 'away' ? match.away : 'Empate');
+                currentSelected = { matchId, selection, odds };
+                document.getElementById('selectedInfo').innerHTML = `🎯 Aposta: ${match.home} x ${match.away} → ${selName} (odd ${odds.toFixed(2)})`;
+                document.getElementById('confirmBetBtn').disabled = false;
+            });
+        });
+        const confirmBtn = document.getElementById('confirmBetBtn');
+        if (confirmBtn) {
+            confirmBtn.onclick = async () => {
+                if (!currentSelected) { document.getElementById('betMessage').innerHTML = '<span style="color:#ffa098">Selecione uma odd!</span>'; return; }
+                const stake = parseFloat(document.getElementById('stakeAmount')?.value);
+                if (isNaN(stake) || stake <= 0) { document.getElementById('betMessage').innerHTML = '<span style="color:#ffa098">Valor inválido</span>'; return; }
+                const result = await placeBet(currentSelected.matchId, currentSelected.selection, currentSelected.odds, stake);
+                if (result.ok) {
+                    document.getElementById('betMessage').innerHTML = `<span style="color:#a0ffd0">✅ ${result.msg}</span>`;
+                    currentSelected = null;
+                    confirmBtn.disabled = true;
+                    document.getElementById('selectedInfo').innerHTML = '🔽 Clique numa odd acima';
+                    await refreshUserData();
+                    renderApp();
+                } else {
+                    document.getElementById('betMessage').innerHTML = `<span style="color:#ffa098">❌ ${result.msg}</span>`;
+                }
+            };
+        }
+    }
+    
+    async function init() {
+        await loadConfig();
+        await initMatches();
+        startLiveSimulation();
+        renderApp();
+    }
+    init();
 </script>
 </body>
 </html>
