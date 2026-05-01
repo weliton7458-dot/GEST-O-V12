@@ -3,133 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB TELECOM | Oficial v6.0</title>
+    <title>WKB TELECOM | Oficial v8.0</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --red: #ff0000; --blue: #00f2ff; --deep-blue: #020b1a; --glass: rgba(255, 255, 255, 0.05); }
+        :root { --red: #ff0000; --blue: #00f2ff; --glass: rgba(255, 255, 255, 0.05); }
         * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
-        body {
-            margin: 0;
-            background: var(--deep-blue);
-            color: #fff;
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
+        body { background: #020b1a; color: #fff; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+        /* BACKGROUND DINÂMICO */
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(circle at 10% 20%, #051937, transparent 40%), radial-gradient(circle at 90% 80%, #004d7a, transparent 40%); filter: blur(60px); animation: moveLights 20s infinite alternate; }
+        @keyframes moveLights { 100% { transform: scale(1.1) translate(2%, 2%); } }
+        .glass-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(25px); z-index: -1; }
+
+        /* HERO - LOGO PROJETADA (TAMANHO AJUSTADO) */
+        .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .projection-logo {
+            width: 70%; max-width: 320px; /* Tamanho otimizado */
+            filter: drop-shadow(0 0 15px var(--blue));
+            animation: pulseProject 4s ease-in-out infinite;
+            margin-bottom: 25px;
+        }
+        @keyframes pulseProject {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--blue)); opacity: 0.9; }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 30px var(--blue)); opacity: 1; }
         }
 
-        /* FUNDO DINÂMICO "VIDRO FOSCO" */
-        .bg-animation {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            background: radial-gradient(circle at 10% 20%, #051937, transparent 35%),
-                        radial-gradient(circle at 90% 80%, #004d7a, transparent 35%),
-                        radial-gradient(circle at 50% 50%, #000c1a, #000);
-            filter: blur(50px);
-            animation: moveLights 18s ease-in-out infinite alternate;
-        }
+        .hero-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; }
+        @media (min-width: 768px) { .hero-btns { flex-direction: row; max-width: 450px; } }
 
-        @keyframes moveLights {
-            0% { transform: scale(1) translate(0, 0); }
-            100% { transform: scale(1.15) translate(3%, 3%); }
+        /* BOTÕES */
+        .btn {
+            padding: 14px 24px; border-radius: 10px; font-family: 'Orbitron'; font-weight: bold;
+            text-decoration: none; transition: 0.3s; text-transform: uppercase; font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .btn-blue { background: var(--blue); color: #000; border: none; }
+        .btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 242, 255, 0.2); }
 
-        .glass-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(30px);
-            z-index: -1;
-        }
-
-        /* HEADER */
-        header { 
-            padding: 15px 5%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background: rgba(0, 0, 0, 0.6); 
-            backdrop-filter: blur(10px); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-        }
-        @media (min-width: 768px) { header { flex-direction: row; justify-content: space-between; } }
-        
-        .nav-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 10px; }
-        @media (min-width: 768px) { .nav-menu { margin-top: 0; } }
-        
-        .nav-menu a { 
-            text-decoration: none; 
-            color: #fff; 
-            font-family: 'Orbitron'; 
-            font-size: 0.6rem; 
-            padding: 10px 14px; 
-            border-radius: 6px; 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-        .btn-central { background: linear-gradient(90deg, #0051ff, #00c6ff) !important; border: none !important; font-weight: bold; }
-
-        /* CONTEÚDO */
-        .container { padding: 40px 6%; max-width: 1200px; margin: 0 auto; }
-        
-        .hero { text-align: center; padding: 60px 0; }
-        .logo-main { width: 80%; max-width: 420px; filter: drop-shadow(0 0 25px var(--blue)); margin-bottom: 25px; }
-
-        .typing { 
-            display: inline-block; 
-            overflow: hidden; 
-            white-space: nowrap; 
-            border-right: 3px solid var(--blue); 
-            animation: typing 3s steps(30, end), blink 0.7s step-end infinite; 
-            font-family: 'JetBrains Mono'; 
-            font-size: clamp(0.9rem, 4vw, 1.8rem); 
-            color: var(--blue);
-        }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink { from, to { border-color: transparent } 50% { border-color: var(--blue); } }
+        /* SEÇÕES GERAIS */
+        .container { padding: 60px 7%; max-width: 1100px; margin: 0 auto; }
+        h2 { font-family: 'Orbitron'; font-size: 1.6rem; margin-bottom: 30px; text-align: center; letter-spacing: 2px; }
+        .title-blue { color: var(--blue); }
 
         .glass-card { 
-            background: rgba(255, 255, 255, 0.03); 
-            backdrop-filter: blur(15px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            padding: 30px; 
-            border-radius: 20px; 
-            margin-bottom: 25px; 
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 25px; border-radius: 20px; backdrop-filter: blur(10px);
         }
 
-        h2 { font-family: 'Orbitron'; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
-        .title-blue { color: var(--blue); text-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
-
-        .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-
-        /* LISTAS E BOTÕES */
-        .tech-list { list-style: none; padding: 0; margin: 15px 0; }
-        .tech-list li { margin-bottom: 12px; font-size: 0.95rem; color: #ddd; display: flex; align-items: center; gap: 12px; }
-        .tech-list i { color: var(--blue); width: 20px; }
-
-        .btn-action { 
-            display: block; 
-            width: 100%; 
-            padding: 18px; 
-            margin-top: 15px; 
-            text-align: center; 
-            text-decoration: none; 
-            background: var(--red); 
-            color: #fff; 
-            font-family: 'Orbitron'; 
-            font-weight: bold; 
-            border-radius: 12px; 
-            transition: 0.3s; 
+        /* GRID DE SERVIÇOS DETALHADOS */
+        .grid-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .service-item { 
+            background: rgba(255,255,255,0.02); padding: 25px; border-radius: 15px; 
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
         }
-        .btn-action:hover { box-shadow: 0 0 25px var(--red); transform: translateY(-2px); }
+        .service-item:hover { border-color: var(--blue); background: rgba(0, 242, 255, 0.04); transform: translateY(-5px); }
+        .service-item i { font-size: 1.8rem; color: var(--blue); margin-bottom: 15px; }
+        .service-item h3 { font-family: 'Orbitron'; font-size: 0.95rem; margin-bottom: 10px; color: #fff; }
+        .service-item p { font-size: 0.85rem; color: #bbb; }
 
-        footer { text-align: center; padding: 50px; opacity: 0.5; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        /* PLANOS */
+        .plan-card { text-align: center; border-top: 4px solid var(--blue); }
+        .plan-price { font-size: 2.2rem; font-weight: 800; margin: 15px 0; color: var(--blue); }
+        .plan-features { list-style: none; margin-bottom: 20px; font-size: 0.9rem; color: #ddd; }
+        .plan-features li { margin-bottom: 8px; }
+
+        /* FORMULÁRIO */
+        form input, form select {
+            width: 100%; padding: 12px; margin-bottom: 12px; background: rgba(0,0,0,0.5); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff; font-family: 'Rajdhani';
+        }
+
+        footer { background: rgba(0,0,0,0.9); padding: 50px 7%; border-top: 1px solid var(--blue); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -137,93 +88,161 @@
 <div class="bg-animation"></div>
 <div class="glass-overlay"></div>
 
-<header>
-    <img src="logo.png" alt="WKB" style="height: 35px;">
-    <nav class="nav-menu">
-        <a href="#sobre">SOBRE</a>
-        <a href="#servicos">SERVIÇOS</a>
-        <a href="#planos">PLANOS</a>
-        <a href="https://wkbtelecom.centralassinante.com.br/#/login" class="btn-central">CENTRAL DO CLIENTE</a>
-    </nav>
-</header>
-
-<section class="container hero">
-    <img src="logo.png" alt="WKB Telecom" class="logo-main">
-    <br>
-    <h1 class="typing">TECNOLOGIA QUE CONECTA E PROTEGE</h1>
+<section class="hero">
+    <img src="logo.png" alt="WKB Logo" class="projection-logo" data-aos="zoom-in">
+    <div class="hero-btns" data-aos="fade-up" data-aos-delay="300">
+        <a href="#planos" class="btn btn-blue">PLANOS ILIMITADOS</a>
+        <a href="#contato" class="btn btn-outline">SOLICITAR ORÇAMENTO</a>
+    </div>
 </section>
 
-<section id="sobre" class="container">
-    <h2 class="title-blue">Sobre a WKB</h2>
+<section id="sobre" class="container" data-aos="fade-up">
     <div class="glass-card">
-        <p style="line-height: 1.8; color: #eee; font-size: 1.05rem;">
-            A <strong>WKB Telecom & Sistemas</strong> nasceu da visão do técnico especialista <strong>Welliton</strong> em oferecer uma solução completa de tecnologia para o interior do Pará. 
-            Mais do que um provedor de internet, somos um centro de soluções em infraestrutura. Atuamos com excelência em <strong>Belterra e Santarém</strong>, trazendo o que há de mais moderno em Fibra Óptica e Segurança Inteligente.
-            <br><br>
-            Nosso diferencial é o suporte técnico humanizado e a utilização de equipamentos de alto padrão (Mikrotik, Intelbras e Hikvision). Seja para navegar com ultra velocidade ou proteger seu patrimônio com IA, a WKB é sua parceira de confiança.
+        <h2 class="title-blue">SOBRE A WKB</h2>
+        <p style="text-align: center; color: #ccc;">
+            Liderada por <strong>Welliton</strong>, a WKB Telecom & Sistemas é especialista em infraestrutura tecnológica em Belterra e Santarém. 
+            Unimos conectividade de alta performance com segurança eletrônica avançada, entregando soluções completas para quem não aceita menos que a perfeição técnica.
         </p>
     </div>
 </section>
 
 <section id="servicos" class="container">
-    <h2 class="title-blue">Nossos Serviços</h2>
-    <div class="grid">
-        <div class="glass-card">
-            <i class="fas fa-shield-halved" style="font-size: 2.5rem; color: var(--blue); margin-bottom: 15px;"></i>
-            <h3>SEGURANÇA & CFTV</h3>
-            <ul class="tech-list">
-                <li><i class="fas fa-check-circle"></i> Câmeras IP e Analógicas (HD/4K)</li>
-                <li><i class="fas fa-check-circle"></i> Organização de Racks e Cabeamento</li>
-                <li><i class="fas fa-check-circle"></i> Biometria e Controle Facial</li>
-                <li><i class="fas fa-check-circle"></i> Motores de Portão e Alarmes</li>
-            </ul>
-            <a href="https://wa.me/5593992282874" class="btn-action" style="background:transparent; border:1px solid var(--blue); color:var(--blue);">FALAR COM TÉCNICO</a>
+    <h2 data-aos="fade-up">NOSSOS <span class="title-blue">SERVIÇOS</span></h2>
+    <div class="grid-services">
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-camera"></i>
+            <h3>CÂMERA DE SEGURANÇA</h3>
+            <p>Sistemas CFTV IP e Analógicos com gravação inteligente e acesso em tempo real pelo seu smartphone.</p>
         </div>
-        <div class="glass-card">
-            <i class="fas fa-microchip" style="font-size: 2.5rem; color: var(--blue); margin-bottom: 15px;"></i>
-            <h3>INFRA E REDES</h3>
-            <ul class="tech-list">
-                <li><i class="fas fa-check-circle"></i> Configuração Mikrotik Banda Larga</li>
-                <li><i class="fas fa-check-circle"></i> Automação de Configurações</li>
-                <li><i class="fas fa-check-circle"></i> Rádio Enlace e Switches</li>
-                <li><i class="fas fa-check-circle"></i> Fusão e Manutenção de Fibra</li>
-            </ul>
-            <a href="https://wa.me/5593992282874" class="btn-action" style="background:transparent; border:1px solid var(--blue); color:var(--blue);">FALAR COM TÉCNICO</a>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-bell"></i>
+            <h3>ALARMES</h3>
+            <p>Proteção perimetral com sensores de alta sensibilidade e disparo direto no celular via aplicativo.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-solar-panel"></i>
+            <h3>ENERGIA SOLAR</h3>
+            <p>Projetos fotovoltaicos completos para redução drástica na sua conta de energia com tecnologia sustentável.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-code"></i>
+            <h3>SITES E SISTEMAS</h3>
+            <p>Desenvolvimento de sites profissionais e sistemas de gestão sob medida para automatizar seu negócio.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-network-wired"></i>
+            <h3>CONFIGURAÇÃO MIKROTIK</h3>
+            <p>Otimização de rede, firewall, load balance e controle de banda para provedores e empresas.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-satellite-dish"></i>
+            <h3>SATÉLITE E FIBRA</h3>
+            <p>Internet banda larga ilimitada via Fibra Óptica ou Satélite (Starlink), conectando você em qualquer lugar.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-door-open"></i>
+            <h3>MOTOR DE PORTÃO</h3>
+            <p>Instalação de motores rápidos e ultrarrápidos com garantia de durabilidade e segurança de acesso.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-fingerprint"></i>
+            <h3>FECHADURA & ELETROÍMÃ</h3>
+            <p>Controle de acesso por biometria, tags ou senhas, integrados com travas magnéticas de alta pressão.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>MANUTENÇÃO SMARTPHONE</h3>
+            <p>Reparos especializados e desbloqueio profissional de dispositivos móveis com garantia técnica.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-server"></i>
+            <h3>ORGANIZAÇÃO DE RACK</h3>
+            <p>Certificação de cabeamento estruturado, identificação e organização profissional de switches e servidores.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-plus-circle"></i>
+            <h3>PONTO ADICIONAL</h3>
+            <p>Extensão da sua rede de internet via cabo ou Wi-Fi mesh para eliminar pontos cegos na sua cobertura.</p>
+        </div>
+        <div class="service-item" data-aos="fade-up">
+            <i class="fas fa-tools"></i>
+            <h3>SUPORTE TÉCNICO</h3>
+            <p>Assistência especializada para resolver qualquer falha tecnológica com rapidez e eficiência.</p>
         </div>
     </div>
 </section>
 
 <section id="planos" class="container">
-    <h2 class="title-blue" style="text-align: center;">Planos Ilimitados</h2>
-    <div class="grid">
-        <div class="glass-card" style="border-top: 4px solid var(--blue);">
-            <h3 style="font-family: 'Orbitron';">RESIDENCIAL</h3>
-            <div style="font-size: 2.5rem; margin: 20px 0; font-weight: 800;">R$ 99<span style="font-size: 1rem; color: var(--blue);">/mês</span></div>
-            <ul class="tech-list">
-                <li><i class="fas fa-wifi"></i> Wi-Fi Dual Band (5G)</li>
-                <li><i class="fas fa-infinity"></i> 100% Banda Larga Ilimitada</li>
-                <li><i class="fas fa-tools"></i> Equipamentos Inclusos</li>
-                <li><i class="fas fa-headset"></i> Suporte Especializado</li>
+    <h2 data-aos="fade-up">PLANOS <span class="title-blue">BANDA LARGA</span></h2>
+    <div class="grid-services" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div class="glass-card plan-card" data-aos="zoom-in">
+            <h3 style="font-family:'Orbitron'">RESIDENCIAL</h3>
+            <div class="plan-price">R$ 99<span style="font-size:1rem">/mês</span></div>
+            <ul class="plan-features">
+                <li>Internet 100% Ilimitada</li>
+                <li>Wi-Fi Dual Band Incluso</li>
+                <li>Equipamentos Comodato</li>
+                <li>Suporte em Belterra</li>
             </ul>
-            <a href="https://wa.me/5593992282874" class="btn-action">ASSINAR AGORA</a>
+            <a href="https://wa.me/5593992282874" class="btn btn-blue">ASSINAR AGORA</a>
         </div>
-        <div class="glass-card" style="border-top: 4px solid var(--red);">
-            <h3 style="font-family: 'Orbitron'; color: var(--red);">GAMER PRO</h3>
-            <div style="font-size: 2.5rem; margin: 20px 0; font-weight: 800;">R$ 149<span style="font-size: 1rem; color: #fff;">/mês</span></div>
-            <ul class="tech-list">
-                <li><i class="fas fa-bolt"></i> Banda Larga de Alta Performance</li>
-                <li><i class="fas fa-infinity"></i> Navegação 100% Ilimitada</li>
-                <li><i class="fas fa-microchip"></i> Hardware Premium Incluso</li>
-                <li><i class="fas fa-gamepad"></i> Menor Latência da Região</li>
+        <div class="glass-card plan-card" data-aos="zoom-in" data-aos-delay="200" style="border-top-color: var(--red)">
+            <h3 style="font-family:'Orbitron'; color: var(--red)">GAMER PRO</h3>
+            <div class="plan-price" style="color:var(--red)">R$ 149<span style="font-size:1rem; color:#fff">/mês</span></div>
+            <ul class="plan-features">
+                <li>Ultra Performance Ilimitada</li>
+                <li>Menor Latência (Ping Zero)</li>
+                <li>Roteador Gigabit Premium</li>
+                <li>Prioridade de Tráfego</li>
             </ul>
-            <a href="https://wa.me/5593992282874" class="btn-action" style="background: var(--blue); color: #000;">SER UM GAMER PRO</a>
+            <a href="https://wa.me/5593992282874" class="btn btn-blue" style="background:var(--red); color:#fff">ASSINAR PRO</a>
         </div>
     </div>
 </section>
 
+<section id="contato" class="container">
+    <div class="glass-card" data-aos="fade-up">
+        <h2 class="title-blue">ORÇAMENTO RÁPIDO</h2>
+        <form action="https://wa.me/5593992282874" method="get">
+            <input type="text" placeholder="Nome Completo" required>
+            <input type="text" placeholder="Nome da Empresa (Opcional)">
+            <input type="tel" placeholder="WhatsApp" required>
+            <select required>
+                <option value="">Serviço de interesse...</option>
+                <option>Câmeras / Alarmes</option>
+                <option>Energia Solar</option>
+                <option>Internet Fibra/Satélite</option>
+                <option>Sites e Sistemas</option>
+                <option>Motores / Fechaduras</option>
+                <option>Manutenção / Outros</option>
+            </select>
+            <button type="submit" class="btn btn-blue" style="width:100%">ENVIAR PEDIDO</button>
+        </form>
+    </div>
+</section>
+
 <footer>
-    <p>WKB TELECOM & SISTEMAS © 2026<br>Responsável Técnico: Welliton | Santarém - PA</p>
+    <div class="footer-grid">
+        <div>
+            <h3 class="title-blue" style="font-family:'Orbitron'">WKB TELECOM</h3>
+            <p style="margin-top:10px; opacity:0.6">Tecnologia avançada em Belterra, Santarém e região.</p>
+        </div>
+        <div>
+            <h4 style="font-family:'Orbitron'; font-size:0.8rem">CONTATOS</h4>
+            <p>WhatsApp: (93) 99228-2874</p>
+            <p>Técnico: Welliton</p>
+        </div>
+        <div>
+            <h4 style="font-family:'Orbitron'; font-size:0.8rem">ENDEREÇO</h4>
+            <p>Atendimento Local e Remoto</p>
+            <p>Belterra - PA</p>
+        </div>
+    </div>
+    <p style="text-align:center; margin-top:40px; font-size:0.7rem; opacity:0.3">© 2026 WKB TELECOM & SISTEMAS | CNPJ: EM CADASTRO</p>
 </footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script> AOS.init({ duration: 800, once: true }); </script>
 
 </body>
 </html>
