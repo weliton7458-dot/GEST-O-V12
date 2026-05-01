@@ -1,630 +1,289 @@
+cat <<EOF > index.html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <title>Belbet - Carregando...</title>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WKB TELECOM | Infraestrutura de Redes e Segurança</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        :root { --red: #ff0000; --blue: #00e5ff; --bg: #000; --card: #0d0d0d; --gray: #888; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+        
+        /* Fundo Animado Interativo */
+        #bgCanvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; opacity: 0.6; }
+        .content-wrapper { position: relative; z-index: 10; }
+
+        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+            background-size: cover; background-position: center; border-bottom: 2px solid var(--red);
         }
-        body {
-            background: linear-gradient(145deg, #0a1f1e 0%, #0c2a2a 100%);
-            min-height: 100vh;
-            padding: 16px;
+        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem); text-transform: uppercase; line-height: 1; }
+        .hero h1 span { color: transparent; -webkit-text-stroke: 1px var(--red); }
+        .hero p { color: var(--blue); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 30px; font-size: 0.9rem; }
+
+        /* Seções Gerais */
+        .section-title { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 60px; text-transform: uppercase; }
+        .section-title span { color: var(--red); }
+        .padding { padding: 100px 0; }
+
+        /* História & Sobre */
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center; }
+        .year-tag { background: var(--red); color: #fff; padding: 5px 15px; font-weight: bold; border-radius: 3px; display: inline-block; margin-bottom: 15px; }
+
+        /* Cards de Planos Robustos */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .price-card { background: var(--card); border: 1px solid #222; padding: 50px 30px; border-radius: 15px; transition: 0.4s; position: relative; overflow: hidden; }
+        .price-card.featured { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,0,0.2); transform: scale(1.03); }
+        .price-card h3 { font-family: 'Orbitron'; font-size: 2rem; color: var(--blue); margin-bottom: 10px; }
+        .price-card .price { font-size: 3.5rem; font-weight: 900; margin: 20px 0; }
+        .price-card .price span { font-size: 1.2rem; color: var(--gray); font-weight: 400; }
+        .features-list { list-style: none; margin: 30px 0; text-align: left; }
+        .features-list li { margin-bottom: 15px; font-size: 0.95rem; color: #ccc; display: flex; align-items: center; }
+        .features-list i { color: var(--red); margin-right: 12px; font-size: 1.1rem; }
+
+        /* Benefícios Técnicos (NOVO) */
+        .benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .benefit-box { background: #080808; padding: 30px; border-radius: 10px; border: 1px solid #1a1a1a; }
+        .benefit-box h4 { font-family: 'Orbitron'; margin-bottom: 15px; color: var(--blue); }
+        .benefit-box p { font-size: 0.9rem; color: var(--gray); line-height: 1.6; }
+
+        /* Serviços Completos */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .service-card { background: #0a0a0a; padding: 40px; border-radius: 10px; border: 1px solid #111; text-align: center; transition: 0.3s; }
+        .service-card:hover { border-color: var(--blue); transform: translateY(-10px); }
+        .service-card i { font-size: 3rem; color: var(--blue); margin-bottom: 20px; }
+        .service-card h4 { font-family: 'Orbitron'; margin-bottom: 15px; }
+
+        /* FAQ (NOVO) */
+        .faq-item { background: #0a0a0a; padding: 20px; margin-bottom: 10px; border-radius: 5px; border-left: 3px solid var(--red); }
+        .faq-item h5 { font-family: 'Orbitron'; color: #fff; margin-bottom: 10px; font-size: 0.9rem; }
+        .faq-item p { color: var(--gray); font-size: 0.85rem; }
+
+        /* Botões */
+        .btn { 
+            display: inline-block; width: 100%; padding: 20px; background: var(--red); color: #fff; 
+            text-align: center; text-decoration: none; font-weight: 900; border-radius: 8px; 
+            font-family: 'Orbitron'; text-transform: uppercase; transition: 0.3s; cursor: pointer;
         }
-        .loading-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #0affb3;
-            font-size: 1.5rem;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #1e5a52;
-            border-top: 4px solid #0affb3;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .app-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: rgba(8, 28, 26, 0.92);
-            backdrop-filter: blur(4px);
-            border-radius: 2rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            overflow: hidden;
-            border: 1px solid #00ffaa30;
-        }
-        .header {
-            background: #071a18e0;
-            padding: 1rem 1.5rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #00ffaa40;
-        }
-        .logo h1 {
-            color: #00f7b0;
-            font-size: 1.8rem;
-            text-shadow: 0 0 5px #00cc88;
-        }
-        .logo span {
-            font-size: 0.7rem;
-            color: #9bffe0;
-            display: block;
-        }
-        .user-area {
-            background: #0b2a26;
-            padding: 6px 16px;
-            border-radius: 60px;
-            display: flex;
-            gap: 12px;
-            align-items: baseline;
-            flex-wrap: wrap;
-        }
-        .balance {
-            background: #00a87e40;
-            padding: 4px 12px;
-            border-radius: 30px;
-            color: #ccffea;
-            font-weight: bold;
-        }
-        .btn-logout, .btn-admin {
-            background: #3a2c2c;
-            border: none;
-            padding: 4px 14px;
-            border-radius: 30px;
-            color: #ffc5c5;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-admin { background: #1e5a52; color: #0affb3; }
-        .dashboard { padding: 20px; }
-        .section-title {
-            color: #9effdf;
-            font-weight: 600;
-            border-left: 4px solid #0affb3;
-            padding-left: 14px;
-            margin: 16px 0;
-            font-size: 1.3rem;
-        }
-        .match-card {
-            background: #0b2926;
-            border-radius: 1.4rem;
-            margin-bottom: 18px;
-            padding: 14px;
-            border: 1px solid #2d5e57;
-        }
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.7rem;
-            margin-bottom: 10px;
-        }
-        .league { background: #0e403a; padding: 2px 10px; border-radius: 30px; }
-        .live-badge { color: #ff9f9f; animation: pulse 1s infinite; font-weight: bold; }
-        @keyframes pulse { 0% { opacity: 0.6; } 100% { opacity: 1; } }
-        .teams {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            color: #ffffe0;
-            margin: 10px 0;
-        }
-        .score {
-            font-size: 1.8rem;
-            font-family: monospace;
-            background: #04100e;
-            padding: 0 12px;
-            border-radius: 40px;
-        }
-        .odds-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .odd-btn {
-            background: #152e2b;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 60px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            flex: 1;
-            min-width: 80px;
-            border-bottom: 2px solid #00ad85;
-            font-size: 0.85rem;
-        }
-        .bet-panel {
-            background: #071f1cee;
-            border-radius: 1.6rem;
-            padding: 1.2rem;
-            margin-top: 20px;
-            border: 1px solid #00cca360;
-        }
-        .selected-match {
-            background: #0d3a34;
-            padding: 10px;
-            border-radius: 50px;
-            text-align: center;
-            margin: 12px 0;
-        }
-        .bet-input {
-            display: flex;
-            gap: 12px;
-            margin: 15px 0;
-        }
-        .bet-input input {
-            flex: 2;
-            background: #0b1f1c;
-            border: 1px solid #2ebb9b;
-            padding: 12px;
-            border-radius: 60px;
-            color: white;
-            font-size: 1rem;
-        }
-        .place-bet {
-            background: #00d69e;
-            border: none;
-            padding: 0 20px;
-            border-radius: 60px;
-            font-weight: bold;
-            color: #001e1a;
-            cursor: pointer;
-        }
-        .place-bet:disabled { background: #517a6f; cursor: not-allowed; }
-        .message { background: #0e2c28; padding: 8px; border-radius: 40px; text-align: center; font-size: 0.8rem; margin-top: 10px; }
-        .history-list { max-height: 200px; overflow-y: auto; margin-top: 15px; font-size: 0.7rem; }
-        .history-item { background: #12302c; margin: 6px 0; padding: 8px; border-radius: 20px; }
-        .form-container { padding: 30px 20px; }
-        .form-card { background: #07211ee0; border-radius: 2rem; padding: 25px; }
-        .form-card input { width: 100%; margin: 10px 0; padding: 14px; border-radius: 60px; background: #1e3e3a; border: none; color: white; font-size: 1rem; }
-        .form-card button { background: #0affb3; width: 100%; padding: 12px; border-radius: 60px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-        .switch-link { color: #bcffe6; margin-top: 15px; display: inline-block; text-decoration: underline; cursor: pointer; }
-        .hidden { display: none; }
-        .footer { text-align: center; padding: 12px; font-size: 0.65rem; color: #4dae97; border-top: 1px solid #248b74; }
-        .suspended-banner { background: #aa3333cc; text-align: center; padding: 12px; color: white; font-weight: bold; }
-        .alert-message { background: #ffaa33; color: #1a1a2e; padding: 10px; text-align: center; border-radius: 20px; margin-bottom: 15px; }
+        .btn:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--red); letter-spacing: 1px; }
+
+        footer { padding: 80px 0; background: #000; border-top: 1px solid #111; position: relative; z-index: 10; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        .footer-col h4 { font-family: 'Orbitron'; margin-bottom: 20px; color: var(--red); }
+        .footer-col p, .footer-col li { color: var(--gray); font-size: 0.85rem; line-height: 2; list-style: none; }
     </style>
 </head>
 <body>
-<div id="root">
-    <div class="loading-container">
-        <div class="spinner"></div>
-        <div>Carregando Belbet...</div>
-    </div>
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="content-wrapper">
+    <section class="hero">
+        <div class="container">
+            <p>Sistemas de Redes & Segurança Ofensiva</p>
+            <h1>WKB <span>TELECOM</span></h1>
+            <p style="color:#fff; text-transform:none; letter-spacing:0; max-width:600px; margin-top:20px;">Engenharia de alta performance em Belterra. Internet ultraveloz, cibersegurança e infraestrutura inteligente para empresas e residências.</p>
+            <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap;">
+                <a href="#planos" class="btn" style="max-width: 280px;">VER PLANOS</a>
+                <a href="https://wa.me/5593992282874" class="btn" style="max-width: 280px; background: transparent; border: 2px solid var(--red);">FALAR COM TÉCNICO</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="padding" style="background: rgba(0,0,0,0.9);">
+        <div class="container about-grid">
+            <div>
+                <span class="year-tag">FUNDADA EM 2022</span>
+                <h2 class="section-title" style="text-align:left; margin-bottom:30px;">NOSSA <span>TRAJETÓRIA</span></h2>
+                <p style="color:#ccc; line-height:1.8; margin-bottom:20px;">A WKB Telecom não é apenas um provedor. Nascemos em 2022 com o objetivo de suprir a carência de serviços técnicos de elite no Pará. Combinamos a experiência em Mikrotik e redes estruturadas com o vigor da segurança eletrônica moderna.</p>
+                <p style="color:#888; line-height:1.8;">Hoje, Welliton e sua equipe lideram projetos que vão desde a internet via fibra óptica até complexos sistemas de energia solar off-grid, garantindo que o cliente nunca sofra com quedas ou insegurança.</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-box"><h4>Alta Disponibilidade</h4><p>Nossa rede é projetada para uptime de 99.9% com roteamento inteligente.</p></div>
+                <div class="benefit-box"><h4>Wi-Fi 7 Ready</h4><p>Equipamentos de última geração com a maior cobertura e velocidade do mercado.</p></div>
+                <div class="benefit-box"><h4>Suporte Local</h4><p>Time técnico baseado em Belterra para atendimento rápido e presencial.</p></div>
+                <div class="benefit-box"><h4>Segurança Nativa</h4><p>Proteção contra ataques DDoS e invasões direto na camada de rede.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planos" class="padding">
+        <div class="container">
+            <h2 class="section-title">NOSSOS <span>PLANOS</span></h2>
+            <div class="pricing-grid">
+                <div class="price-card featured">
+                    <div style="background:var(--red); color:#fff; position:absolute; top:15px; right:-35px; transform:rotate(45deg); padding:5px 40px; font-size:0.7rem; font-weight:bold;">POPULAR</div>
+                    <h3>400 MEGA</h3>
+                    <div class="price">R$ 99,90<span>/mês</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check-circle"></i> Wi-Fi 7 Dual Band</li>
+                        <li><i class="fas fa-check-circle"></i> Equipamento Comodato</li>
+                        <li><i class="fas fa-check-circle"></i> Fibra Óptica de Ponta a Ponta</li>
+                        <li><i class="fas fa-check-circle"></i> Suporte Especializado</li>
+                    </ul>
+                    <a href="https://wa.me/5593992282874" class="btn">CONTRATAR AGORA</a>
+                </div>
+
+                <div class="price-card">
+                    <h3>ILIMITADO</h3>
+                    <div class="price">R$ 149,90<span>/mês</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-gamepad"></i> Prioridade para Games & Stream</li>
+                        <li><i class="fas fa-check-circle"></i> Wi-Fi 7 High Range</li>
+                        <li><i class="fas fa-check-circle"></i> Equipamento Comodato</li>
+                        <li><i class="fas fa-check-circle"></i> Tráfego Sem Franquia</li>
+                    </ul>
+                    <a href="https://wa.me/5593992282874" class="btn" style="background:#222;">CONTRATAR AGORA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="padding" style="background: rgba(5,5,5,0.95);">
+        <div class="container">
+            <h2 class="section-title">SERVIÇOS <span>ESPECIALIZADOS</span></h2>
+            <div class="services-grid">
+                <div class="service-card"><i class="fas fa-video"></i><h4>CFTV IP & Analógico</h4><p>Monitoramento HD com inteligência artificial para detecção de humanos.</p></div>
+                <div class="service-card"><i class="fas fa-bolt"></i><h4>Segurança Perimetral</h4><p>Cercas elétricas, concertinas e sistemas de alarme monitorado via App.</p></div>
+                <div class="service-card"><i class="fas fa-solar-panel"></i><h4>Energia Solar</h4><p>Projetos On-Grid e Off-Grid para redução de custos e autonomia energética.</p></div>
+                <div class="service-card"><i class="fas fa-network-wired"></i><h4>Redes Estruturadas</h4><p>Cabeamento CAT6, fusão de fibra e configuração de racks profissionais.</p></div>
+                <div class="service-card"><i class="fas fa-microchip"></i><h4>Consultoria TI</h4><p>Gestão de Mikrotik, VPNs, Firewall e controle de banda empresarial.</p></div>
+                <div class="service-card"><i class="fas fa-satellite-dish"></i><h4>Instalação Starlink</h4><p>Suporte técnico para internet via satélite em zonas rurais.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="padding">
+        <div class="container" style="max-width: 800px;">
+            <h2 class="section-title">PERGUNTAS <span>FREQUENTES</span></h2>
+            <div class="faq-item"><h5>Como funciona o comodato?</h5><p>Nós fornecemos o roteador Wi-Fi 7 sem custo adicional enquanto você for nosso cliente. Em caso de defeito técnico, a troca é por nossa conta.</p></div>
+            <div class="faq-item"><h5>A internet cai quando chove?</h5><p>Nossa rede de fibra óptica é imune a interferências climáticas, garantindo estabilidade mesmo em dias de chuva forte.</p></div>
+            <div class="faq-item"><h5>Vocês atendem zona rural?</h5><p>Sim! Através de projetos especiais de rádio ou instalação de kits Starlink, levamos conectividade onde ninguém mais chega.</p></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <h4>WKB TELECOM</h4>
+                <p>Desde 2022 transformando a tecnologia em Belterra e região. Compromisso, técnica e segurança.</p>
+            </div>
+            <div class="footer-col">
+                <h4>CONTATO</h4>
+                <ul>
+                    <li><i class="fab fa-whatsapp"></i> (93) 99228-2874</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Rua Nitinha Lobo, 259 - Belterra, PA</li>
+                    <li><i class="fas fa-envelope"></i> tecsegsegurancaeletronica7@gmail.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>HORÁRIO</h4>
+                <p>Segunda a Sexta: 08:00 às 18:00<br>Sábado: 08:00 às 12:00<br>Suporte Emergencial: 24h</p>
+            </div>
+        </div>
+        <div style="text-align:center; margin-top:60px; color:#333; font-size:0.7rem; border-top:1px solid #111; padding-top:20px;">
+            © 2022-2026 WKB TELECOM - Responsável: Welliton (WKB Conectividade)
+        </div>
+    </footer>
 </div>
 
 <script>
-    // FIREBASE CONFIG
-    const firebaseConfig = {
-        apiKey: "AIzaSyCWAopv0PtTL9VrqnYyLlOqEVksrPSiGwE",
-        authDomain: "shop-mall-ce15d.firebaseapp.com",
-        projectId: "shop-mall-ce15d",
-        storageBucket: "shop-mall-ce15d.firebasestorage.app",
-        messagingSenderId: "320942334972",
-        appId: "1:320942334972:web:0807308db6ae1b51944879",
-        measurementId: "G-G65P6NCK32"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    
-    // Coleções
-    const USERS_COLL = "belbet_users_v2";
-    const BETS_COLL = "belbet_bets_v2";
-    const MATCHES_COLL = "belbet_matches_v2";
-    const CONFIG_COLL = "belbet_config";
-    
-    let currentUser = null;
-    let matches = [];
-    let currentSelected = null;
-    let siteConfig = { name: "Belbet", logo: "⚽", primaryColor: "#0affb3" };
-    
-    // Partidas padrão
-    const defaultMatches = [
-        { id: 1, league: "UEFA Champions", home: "Real Madrid", away: "Bayern", homeScore: 1, awayScore: 1, minute: 34, odds: { home: 2.10, draw: 3.40, away: 3.20 } },
-        { id: 2, league: "Premier League", home: "Manchester City", away: "Arsenal", homeScore: 0, awayScore: 0, minute: 18, odds: { home: 1.85, draw: 3.60, away: 4.00 } },
-        { id: 3, league: "Brasileirão", home: "Flamengo", away: "Palmeiras", homeScore: 1, awayScore: 1, minute: 56, odds: { home: 2.30, draw: 3.20, away: 2.90 } },
-        { id: 4, league: "LaLiga", home: "Barcelona", away: "Atlético", homeScore: 0, awayScore: 0, minute: 27, odds: { home: 1.95, draw: 3.30, away: 3.80 } }
-    ];
-    
-    async function loadConfig() {
-        const doc = await db.collection(CONFIG_COLL).doc("siteConfig").get();
-        if (doc.exists) {
-            siteConfig = doc.data();
-        } else {
-            await db.collection(CONFIG_COLL).doc("siteConfig").set(siteConfig);
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    let mouse = { x: null, y: null, radius: 180 };
+
+    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+    window.addEventListener('touchstart', (e) => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
+    window.addEventListener('touchmove', (e) => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
+    window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = 2;
+            this.baseX = this.x;
+            this.baseY = this.y;
+            this.density = (Math.random() * 40) + 5;
         }
-    }
-    
-    async function initMatches() {
-        const snapshot = await db.collection(MATCHES_COLL).get();
-        if (snapshot.empty) {
-            for (let m of defaultMatches) {
-                await db.collection(MATCHES_COLL).doc(m.id.toString()).set(m);
-            }
-            matches = [...defaultMatches];
-        } else {
-            matches = [];
-            snapshot.forEach(doc => matches.push(doc.data()));
-            matches.sort((a,b) => a.id - b.id);
+        draw() {
+            ctx.fillStyle = 'rgba(255, 0, 0, 0.9)';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
         }
-        return matches;
-    }
-    
-    async function updateMatchInFirestore(match) {
-        await db.collection(MATCHES_COLL).doc(match.id.toString()).set(match);
-    }
-    
-    function startLiveSimulation() {
-        setInterval(async () => {
-            for (let i = 0; i < matches.length; i++) {
-                const m = matches[i];
-                if (m.minute >= 90) continue;
-                let newMinute = Math.min(90, m.minute + Math.floor(Math.random() * 3));
-                let newHome = m.homeScore;
-                let newAway = m.awayScore;
-                if (newMinute < 90 && Math.random() < 0.08) {
-                    if (Math.random() > 0.5) newHome += 1;
-                    else newAway += 1;
-                }
-                let diff = newHome - newAway;
-                let newOdds = { ...m.odds };
-                if (diff > 0) {
-                    newOdds.home = Math.max(1.2, m.odds.home - 0.07);
-                    newOdds.draw = m.odds.draw + 0.12;
-                    newOdds.away = m.odds.away + 0.20;
-                } else if (diff < 0) {
-                    newOdds.away = Math.max(1.2, m.odds.away - 0.07);
-                    newOdds.draw = m.odds.draw + 0.12;
-                    newOdds.home = m.odds.home + 0.20;
-                } else {
-                    newOdds.draw = Math.max(2.3, m.odds.draw - 0.05);
-                }
-                matches[i] = {
-                    ...m,
-                    minute: newMinute,
-                    homeScore: newHome,
-                    awayScore: newAway,
-                    odds: {
-                        home: parseFloat(newOdds.home.toFixed(2)),
-                        draw: parseFloat(newOdds.draw.toFixed(2)),
-                        away: parseFloat(newOdds.away.toFixed(2))
-                    }
-                };
-                await updateMatchInFirestore(matches[i]);
-            }
-            if (currentUser) {
-                await resolveFinishedBets();
-                await refreshUserData();
-                renderApp();
+        update() {
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = mouse.radius;
+            let force = (maxDistance - distance) / maxDistance;
+            let directionX = forceDirectionX * force * this.density;
+            let directionY = forceDirectionY * force * this.density;
+
+            if (distance < mouse.radius) {
+                this.x -= directionX;
+                this.y -= directionY;
             } else {
-                renderApp();
-            }
-        }, 8000);
-    }
-    
-    async function resolveFinishedBets() {
-        if (!currentUser) return;
-        const finishedMatches = matches.filter(m => m.minute >= 90);
-        if (finishedMatches.length === 0) return;
-        const betsSnapshot = await db.collection(BETS_COLL).where("username", "==", currentUser.username).get();
-        let balanceDelta = 0;
-        const historyUpdates = [];
-        for (const docSnap of betsSnapshot.docs) {
-            const bet = docSnap.data();
-            const match = matches.find(m => m.id === bet.matchId);
-            if (match && match.minute >= 90) {
-                let result = match.homeScore > match.awayScore ? "home" : (match.homeScore < match.awayScore ? "away" : "draw");
-                const won = (bet.selection === result);
-                if (won) {
-                    balanceDelta += bet.stake * bet.odds;
-                } else {
-                    balanceDelta -= bet.stake;
+                if (this.x !== this.baseX) {
+                    this.x -= (this.x - this.baseX) / 10;
                 }
-                historyUpdates.push({
-                    date: new Date().toLocaleString(),
-                    match: `${match.home} x ${match.away}`,
-                    betPick: bet.selection,
-                    stake: bet.stake,
-                    result: won ? "VENCEU" : "PERDEU",
-                    profit: won ? (bet.stake * bet.odds - bet.stake) : -bet.stake
-                });
-                await docSnap.ref.delete();
+                if (this.y !== this.baseY) {
+                    this.y -= (this.y - this.baseY) / 10;
+                }
             }
         }
-        if (balanceDelta !== 0 && currentUser && !currentUser.suspended) {
-            const newBalance = Math.max(0, currentUser.balance + balanceDelta);
-            await db.collection(USERS_COLL).doc(currentUser.username).update({
-                balance: newBalance,
-                history: firebase.firestore.FieldValue.arrayUnion(...historyUpdates)
-            });
-            currentUser.balance = newBalance;
-            if (!currentUser.history) currentUser.history = [];
-            currentUser.history.unshift(...historyUpdates);
-        }
     }
-    
-    async function refreshUserData() {
-        if (!currentUser) return;
-        const userDoc = await db.collection(USERS_COLL).doc(currentUser.username).get();
-        if (userDoc.exists) currentUser = userDoc.data();
+
+    function init() {
+        particles = [];
+        for (let i = 0; i < 180; i++) { particles.push(new Particle()); }
     }
-    
-    // Cadastro completo
-    async function register(fullData) {
-        const { username, password, fullName, cpf, phone } = fullData;
-        const userDoc = await db.collection(USERS_COLL).doc(username).get();
-        if (userDoc.exists) return false;
-        const newUser = {
-            username, password, fullName, cpf, phone,
-            balance: 150.00,
-            history: [],
-            suspended: false,
-            suspensionReason: "",
-            createdAt: new Date().toISOString()
-        };
-        await db.collection(USERS_COLL).doc(username).set(newUser);
-        return true;
-    }
-    
-    async function login(username, password) {
-        const userDoc = await db.collection(USERS_COLL).doc(username).get();
-        if (userDoc.exists && userDoc.data().password === password) {
-            currentUser = userDoc.data();
-            if (currentUser.suspended) {
-                const msg = currentUser.suspensionReason || "Conta suspensa. Contate o suporte.";
-                alert(`⚠️ CONTA SUSPENSA: ${msg}`);
-                currentUser = null;
-                return false;
+
+    function connect() {
+        for (let a = 0; a < particles.length; a++) {
+            for (let b = a; b < particles.length; b++) {
+                let dx = particles[a].x - particles[b].x;
+                let dy = particles[a].y - particles[b].y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 110) {
+                    ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1.2 - distance/110) + ')';
+                    ctx.lineWidth = 0.6;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[a].x, particles[a].y);
+                    ctx.lineTo(particles[b].x, particles[b].y);
+                    ctx.stroke();
+                }
             }
-            renderApp();
-            return true;
-        }
-        return false;
-    }
-    
-    async function logout() {
-        currentUser = null;
-        renderApp();
-    }
-    
-    async function placeBet(matchId, selection, oddsValue, stake) {
-        if (!currentUser) return { ok: false, msg: "Faça login" };
-        if (currentUser.suspended) return { ok: false, msg: "Conta suspensa" };
-        const match = matches.find(m => m.id === matchId);
-        if (!match || match.minute >= 90) return { ok: false, msg: "Partida encerrada" };
-        if (stake <= 0) return { ok: false, msg: "Valor inválido" };
-        if (currentUser.balance < stake) return { ok: false, msg: "Saldo insuficiente" };
-        
-        const newBalance = currentUser.balance - stake;
-        await db.collection(USERS_COLL).doc(currentUser.username).update({ balance: newBalance });
-        currentUser.balance = newBalance;
-        await db.collection(BETS_COLL).add({
-            username: currentUser.username,
-            matchId, selection, stake, odds: oddsValue,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        return { ok: true, msg: `Aposta de R$ ${stake.toFixed(2)} realizada!` };
-    }
-    
-    // Renderização
-    function renderApp() {
-        const root = document.getElementById('root');
-        if (!currentUser) {
-            root.innerHTML = renderLoginRegister();
-            attachLoginEvents();
-        } else {
-            root.innerHTML = renderDashboard();
-            attachDashboardEvents();
-            const stakeInput = document.getElementById('stakeAmount');
-            if (stakeInput && !stakeInput.value) stakeInput.value = '25';
-        }
-        // Atualizar título
-        document.title = `${siteConfig.name} - Apostas`;
-    }
-    
-    function renderLoginRegister() {
-        return `
-            <div class="app-container">
-                <div class="form-container">
-                    <div class="form-card">
-                        <h2 style="color:${siteConfig.primaryColor}">${siteConfig.logo} ${siteConfig.name}</h2>
-                        <p style="color:#bbf5e4">Cadastro completo (CPF, Nome, Telefone)</p>
-                        <div id="loginArea">
-                            <input type="text" id="loginUser" placeholder="Nome de usuário">
-                            <input type="password" id="loginPass" placeholder="Senha">
-                            <button id="doLoginBtn">🔐 Entrar</button>
-                            <div class="switch-link" id="showRegister">Não tenho conta → Cadastrar</div>
-                            <div class="switch-link" id="goToAdmin" style="color:#ffaa66;">👑 Acesso Administrador</div>
-                        </div>
-                        <div id="registerArea" class="hidden">
-                            <input type="text" id="regUsername" placeholder="Nome de usuário *">
-                            <input type="text" id="regFullName" placeholder="Nome completo *">
-                            <input type="text" id="regCpf" placeholder="CPF *">
-                            <input type="tel" id="regPhone" placeholder="Telefone (WhatsApp) *">
-                            <input type="password" id="regPass" placeholder="Senha *">
-                            <button id="doRegisterBtn">📝 Cadastrar (+R$150 bônus)</button>
-                            <div class="switch-link" id="showLogin">← Voltar ao login</div>
-                        </div>
-                        <div id="authMsg" style="margin-top:12px; color:#ffbc6e;"></div>
-                    </div>
-                </div>
-                <div class="footer">Dados seguros em nuvem · Suporte 24h</div>
-            </div>
-        `;
-    }
-    
-    function renderDashboard() {
-        const isSuspended = currentUser.suspended;
-        const alertMsg = currentUser.alertMessage;
-        const matchesHtml = matches.map(m => {
-            const isFinished = m.minute >= 90;
-            return `
-                <div class="match-card">
-                    <div class="match-header"><span class="league">${m.league}</span><span class="live-badge">${isFinished ? "🏁 ENCERRADA" : `⚡ ${m.minute}'`}</span></div>
-                    <div class="teams"><span>${m.home}</span><span class="score">${m.homeScore}:${m.awayScore}</span><span>${m.away}</span></div>
-                    <div class="odds-row">
-                        <button class="odd-btn" data-matchid="${m.id}" data-selection="home" data-odds="${m.odds.home}" ${isFinished || isSuspended ? 'disabled' : ''}>🏠 ${m.home}<br><strong>${m.odds.home.toFixed(2)}</strong></button>
-                        <button class="odd-btn" data-matchid="${m.id}" data-selection="draw" data-odds="${m.odds.draw}" ${isFinished || isSuspended ? 'disabled' : ''}>🤝 Empate<br><strong>${m.odds.draw.toFixed(2)}</strong></button>
-                        <button class="odd-btn" data-matchid="${m.id}" data-selection="away" data-odds="${m.odds.away}" ${isFinished || isSuspended ? 'disabled' : ''}>✈️ ${m.away}<br><strong>${m.odds.away.toFixed(2)}</strong></button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        
-        const historyItems = (currentUser.history || []).slice(0, 10).map(h => `
-            <div class="history-item">📅 ${h.date} | ${h.match} | ${h.betPick} | R$ ${h.stake} | ${h.result} | ${h.profit >= 0 ? `+R$ ${h.profit.toFixed(2)}` : `-R$ ${(-h.profit).toFixed(2)}`}</div>
-        `).join('');
-        
-        return `
-            <div class="app-container">
-                ${alertMsg ? `<div class="alert-message">📢 AVISO: ${alertMsg}</div>` : ''}
-                ${isSuspended ? `<div class="suspended-banner">⛔ CONTA SUSPENSA: ${currentUser.suspensionReason || "Motivo não informado"} | Entre em contato com o suporte.</div>` : ''}
-                <div class="header">
-                    <div class="logo"><h1>${siteConfig.logo} ${siteConfig.name}</h1><span>apostas ao vivo</span></div>
-                    <div class="user-area">
-                        <span>👤 ${currentUser.fullName?.split(' ')[0] || currentUser.username}</span>
-                        <span class="balance">💰 R$ ${currentUser.balance.toFixed(2)}</span>
-                        <button class="btn-logout" id="logoutBtn">Sair</button>
-                    </div>
-                </div>
-                <div class="dashboard">
-                    <div class="section-title">📡 PARTIDAS AO VIVO</div>
-                    ${matchesHtml}
-                    <div class="bet-panel">
-                        <div class="section-title">📌 MINHA APOSTA</div>
-                        <div id="selectedInfo" class="selected-match">🔽 Clique numa odd acima</div>
-                        <div class="bet-input">
-                            <input type="number" id="stakeAmount" placeholder="Valor R$" step="5" min="5" ${isSuspended ? 'disabled' : ''}>
-                            <button id="confirmBetBtn" class="place-bet" disabled ${isSuspended ? 'disabled' : ''}>✔️ Apostar</button>
-                        </div>
-                        <div id="betMessage" class="message"></div>
-                        <div class="section-title">📜 HISTÓRICO</div>
-                        <div class="history-list">${historyItems.length ? historyItems : '<div style="padding:8px;text-align:center;">Nenhuma aposta</div>'}</div>
-                    </div>
-                </div>
-                <div class="footer">${siteConfig.name} · Suporte: (11) 99999-9999</div>
-            </div>
-        `;
-    }
-    
-    function attachLoginEvents() {
-        const loginDiv = document.getElementById('loginArea');
-        const regDiv = document.getElementById('registerArea');
-        const showRegister = document.getElementById('showRegister');
-        const showLogin = document.getElementById('showLogin');
-        const goToAdmin = document.getElementById('goToAdmin');
-        const doLogin = document.getElementById('doLoginBtn');
-        const doRegister = document.getElementById('doRegisterBtn');
-        const authMsg = document.getElementById('authMsg');
-        
-        if (showRegister) showRegister.onclick = () => { loginDiv.classList.add('hidden'); regDiv.classList.remove('hidden'); };
-        if (showLogin) showLogin.onclick = () => { regDiv.classList.add('hidden'); loginDiv.classList.remove('hidden'); };
-        if (goToAdmin) goToAdmin.onclick = () => { window.location.href = 'admin.html'; };
-        
-        if (doLogin) {
-            doLogin.onclick = async () => {
-                const user = document.getElementById('loginUser').value.trim();
-                const pass = document.getElementById('loginPass').value.trim();
-                const ok = await login(user, pass);
-                if (!ok) authMsg.innerText = 'Usuário/senha incorretos ou conta suspensa';
-                else authMsg.innerText = '';
-            };
-        }
-        if (doRegister) {
-            doRegister.onclick = async () => {
-                const username = document.getElementById('regUsername').value.trim();
-                const fullName = document.getElementById('regFullName').value.trim();
-                const cpf = document.getElementById('regCpf').value.trim();
-                const phone = document.getElementById('regPhone').value.trim();
-                const password = document.getElementById('regPass').value.trim();
-                if (!username || !fullName || !cpf || !phone || !password) {
-                    authMsg.innerText = 'Preencha todos os campos obrigatórios *';
-                    return;
-                }
-                if (cpf.length < 11) { authMsg.innerText = 'CPF inválido (mínimo 11 dígitos)'; return; }
-                const ok = await register({ username, password, fullName, cpf, phone });
-                if (ok) {
-                    authMsg.innerText = 'Cadastro realizado! Faça login.';
-                    regDiv.classList.add('hidden');
-                    loginDiv.classList.remove('hidden');
-                } else {
-                    authMsg.innerText = 'Usuário já existe';
-                }
-            };
         }
     }
-    
-    function attachDashboardEvents() {
-        document.getElementById('logoutBtn')?.addEventListener('click', logout);
-        const oddsBtns = document.querySelectorAll('.odd-btn:not([disabled])');
-        oddsBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (currentUser.suspended) { alert("Conta suspensa"); return; }
-                const matchId = parseInt(btn.dataset.matchid);
-                const selection = btn.dataset.selection;
-                const odds = parseFloat(btn.dataset.odds);
-                const match = matches.find(m => m.id === matchId);
-                if (!match || match.minute >= 90) { document.getElementById('betMessage').innerHTML = '<span style="color:#ffa098">Partida encerrada!</span>'; return; }
-                let selName = selection === 'home' ? match.home : (selection === 'away' ? match.away : 'Empate');
-                currentSelected = { matchId, selection, odds };
-                document.getElementById('selectedInfo').innerHTML = `🎯 Aposta: ${match.home} x ${match.away} → ${selName} (odd ${odds.toFixed(2)})`;
-                document.getElementById('confirmBetBtn').disabled = false;
-            });
-        });
-        const confirmBtn = document.getElementById('confirmBetBtn');
-        if (confirmBtn) {
-            confirmBtn.onclick = async () => {
-                if (!currentSelected) { document.getElementById('betMessage').innerHTML = '<span style="color:#ffa098">Selecione uma odd!</span>'; return; }
-                const stake = parseFloat(document.getElementById('stakeAmount')?.value);
-                if (isNaN(stake) || stake <= 0) { document.getElementById('betMessage').innerHTML = '<span style="color:#ffa098">Valor inválido</span>'; return; }
-                const result = await placeBet(currentSelected.matchId, currentSelected.selection, currentSelected.odds, stake);
-                if (result.ok) {
-                    document.getElementById('betMessage').innerHTML = `<span style="color:#a0ffd0">✅ ${result.msg}</span>`;
-                    currentSelected = null;
-                    confirmBtn.disabled = true;
-                    document.getElementById('selectedInfo').innerHTML = '🔽 Clique numa odd acima';
-                    await refreshUserData();
-                    renderApp();
-                } else {
-                    document.getElementById('betMessage').innerHTML = `<span style="color:#ffa098">❌ ${result.msg}</span>`;
-                }
-            };
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
         }
-    }
-    
-    async function init() {
-        await loadConfig();
-        await initMatches();
-        startLiveSimulation();
-        renderApp();
+        connect();
+        requestAnimationFrame(animate);
     }
     init();
+    animate();
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); });
 </script>
 </body>
 </html>
+EOF
