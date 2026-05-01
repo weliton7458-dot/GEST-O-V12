@@ -3,188 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB TELECOM | Segurança & Conectividade</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>WKB TELECOM | Enterprise Defense & Infra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;500;800&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --red: #ff0000; --blue: #00e5ff; --bg: #000; --card: #0d0d0d; --gray: #888; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
-        
-        #bgCanvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; opacity: 0.6; }
-        .content-wrapper { position: relative; z-index: 10; }
-        .container { max-width: 1200px; margin: auto; padding: 0 20px; }
+        :root { --red: #ff0000; --green: #00ff41; --blue: #00f2ff; --bg: #000; --panel: #050505; }
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
+        body { background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
 
-        /* HERO */
-        .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover; background-position: center; border-bottom: 2px solid var(--red);
-        }
-        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 7vw, 4rem); text-transform: uppercase; line-height: 1.1; }
-        .hero h1 span { color: transparent; -webkit-text-stroke: 1px var(--red); }
-        .hero p.subtitle { color: var(--blue); font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px; }
+        /* Animação de Fonte Digitada */
+        .typing { overflow: hidden; border-right: .15em solid var(--blue); white-space: nowrap; margin: 0 auto; letter-spacing: .15em; animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite; }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--blue); } }
 
-        /* METODOLOGIA */
-        .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; }
-        .step-card { background: #080808; padding: 40px; border-radius: 10px; border-left: 4px solid var(--red); position: relative; transition: 0.3s; }
-        .step-card:hover { background: #111; transform: translateY(-5px); }
-        .step-number { position: absolute; top: 20px; right: 20px; font-family: 'Orbitron'; font-size: 3rem; opacity: 0.1; color: var(--red); }
+        /* Animação de Falha na Fonte (Glitch) */
+        .glitch-font { font-family: 'Orbitron'; position: relative; display: inline-block; }
+        .glitch-font:hover::before { content: attr(data-text); position: absolute; left: -2px; text-shadow: 2px 0 var(--red); top: 0; color: #fff; background: var(--bg); overflow: hidden; clip: rect(0, 900px, 0, 0); animation: noise-1 2s infinite linear alternate-reverse; }
+        @keyframes noise-1 { 0% { clip: rect(10px, 9999px, 50px, 0); } 100% { clip: rect(80px, 9999px, 100px, 0); } }
 
-        /* SERVIÇOS */
-        .section-title { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; text-align: center; margin-bottom: 60px; text-transform: uppercase; }
-        .section-title span { color: var(--red); }
-        .padding { padding: 100px 0; }
-        
-        .price-card { background: var(--card); border: 1px solid #222; padding: 40px; border-radius: 15px; text-align: center; transition: 0.4s; }
-        .price-card.featured { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,0,0.2); transform: scale(1.05); }
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
+        .container { max-width: 1400px; margin: auto; padding: 0 40px; }
 
-        .btn { 
-            display: inline-block; width: 100%; padding: 20px; background: var(--red); color: #fff; 
-            text-align: center; text-decoration: none; font-weight: 900; border-radius: 8px; 
-            font-family: 'Orbitron'; text-transform: uppercase; transition: 0.3s; border: none; cursor: pointer;
-        }
-        .btn:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--red); }
+        /* Terminal de Status */
+        .status-terminal { background: #080808; border: 1px solid #111; padding: 20px; font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--green); border-left: 4px solid var(--red); margin: 20px 0; line-height: 1.5; }
 
-        footer { padding: 60px 0; background: #000; border-top: 1px solid #111; text-align: center; }
-        .social-icons { margin-top: 20px; font-size: 1.5rem; display: flex; justify-content: center; gap: 20px; }
-        .social-icons a { color: var(--gray); transition: 0.3s; }
-        .social-icons a:hover { color: var(--red); }
+        /* Hero */
+        .hero { height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .hero h1 { font-size: clamp(2rem, 12vw, 6rem); letter-spacing: -5px; line-height: 0.8; }
+        .hero h1 span { color: var(--red); text-shadow: 0 0 20px var(--red); }
+
+        /* Seções */
+        .section-box { padding: 80px 0; border-top: 1px solid #111; }
+        .section-title { font-family: 'Orbitron'; font-size: 2rem; color: var(--blue); margin-bottom: 40px; text-transform: uppercase; border-left: 10px solid var(--red); padding-left: 20px; }
+
+        /* História e Sobre */
+        .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .history-text { font-size: 1.1rem; line-height: 1.8; color: #aaa; }
+        .history-text b { color: #fff; }
+
+        /* Serviços Detalhados */
+        .serv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .serv-card { background: var(--panel); border: 1px solid #1a1a1a; padding: 40px; transition: 0.4s; }
+        .serv-card:hover { border-color: var(--green); transform: translateY(-10px); background: #0a0a0a; }
+        .serv-card i { font-size: 2.5rem; color: var(--red); margin-bottom: 25px; }
+        .serv-card h4 { font-family: 'Orbitron'; margin-bottom: 15px; color: var(--blue); }
+        .serv-card ul { list-style: none; color: #777; font-size: 0.9rem; }
+        .serv-card ul li { margin-bottom: 8px; border-bottom: 1px solid #111; padding-bottom: 5px; }
+
+        /* Planos */
+        .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .plan-card { background: #0a0a0a; border: 1px solid #222; padding: 50px; text-align: center; position: relative; }
+        .plan-card.highlight { border-color: var(--red); box-shadow: 0 0 30px rgba(255,0,0,0.1); }
+        .plan-card h5 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 15px; }
+        .plan-card .price { font-size: 3.5rem; font-weight: 900; color: var(--green); font-family: 'JetBrains Mono'; }
+        .plan-card .price span { font-size: 1rem; color: #444; }
+
+        /* Botão */
+        .btn-link { display: block; width: 100%; padding: 25px; background: var(--red); color: #fff; text-align: center; text-decoration: none; font-family: 'Orbitron'; font-weight: 900; clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%); margin-top: 30px; transition: 0.3s; }
+        .btn-link:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
+
+        /* Rodapé e Contatos */
+        footer { padding: 100px 0 50px; background: #000; border-top: 1px solid #111; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
+        .footer-col h6 { font-family: 'Orbitron'; color: var(--red); margin-bottom: 20px; font-size: 1.1rem; }
+        .contact-link { display: block; color: #888; text-decoration: none; margin-bottom: 10px; font-family: 'JetBrains Mono'; }
+        .contact-link:hover { color: var(--blue); }
+        .social-row { display: flex; gap: 20px; font-size: 1.5rem; margin-top: 20px; }
+        .social-row a { color: #fff; transition: 0.3s; }
+        .social-row a:hover { color: var(--red); transform: scale(1.2); }
     </style>
 </head>
 <body>
 
-<canvas id="bgCanvas"></canvas>
+<canvas id="neural"></canvas>
 
-<div class="content-wrapper">
+<div class="container">
+    <div class="status-terminal">
+        > LOAD_MODULE: WKB_BLACK_OPS_v20.4<br>
+        > OPERATOR: WELLITON [AUTHORIZED_ACCESS]<br>
+        > LOCATION: PARÁ_BR | BELTERRA_STATION<br>
+        > STATUS: <span style="color: var(--blue);">DOMÍNIO_VALIDADO_SSL_ACTIVE</span>
+    </div>
+
     <section class="hero">
-        <div class="container">
-            <p class="subtitle">Infraestrutura Crítica & Defesa Digital</p>
-            <h1>WKB <span>TELECOM</span></h1>
-            <p style="max-width: 600px; margin: 25px 0; color: #ccc; line-height: 1.6;">Soluções avançadas em Fibra Óptica, Segurança Eletrônica e Energia Solar para o Pará. Tecnologia de elite ao seu alcance.</p>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <a href="https://wa.me/5593992282874" class="btn" style="max-width: 320px;">FALAR COM TÉCNICO</a>
+        <h1 class="glitch-font" data-text="WKB TELECOM">WKB <span>TELECOM</span></h1>
+        <p class="typing" style="color: var(--green); font-weight: bold; margin-top: 20px;">SEGURANÇA ELETRÔNICA & INFRAESTRUTURA ISP</p>
+    </section>
+
+    <section class="section-box">
+        <h2 class="section-title">A TRAJETÓRIA</h2>
+        <div class="history-grid">
+            <div class="history-text">
+                <p>Fundada no coração do Pará, a <b>WKB Telecom</b> nasceu da visão técnica de seu fundador, <b>Welliton</b>, para preencher a lacuna de serviços de alta fidelidade em Santarém e Belterra. Começamos como uma célula de suporte especializado e hoje somos uma autoridade em <b>Infraestrutura de Redes e Defesa Patrimonial</b>.</p>
+                <br>
+                <p>Nossa história é marcada pela resiliência. Implementamos soluções onde outros falharam, utilizando protocolos de rede avançados e hardware de padrão global como <b>Mikrotik, Hikvision e Intelbras</b>. O foco da WKB é um só: <b>Zero Downtime</b>.</p>
+            </div>
+            <div style="background: #080808; border: 1px solid var(--red); padding: 40px; border-radius: 4px;">
+                <h4 style="font-family: 'Orbitron'; margin-bottom: 20px;">NOSSA MISSÃO</h4>
+                <p style="color: var(--blue); font-family: 'JetBrains Mono'; font-size: 0.9rem;">
+                    [1] Blindar o patrimônio do cliente com IA.<br>
+                    [2] Conectar o Pará com fibra de alta performance.<br>
+                    [3] Garantir independência energética via Off-Grid.
+                </p>
             </div>
         </div>
     </section>
 
-    <section class="padding" style="background: rgba(0,0,0,0.95);">
-        <div class="container">
-            <h2 class="section-title">NOSSA <span>METODOLOGIA</span></h2>
-            <div class="step-grid">
-                <div class="step-card">
-                    <div class="step-number">01</div>
-                    <i class="fas fa-search-plus" style="color:var(--red); font-size: 2rem; margin-bottom: 15px;"></i>
-                    <h4>Diagnóstico</h4>
-                    <p style="color: var(--gray); font-size: 0.9rem; margin-top: 10px;">Análise técnica de vulnerabilidades e mapeamento de rede para máxima eficiência.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">02</div>
-                    <i class="fas fa-tools" style="color:var(--red); font-size: 2rem; margin-bottom: 15px;"></i>
-                    <h4>Execução</h4>
-                    <p style="color: var(--gray); font-size: 0.9rem; margin-top: 10px;">Instalação com equipamentos de alta performance (Mikrotik, Intelbras, Hikvision).</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">03</div>
-                    <i class="fas fa-shield-alt" style="color:var(--red); font-size: 2rem; margin-bottom: 15px;"></i>
-                    <h4>Consultoria</h4>
-                    <p style="color: var(--gray); font-size: 0.9rem; margin-top: 10px;">Monitoramento contínuo e suporte técnico especializado para zero downtime.</p>
-                </div>
+    <section class="section-box">
+        <h2 class="section-title">OPERAÇÕES TÉCNICAS</h2>
+        <div class="serv-grid">
+            <div class="serv-card">
+                <i class="fas fa-microchip"></i>
+                <h4>ISP & NETWORKING</h4>
+                <ul>
+                    <li>Configuração <b>BGP & OSPF</b> Mikrotik</li>
+                    <li>Gestão de <b>OLT GPON/EPON</b></li>
+                    <li>Servidores <b>PPPoE & Radius</b></li>
+                    <li>Fusão e Lançamento de <b>Fibra Óptica</b></li>
+                </ul>
+            </div>
+            <div class="serv-card">
+                <i class="fas fa-shield-halved"></i>
+                <h4>CYBER SEGURANÇA</h4>
+                <ul>
+                    <li>CCTV IP com <b>Inteligência Artificial</b></li>
+                    <li>Monitoramento <b>24/7 Mobile App</b></li>
+                    <li>Cercas Elétricas e <b>Alarmes IP</b></li>
+                    <li>Controle de Acesso <b>Biométrico</b></li>
+                </ul>
+            </div>
+            <div class="serv-card">
+                <i class="fas fa-solar-panel"></i>
+                <h4>ENERGIA SOLAR</h4>
+                <ul>
+                    <li>Sistemas <b>Off-Grid</b> para Torres</li>
+                    <li>Bancos de Baterias <b>LiFePO4</b></li>
+                    <li>Controladores de Carga <b>MPPT</b></li>
+                    <li>Backup Solar para <b>Motores de Portão</b></li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section class="padding">
-        <div class="container">
-            <h2 class="section-title">CONECTIVIDADE <span>WKB</span></h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <div class="price-card featured">
-                    <h3 style="font-family: 'Orbitron';">PLANOS FIBRA</h3>
-                    <div style="font-size: 3rem; font-weight: 900; margin: 20px 0;">400 MB</div>
-                    <p style="color: var(--blue); font-weight: bold; margin-bottom: 25px;">WI-FI 6 + SUPORTE VIP</p>
-                    <a href="https://wa.me/5593992282874" class="btn">ASSINAR AGORA</a>
-                </div>
-                <div class="price-card">
-                    <h3 style="font-family: 'Orbitron';">SEGURANÇA</h3>
-                    <div style="font-size: 1.5rem; margin: 20px 0;">CCTV & ALARMES</div>
-                    <p style="color: var(--gray); margin-bottom: 25px;">Monitoramento via App e integração total com sua rede.</p>
-                    <a href="https://wa.me/5593992282874" class="btn" style="background: #222;">SOLICITAR ORÇAMENTO</a>
-                </div>
+    <section class="section-box">
+        <h2 class="section-title">PLANOS DE ACESSO</h2>
+        <div class="plan-grid">
+            <div class="plan-card">
+                <h5>RESIDENCIAL</h5>
+                <div class="price">R$ 99<span>/mês</span></div>
+                <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
+                <p style="color: #666; margin-bottom: 20px;">Ideal para navegação padrão e streaming em HD.</p>
+                <a href="https://wa.me/5593992282874" class="btn-link">ATIVAR AGORA</a>
+            </div>
+            <div class="plan-card highlight">
+                <div style="background:var(--red); position:absolute; top:0; left:0; width:100%; font-size:0.7rem; padding:5px; font-weight:bold;">MAIS SOLICITADO</div>
+                <h5 style="margin-top: 15px;">GAMER PRO</h5>
+                <div class="price">R$ 149<span>/mês</span></div>
+                <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
+                <p style="color: #666; margin-bottom: 20px;">Ultra Velocidade com <b>IP Público</b> e Latência Zero.</p>
+                <a href="https://wa.me/5593992282874" class="btn-link">ATIVAR AGORA</a>
+            </div>
+            <div class="plan-card">
+                <h5>EMPRESARIAL</h5>
+                <div class="price">CONSULTE</div>
+                <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
+                <p style="color: #666; margin-bottom: 20px;">Link Dedicado com <b>SLA de 99.9%</b> e suporte VIP.</p>
+                <a href="https://wa.me/5593992282874" class="btn-link" style="background:#222;">SOLICITAR COTAÇÃO</a>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="container">
-            <p style="font-family: 'Orbitron'; letter-spacing: 2px;">WKB TELECOM & SEGURANÇA</p>
-            <p style="color: #444; font-size: 0.8rem; margin-top: 10px;">Belterra - Pará | © 2022-2026</p>
-            <p style="color: var(--red); font-size: 0.7rem;">Responsável Técnico: Welliton</p>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-whatsapp"></i></a>
-                <a href="#"><i class="fab fa-github"></i></a>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h6>WKB SISTEMAS</h6>
+                <p style="color:#555; font-size:0.9rem;">Líder em tecnologia de infraestrutura e segurança no estado do Pará. Engenharia de precisão para quem não aceita falhas.</p>
+            </div>
+            <div class="footer-col">
+                <h6>CONTATOS DE EMERGÊNCIA</h6>
+                <a href="tel:5593992282874" class="contact-link"><i class="fas fa-phone"></i> (93) 99228-2874</a>
+                <a href="mailto:contato@wkbsistemas.com.br" class="contact-link"><i class="fas fa-envelope"></i> contato@wkbsistemas.com.br</a>
+                <p class="contact-link"><i class="fas fa-map-marker-alt"></i> Belterra / Santarém - PA</p>
+            </div>
+            <div class="footer-col">
+                <h6>SIGA AS OPERAÇÕES</h6>
+                <div class="social-row">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
             </div>
         </div>
+        <center style="border-top: 1px solid #111; padding-top: 40px; color: #333; font-size: 0.7rem; font-family: 'JetBrains Mono';">
+            BUILD_ID: 15478-WKB | TEC. RESPONSÁVEL: WELLITON | © 2026
+        </center>
     </footer>
 </div>
 
 <script>
-    const canvas = document.getElementById('bgCanvas');
+    // Animação Neural Background
+    const canvas = document.getElementById('neural');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    let particles = [];
-    let mouse = { x: null, y: null, radius: 150 };
-
-    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
-    window.addEventListener('touchstart', (e) => { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; });
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = 2;
-            this.baseX = this.x;
-            this.baseY = this.y;
-            this.density = (Math.random() * 30) + 5;
-        }
-        draw() {
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.8)';
-            ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-        }
-        update() {
-            let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            if (distance < mouse.radius) {
-                this.x -= (dx / distance) * (mouse.radius - distance) / 5;
-                this.y -= (dy / distance) * (mouse.radius - distance) / 5;
-            } else {
-                if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 10;
-                if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 10;
-            }
-        }
+    let points = [];
+    for(let i=0; i<100; i++) {
+        points.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 1.5, vy: (Math.random() - 0.5) * 1.5 });
     }
-
-    function init() { particles = []; for (let i = 0; i < 120; i++) particles.push(new Particle()); }
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update(); particles[i].draw();
-            for (let j = i; j < particles.length; j++) {
-                let dx = particles[i].x - particles[j].x;
-                let dy = particles[i].y - particles[j].y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 110) {
-                    ctx.strokeStyle = 'rgba(255, 0, 0, ' + (1 - distance/110) + ')';
-                    ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(255,0,0,0.5)';
+        points.forEach(p => {
+            p.x += p.vx; p.y += p.vy;
+            if(p.x<0 || p.x>canvas.width) p.vx *= -1;
+            if(p.y<0 || p.y>canvas.height) p.vy *= -1;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2); ctx.fill();
+            points.forEach(p2 => {
+                let dist = Math.hypot(p.x-p2.x, p.y-p2.y);
+                if(dist < 100) {
+                    ctx.strokeStyle = `rgba(0,242,255,${0.2 - dist/100})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
                 }
-            }
-        }
-        requestAnimationFrame(animate);
+            });
+        });
+        requestAnimationFrame(draw);
     }
-    init(); animate();
-    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); });
+    draw();
+    window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 </script>
 </body>
 </html>
