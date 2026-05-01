@@ -76,8 +76,8 @@
 <div class="swiper mySwiper">
     <div class="swiper-wrapper">
         <div class="swiper-slide"><img src="banner1.png" alt="Banner Planos WKB"></div>
-        <div class="swiper-slide"><img src="banner2.jpg" alt="Banner Segurança Eletrônica"></div>
-        <div class="swiper-slide"><img src="banner3.jpg" alt="Banner Energia Solar"></div>
+        <div class="swiper-slide"><img src="banner2.png" alt="Banner Segurança Eletrônica"></div>
+        <div class="swiper-slide"><img src="banner3.png" alt="Banner Energia Solar"></div>
     </div>
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
@@ -252,7 +252,6 @@
 <script>
     AOS.init({ duration: 800, once: true });
 
-    // Configuração do Slider
     var swiper = new Swiper(".mySwiper", {
         loop: true,
         autoplay: { delay: 4000, disableOnInteraction: false },
@@ -260,7 +259,6 @@
         navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
     });
 
-    // Função para enviar os dados completos para o seu WhatsApp
     function enviarWhatsApp() {
         const nome = document.getElementById('nome').value;
         const empresa = document.getElementById('empresa').value || "Não informada";
