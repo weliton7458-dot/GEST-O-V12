@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB TELECOM | Oficial v12.0</title>
+    <title>WKB TELECOM | SERVIÇOS TI</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -33,12 +33,13 @@
         @keyframes pulseProject { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.05); opacity: 1; } }
 
         .hero-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; }
-        @media (min-width: 768px) { .hero-btns { flex-direction: row; max-width: 450px; } }
+        @media (min-width: 768px) { .hero-btns { flex-direction: row; max-width: 450px; flex-wrap: wrap; justify-content: center; } }
 
         /* BOTÕES */
         .btn { padding: 15px 25px; border-radius: 10px; font-family: 'Orbitron'; font-weight: bold; text-decoration: none; transition: 0.3s; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; border: none; }
         .btn-blue { background: var(--blue); color: #000; }
         .btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+        .btn-client { background: #ffffff; color: #000; width: 100%; max-width: 300px; margin-top: 10px; }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0, 242, 255, 0.2); }
 
         /* SEÇÕES GERAIS */
@@ -46,7 +47,7 @@
         h2 { font-family: 'Orbitron'; font-size: 1.8rem; margin-bottom: 35px; text-align: center; letter-spacing: 2px; color: var(--blue); }
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); }
 
-        /* GRID DE SERVIÇOS (COM DESCRIÇÃO COMPLETA) */
+        /* GRID DE SERVIÇOS */
         .grid-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         .service-item { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
         .service-item:hover { border-color: var(--blue); background: rgba(0, 242, 255, 0.04); transform: translateY(-5px); }
@@ -54,7 +55,7 @@
         .service-item h3 { font-family: 'Orbitron'; font-size: 1rem; margin-bottom: 12px; }
         .service-item p { font-size: 0.9rem; color: #bbb; text-align: justify; }
 
-        /* PLANOS (DETALHADOS) */
+        /* PLANOS */
         .plan-card { text-align: center; border-top: 4px solid var(--blue); }
         .plan-price { font-size: 2.5rem; font-weight: 800; margin: 15px 0; color: var(--blue); }
         .plan-features { list-style: none; margin-bottom: 25px; font-size: 0.95rem; color: #ddd; }
@@ -89,6 +90,9 @@
     <div class="hero-btns" data-aos="fade-up">
         <a href="#planos" class="btn btn-blue">ASSINAR INTERNET</a>
         <a href="#contato" class="btn btn-outline">ORÇAMENTO TÉCNICO</a>
+        <a href="https://wkbtelecom.centralassinante.com.br/#/login" target="_blank" class="btn btn-client">
+            <i class="fas fa-user-lock"></i> ÁREA DO CLIENTE (BOLETOS)
+        </a>
     </div>
 </section>
 
@@ -171,10 +175,10 @@
     <h2 data-aos="fade-up">PLANOS BANDA LARGA</h2>
     <div class="grid-services">
         <div class="glass-card plan-card" data-aos="zoom-in">
-            <h3>RESIDENCIAL</h3>
+            <h3>RESIDENCIAL 400 MEGA</h3>
             <div class="plan-price">R$ 99<span style="font-size:1rem">/mês</span></div>
             <ul class="plan-features">
-                <li>Internet 100% Ilimitada</li>
+                <li>Internet 100% fibra óptica</li>
                 <li>Wi-Fi Dual Band Incluso</li>
                 <li>Equipamentos em Comodato</li>
                 <li>Suporte Local em Belterra</li>
@@ -182,8 +186,8 @@
             <a href="#contato" class="btn btn-blue" style="width: 100%;">ASSINAR AGORA</a>
         </div>
         <div class="glass-card plan-card" data-aos="zoom-in" data-aos-delay="200" style="border-top-color: var(--red)">
-            <h3 style="color: var(--red)">GAMER PRO</h3>
-            <div class="plan-price" style="color:var(--red)">R$ 149<span style="font-size:1rem; color:#fff">/mês</span></div>
+            <h3 style="color: var(--red)">ULTRA ILIMITADO</h3>
+            <div class="plan-price" style="color:var(--green)">R$ 149<span style="font-size:1rem; color:#fff">/mês</span></div>
             <ul class="plan-features">
                 <li>Ultra Performance Ilimitada</li>
                 <li>Menor Latência (Ping Zero)</li>
@@ -230,17 +234,17 @@
 <footer>
     <div class="footer-grid">
         <div>
-            <h3 style="color:var(--blue); font-family: 'Orbitron';">WKB TELECOM</h3>
-            <p style="margin-top:10px; opacity:0.7">Tecnologia avançada em Belterra, Santarém e toda a região do Tapajós.</p>
+            <h3 style="color:var(--blue); font-family: 'Orbitron';">WKB CONECTIVIDADE E SEGURANÇA</h3>
+            <p style="margin-top:10px; opacity:0.7">Tecnologia avançada em Belterra e toda a região do Tapajós.</p>
         </div>
         <div>
             <h4 style="font-family: 'Orbitron'; font-size: 0.8rem;">CONTATO</h4>
-            <p>WhatsApp: (93) 99228-2874</p>
-            <p>Técnico: Welliton</p>
+            <p>WhatsApp Comercial: (93) 99228-2874</p>
+            <p>Técnico TI: Welliton</p>
         </div>
         <div>
             <h4 style="font-family: 'Orbitron'; font-size: 0.8rem;">LOCALIZAÇÃO</h4>
-            <p>Atendimento Local e Remoto</p>
+            <p>Nitinha Lobo N° 259 Henry Ford, 68.143-000</p>
             <p>Belterra - Pará</p>
         </div>
     </div>
@@ -270,7 +274,7 @@
             return;
         }
 
-        const msg = `*NOVO ORÇAMENTO - WKB TELECOM*%0A%0A` +
+        const msg = `*ORÇAMENTO PARA O CLIENTE*%0A%0A` +
                     `*Nome:* ${nome}%0A` +
                     `*Empresa:* ${empresa}%0A` +
                     `*WhatsApp:* ${telefone}%0A` +
