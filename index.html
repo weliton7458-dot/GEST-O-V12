@@ -51,11 +51,49 @@
         h2 { font-family: 'Orbitron'; font-size: 1.8rem; margin-bottom: 35px; text-align: center; letter-spacing: 2px; color: var(--blue); }
         .glass-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); }
 
-        /* GRID DE SERVIÇOS */
+        /* ÍCONES REALISTAS 3D */
         .grid-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .service-item { background: rgba(255,255,255,0.02); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
-        .service-item:hover { border-color: var(--blue); background: rgba(0, 242, 255, 0.04); transform: translateY(-5px); }
-        .service-item i { font-size: 2rem; color: var(--blue); margin-bottom: 20px; }
+        .service-item { 
+            background: rgba(255,255,255,0.02); 
+            padding: 35px 25px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            text-align: center;
+        }
+        .service-item:hover { 
+            border-color: var(--blue); 
+            background: rgba(0, 242, 255, 0.04); 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        /* CONTAINER DO ÍCONE 3D */
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: linear-gradient(145deg, #0a1f3d, #000a1a);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                8px 8px 16px #010812, 
+                -4px -4px 12px rgba(255,255,255,0.03),
+                inset 2px 2px 4px rgba(255,255,255,0.05);
+            border: 1px solid rgba(0, 242, 255, 0.15);
+            position: relative;
+        }
+        .service-item i { 
+            font-size: 2.2rem; 
+            color: #fff;
+            filter: drop-shadow(0 0 8px var(--blue));
+            background: linear-gradient(135deg, #fff, var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .service-item h3 { font-family: 'Orbitron'; font-size: 1rem; margin-bottom: 12px; }
         .service-item p { font-size: 0.9rem; color: #bbb; text-align: justify; }
 
@@ -89,6 +127,20 @@
     <div class="swiper-pagination"></div>
 </div>
 
+<section class="container" style="padding-top: 25px; padding-bottom: 25px;">
+    <div class="glass-card" style="padding: 15px; border-color: var(--blue); position: relative; overflow: hidden;" data-aos="fade-up">
+        <div style="font-family: 'Orbitron'; font-size: 0.7rem; color: var(--blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-play-circle"></i> DESTAQUE WKB
+        </div>
+        <div style="width: 100%; border-radius: 12px; overflow: hidden; line-height: 0; background: #000;">
+            <video width="100%" height="auto" controls autoplay muted loop style="border-radius: 10px; box-shadow: 0 0 25px rgba(0, 242, 255, 0.15);">
+                <source src="seu-video-anuncio.mp4" type="video/mp4">
+                Seu navegador não suporta vídeos.
+            </video>
+        </div>
+    </div>
+</section>
+
 <section class="hero">
     <img src="logo.png" alt="WKB Conectividade e Segurança" class="projection-logo" data-aos="zoom-in">
     <div class="hero-btns" data-aos="fade-up">
@@ -113,62 +165,62 @@
     <h2 data-aos="fade-up">NOSSOS SERVIÇOS EM BELTERRA</h2>
     <div class="grid-services">
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-camera"></i>
+            <div class="icon-wrapper"><i class="fas fa-camera"></i></div>
             <h3>SEGURANÇA ELETRÔNICA</h3>
             <p>Sistemas CFTV IP e Analógicos com gravação inteligente e acesso em tempo real pelo seu smartphone em Belterra e região.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-bell"></i>
+            <div class="icon-wrapper"><i class="fas fa-bell"></i></div>
             <h3>ALARMES</h3>
             <p>Proteção perimetral com sensores de alta sensibilidade e disparo direto no celular via aplicativo em caso de invasão.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-solar-panel"></i>
+            <div class="icon-wrapper"><i class="fas fa-solar-panel"></i></div>
             <h3>ENERGIA SOLAR</h3>
             <p>Projetos fotovoltaicos completos para redução drástica na sua conta de energia com tecnologia sustentável em Belterra.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-code"></i>
+            <div class="icon-wrapper"><i class="fas fa-code"></i></div>
             <h3>SITES E SISTEMAS</h3>
             <p>Desenvolvimento de sites profissionais e sistemas de gestão sob medida para automatizar e profissionalizar seu negócio.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-network-wired"></i>
+            <div class="icon-wrapper"><i class="fas fa-network-wired"></i></div>
             <h3>CONFIGURAÇÃO MIKROTIK</h3>
             <p>Otimização de rede, firewall, load balance e controle rigoroso de banda para provedores de internet e empresas.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-satellite-dish"></i>
+            <div class="icon-wrapper"><i class="fas fa-satellite-dish"></i></div>
             <h3>INTERNET VIA FIBRA</h3>
             <p>Internet banda larga ilimitada via Fibra Óptica ou Satélite (Starlink), garantindo conexão estável em qualquer lugar de Belterra.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-door-open"></i>
+            <div class="icon-wrapper"><i class="fas fa-door-open"></i></div>
             <h3>MOTOR DE PORTÃO</h3>
             <p>Instalação de motores rápidos e ultrarrápidos com garantia de durabilidade e máxima segurança no acesso à sua garagem.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-fingerprint"></i>
+            <div class="icon-wrapper"><i class="fas fa-fingerprint"></i></div>
             <h3>FECHADURA & ELETROÍMÃ</h3>
             <p>Controle de acesso moderno por biometria, tags ou senhas, integrados com travas magnéticas de alta pressão.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-mobile-alt"></i>
+            <div class="icon-wrapper"><i class="fas fa-mobile-alt"></i></div>
             <h3>MANUTENÇÃO CELULAR</h3>
             <p>Reparos especializados em hardware, software e desbloqueio profissional de dispositivos móveis com garantia técnica.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-server"></i>
+            <div class="icon-wrapper"><i class="fas fa-server"></i></div>
             <h3>ORGANIZAÇÃO DE RACK</h3>
             <p>Certificação de cabeamento estruturado, identificação técnica e organização profissional de switches e servidores.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-plus-circle"></i>
+            <div class="icon-wrapper"><i class="fas fa-plus-circle"></i></div>
             <h3>PONTO ADICIONAL</h3>
             <p>Extensão estratégica da sua rede via cabo ou Wi-Fi Mesh para eliminar de vez os pontos cegos de sinal na sua cobertura.</p>
         </div>
         <div class="service-item" data-aos="fade-up">
-            <i class="fas fa-tools"></i>
+            <div class="icon-wrapper"><i class="fas fa-tools"></i></div>
             <h3>SUPORTE TÉCNICO</h3>
             <p>Assistência especializada para resolver qualquer falha tecnológica com a rapidez que o seu dia a dia exige.</p>
         </div>
