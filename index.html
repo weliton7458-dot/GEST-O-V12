@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB Telecom | Internet Fibra, Starlink e Soluções Tecnológicas</title>
+    <title>WKB Telecom | Internet Fibra, Starlink e Segurança Eletrônica</title>
     
     <meta name="description" content="Internet fibra óptica, Starlink via satélite com hostport, segurança eletrônica, energia solar e redes em Belterra, Santarém e região.">
     <meta name="keywords" content="internet belterra, fibra óptica, starlink, internet para barcos, segurança eletrônica, energia solar, redes mikrotik, cftv, alarmes">
     <meta name="author" content="Welliton - WKB Telecom">
 
-    <!-- Recursos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -77,7 +76,6 @@
             z-index: -1;
         }
 
-        /* Navbar */
         nav {
             position: fixed;
             top: 0;
@@ -170,7 +168,6 @@
             color: var(--primary-light);
         }
 
-        /* Banner com Carrossel */
         .banner {
             position: relative;
             min-height: 100vh;
@@ -416,7 +413,6 @@
             border-radius: 2px;
         }
 
-        /* Grid de Serviços */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -489,7 +485,6 @@
             line-height: 1.85;
         }
 
-        /* Planos */
         .plans-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
@@ -738,7 +733,6 @@
 <div class="bg-particles"></div>
 <div class="overlay"></div>
 
-<!-- Navbar -->
 <nav id="navbar">
     <a href="#" class="logo">
         <img src="logo.png" alt="WKB Telecom" class="logo-img">
@@ -757,27 +751,29 @@
     </div>
 </nav>
 
-<!-- Banner com Carrossel -->
+<!-- Carrossel corrigido com arquivos do repositório -->
 <section class="banner" id="inicio">
     <div class="carousel">
         <div class="carousel-slide active">
-            <video muted loop playsinline preload="metadata">
+            <video muted loop playsinline preload="auto">
                 <source src="video1.mp4" type="video/mp4">
+                Vídeo não suportado pelo navegador
             </video>
         </div>
         <div class="carousel-slide">
-            <img src="banner1.png" alt="Internet Fibra Óptica">
+            <img src="banner1.png" alt="Internet Fibra Óptica" loading="lazy">
         </div>
         <div class="carousel-slide">
-            <img src="banner2.png" alt="Starlink Internet">
+            <img src="banner2.png" alt="Starlink Internet" loading="lazy">
         </div>
         <div class="carousel-slide">
-            <video muted loop playsinline preload="metadata">
+            <video muted loop playsinline preload="auto">
                 <source src="video2.mp4" type="video/mp4">
+                Vídeo não suportado pelo navegador
             </video>
         </div>
         <div class="carousel-slide">
-            <img src="banner3.png" alt="Segurança Eletrônica">
+            <img src="banner3.png" alt="Segurança Eletrônica" loading="lazy">
         </div>
     </div>
 
@@ -807,7 +803,6 @@
     </div>
 </section>
 
-<!-- Serviços atualizados conforme banner -->
 <section class="container" id="servicos">
     <h2 class="section-title">NOSSOS SERVIÇOS</h2>
     <div class="services-grid">
@@ -919,7 +914,6 @@
     </div>
 </section>
 
-<!-- Planos -->
 <section class="container" id="planos">
     <h2 class="section-title">NOSSOS PLANOS</h2>
     <div class="plans-grid">
@@ -941,7 +935,7 @@
             <h3 class="plan-name">ULTRA VELOZ</h3>
             <div class="plan-price">R$ 149<span>/mês</span></div>
             <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> 800 Mega de Velocidade</li>
+                <li><i class="fa-solid fa-check"></i> ILIMITADO</li>
                 <li><i class="fa-solid fa-check"></i> Latência Mínima</li>
                 <li><i class="fa-solid fa-check"></i> Roteador Gigabit Premium</li>
                 <li><i class="fa-solid fa-check"></i> Prioridade no Atendimento</li>
@@ -991,30 +985,25 @@
     </div>
 </section>
 
-<!-- Sobre -->
 <section class="container" id="sobre">
     <h2 class="section-title">SOBRE A WKB TELECOM</h2>
-    <div class="form-container" style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px; padding: 3rem; backdrop-filter: blur(12px); max-width: 750px; margin: 0 auto;">
+    <div style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px; padding: 3rem; backdrop-filter: blur(12px); max-width: 750px; margin: 0 auto;">
         <p style="text-align: center; font-size: 1.1rem; color: var(--text-muted); line-height: 1.9;">
             Fundada e liderada pelo técnico <strong style="color: var(--primary);">Welliton</strong>, a WKB Telecom é referência em tecnologia e segurança eletrônica em Santarém, Belterra, Alter do Chão e região. Trabalhamos com as melhores marcas do mercado como Intelbras, Hikvision, Rossi, Garen e JFL, oferecendo soluções completas e personalizadas para cada necessidade. Nosso compromisso é levar tecnologia de qualidade, com atendimento especializado e suporte que você pode confiar.
         </p>
     </div>
 </section>
 
-<!-- Contato -->
 <section class="container" id="contato">
     <h2 class="section-title">ENTRE EM CONTATO</h2>
-    <div class="form-container">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <p style="font-size: 1.2rem; margin-bottom: 1rem;"><i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.5rem; margin-right: 0.5rem;"></i> (93) 99228-2874</p>
-            <p style="margin-bottom: 1rem;"><i class="fa-solid fa-map-marker-alt" style="color: var(--primary); margin-right: 0.5rem;"></i> Atendimento para: Santarém, Belterra, Alter do Chão e Mujuí dos Campos</p>
-            <p style="margin-bottom: 2rem; font-style: italic;">Sua segurança e conexão, nossa prioridade!</p>
-            <a href="https://wa.me/5593992282874" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar Agora no WhatsApp</a>
-        </div>
+    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+        <p style="font-size: 1.2rem; margin-bottom: 1rem;"><i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.5rem; margin-right: 0.5rem;"></i> (93) 99119-2244</p>
+        <p style="margin-bottom: 1rem;"><i class="fa-solid fa-map-marker-alt" style="color: var(--primary); margin-right: 0.5rem;"></i> Atendimento para: Santarém, Belterra, Alter do Chão e Mujuí dos Campos</p>
+        <p style="margin-bottom: 2rem; font-style: italic;">Sua segurança e conexão, nossa prioridade!</p>
+        <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar Agora no WhatsApp</a>
     </div>
 </section>
 
-<!-- Rodapé -->
 <footer>
     <div class="footer-grid">
         <div class="footer-col">
@@ -1036,7 +1025,7 @@
         </div>
         <div class="footer-col">
             <h3>CONTATO</h3>
-            <p><i class="fa-brands fa-whatsapp"></i> (93) 99228-2874</p>
+            <p><i class="fa-brands fa-whatsapp"></i> (93) 99119-2244</p>
             <p><i class="fa-solid fa-map-marker-alt"></i> Santarém, Belterra, Alter do Chão e Mujuí dos Campos</p>
             <p><i class="fa-solid fa-clock"></i> Atendimento de segunda a sábado</p>
         </div>
@@ -1046,46 +1035,69 @@
     </div>
 </footer>
 
-<a href="https://wa.me/5593992282874" class="whatsapp-float" target="_blank">
+<a href="https://wa.me/5593991192244" class="whatsapp-float" target="_blank">
     <i class="fa-brands fa-whatsapp"></i>
 </a>
 
 <script>
-    // Menu Mobile
     const menuBtn = document.getElementById('menuBtn');
     const navLinks = document.getElementById('navLinks');
     menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-    // Carrossel
     const slides = document.querySelectorAll('.carousel-slide');
     const indicators = document.querySelectorAll('.indicator');
     const prevBtn = document.querySelector('.prev-btn');
     const nextBtn = document.querySelector('.next-btn');
     let currentSlide = 0;
     let slideInterval;
+    const slideDelay = 7000;
 
     function showSlide(index) {
+        document.querySelectorAll('.carousel-slide video').forEach(vid => vid.pause());
+        
         slides.forEach(slide => slide.classList.remove('active'));
         indicators.forEach(ind => ind.classList.remove('active'));
+        
         currentSlide = (index + slides.length) % slides.length;
+        
         slides[currentSlide].classList.add('active');
         indicators[currentSlide].classList.add('active');
+        
+        const activeVideo = slides[currentSlide].querySelector('video');
+        if (activeVideo) {
+            activeVideo.play().catch(err => console.log("Reprodução automática:", err));
+        }
     }
 
     function nextSlide() { showSlide(currentSlide + 1); }
     function prevSlide() { showSlide(currentSlide - 1); }
 
-    prevBtn.addEventListener('click', () => { clearInterval(slideInterval); prevSlide(); startInterval(); });
-    nextBtn.addEventListener('click', () => { clearInterval(slideInterval); nextSlide(); startInterval(); });
-    indicators.forEach((ind, i) => ind.addEventListener('click', () => { clearInterval(slideInterval); showSlide(i); startInterval(); }));
+    prevBtn.addEventListener('click', () => {
+        clearInterval(slideInterval);
+        prevSlide();
+        startAutoSlide();
+    });
 
-    function startInterval() { slideInterval = setInterval(nextSlide, 6000); }
-    startInterval();
+    nextBtn.addEventListener('click', () => {
+        clearInterval(slideInterval);
+        nextSlide();
+        startAutoSlide();
+    });
 
-    // FAQ
-    function toggleFaq(el) {
-        const resposta = el.nextElementSibling;
-        const icone = el.querySelector('i');
-        if (resposta.style.display === 'block') {
-            resposta.style.display = 'none';
-            icone.style.transform = 'rotate
+    indicators.forEach((ind, i) => {
+        ind.addEventListener('click', () => {
+            clearInterval(slideInterval);
+            showSlide(i);
+            startAutoSlide();
+        });
+    });
+
+    function startAutoSlide() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(nextSlide, slideDelay);
+    }
+
+    window.addEventListener('load', () => {
+        showSlide(0);
+        startAutoSlide();
+   
