@@ -740,7 +740,7 @@
 
 <nav id="navbar">
     <a href="#" class="logo">
-        <img src="https://raw.githubusercontent.com/welton7458-dot/GI/main/logo.png" alt="WKB Telecom" class="logo-img">
+        <img src="logo.png" alt="WKB Telecom" class="logo-img">
         <span class="logo-text">WKB <span>TELECOM</span></span>
     </a>
     <div class="menu-btn" id="menuBtn">
@@ -756,29 +756,27 @@
     </ul>
 </nav>
 
-<!-- Carrossel com links diretos do GitHub -->
+<!-- Carrossel com caminhos originais (como no código que funcionava) -->
 <section class="banner" id="inicio">
     <div class="carousel">
         <div class="carousel-slide active">
-            <video muted loop playsinline preload="auto" poster="https://raw.githubusercontent.com/welton7458-dot/GI/main/banner1.png">
-                <source src="https://raw.githubusercontent.com/welton7458-dot/GI/main/video1.mp4" type="video/mp4">
-                Seu navegador não suporta vídeo.
+            <video muted loop playsinline preload="auto" poster="banner1.png">
+                <source src="video1.mp4" type="video/mp4">
             </video>
         </div>
         <div class="carousel-slide">
-            <img src="https://raw.githubusercontent.com/welton7458-dot/GI/main/banner1.png" alt="Internet Fibra Óptica" loading="lazy">
+            <img src="banner1.png" alt="Internet Fibra Óptica" loading="lazy">
         </div>
         <div class="carousel-slide">
-            <img src="https://raw.githubusercontent.com/welton7458-dot/GI/main/banner2.png" alt="Starlink Internet" loading="lazy">
+            <img src="banner2.png" alt="Starlink Internet" loading="lazy">
         </div>
         <div class="carousel-slide">
-            <video muted loop playsinline preload="auto" poster="https://raw.githubusercontent.com/welton7458-dot/GI/main/banner2.png">
-                <source src="https://raw.githubusercontent.com/welton7458-dot/GI/main/video2.mp4" type="video/mp4">
-                Seu navegador não suporta vídeo.
+            <video muted loop playsinline preload="auto" poster="banner2.png">
+                <source src="video2.mp4" type="video/mp4">
             </video>
         </div>
         <div class="carousel-slide">
-            <img src="https://raw.githubusercontent.com/welton7458-dot/GI/main/banner3.png" alt="Segurança Eletrônica" loading="lazy">
+            <img src="banner3.png" alt="Segurança Eletrônica" loading="lazy">
         </div>
     </div>
 
@@ -1041,4 +1039,31 @@
 </footer>
 
 <a href="https://wa.me/5593991192244" class="whatsapp-float" target="_blank">
-    <i class="fa-brands
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+    const slides = document.querySelectorAll('.carousel-slide');
+    const indicators = document.querySelectorAll('.indicator');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentSlide = 0;
+    let slideInterval;
+    const slideDelay = 7000;
+
+    function showSlide(index) {
+        document.querySelectorAll('.carousel-slide video').forEach(vid => vid.pause());
+        
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(ind => ind.classList.remove('active'));
+        
+        currentSlide = (index + slides.length) % slides.length;
+        
+        slides[currentSlide].classList.add('active');
+        indicators[currentSlide].classList.add('active');
+        
+        const activeVideo = slide
