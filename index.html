@@ -186,6 +186,7 @@
             width: 100%;
             height: 100%;
             z-index: -2;
+            background: #0a0e27;
         }
 
         .carousel-slide {
@@ -207,6 +208,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            background: #0a0e27;
         }
 
         .carousel-controls {
@@ -469,6 +471,7 @@
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .service-card h3 {
@@ -548,6 +551,7 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 2.2rem;
         }
 
@@ -596,6 +600,7 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1.6rem;
             font-size: 1.25rem;
             font-weight: 700;
@@ -738,6 +743,9 @@
         <img src="logo.png" alt="WKB Telecom" class="logo-img">
         <span class="logo-text">WKB <span>TELECOM</span></span>
     </a>
+    <div class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+    </div>
     <ul class="nav-links" id="navLinks">
         <li><a href="#inicio">Início</a></li>
         <li><a href="#servicos">Serviços</a></li>
@@ -746,34 +754,29 @@
         <li><a href="#contato">Contato</a></li>
         <li><a href="https://wkbtelecom.centralassinante.com.br/#/login" target="_blank" class="btn-cliente">ÁREA DO CLIENTE</a></li>
     </ul>
-    <div class="menu-btn" id="menuBtn">
-        <i class="fa-solid fa-bars"></i>
-    </div>
 </nav>
 
-<!-- Carrossel corrigido com arquivos do repositório -->
+<!-- Carrossel corrigido -->
 <section class="banner" id="inicio">
     <div class="carousel">
         <div class="carousel-slide active">
-            <video muted loop playsinline preload="auto">
+            <video muted loop playsinline preload="auto" poster="banner1.png">
                 <source src="video1.mp4" type="video/mp4">
-                Vídeo não suportado pelo navegador
             </video>
         </div>
         <div class="carousel-slide">
-            <img src="banner1.png" alt="Internet Fibra Óptica" loading="lazy">
+            <img src="banner1.png" alt="Internet Fibra Óptica" loading="lazy" onerror="this.style.display='none'">
         </div>
         <div class="carousel-slide">
-            <img src="banner2.png" alt="Starlink Internet" loading="lazy">
+            <img src="banner2.png" alt="Starlink Internet" loading="lazy" onerror="this.style.display='none'">
         </div>
         <div class="carousel-slide">
-            <video muted loop playsinline preload="auto">
+            <video muted loop playsinline preload="auto" poster="banner2.png">
                 <source src="video2.mp4" type="video/mp4">
-                Vídeo não suportado pelo navegador
             </video>
         </div>
         <div class="carousel-slide">
-            <img src="banner3.png" alt="Segurança Eletrônica" loading="lazy">
+            <img src="banner3.png" alt="Segurança Eletrônica" loading="lazy" onerror="this.style.display='none'">
         </div>
     </div>
 
@@ -798,7 +801,7 @@
         <div class="banner-buttons">
             <a href="#planos" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Ver Planos</a>
             <a href="#servicos" class="btn btn-outline"><i class="fa-solid fa-shield"></i> Conhecer Serviços</a>
-            <a href="https://wa.me/5593992282874" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp</a>
+            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp</a>
         </div>
     </div>
 </section>
@@ -884,7 +887,7 @@
         <div class="service-card">
             <div class="icon-box"><i class="fa-solid fa-lock"></i></div>
             <h3>FECHADURAS E TRAVAS</h3>
-            <p>Fechaduras eletrônicas, travas magnéticas e elétricas, segurança sem controle, para portas de madeira e vidro.</p>
+            <p>Fechaduras eletrônicas, travas magnéticas e elétricas, segurança sem contato, para portas de madeira e vidro.</p>
         </div>
         <div class="service-card">
             <div class="icon-box"><i class="fa-solid fa-fire"></i></div>
@@ -927,7 +930,7 @@
                 <li><i class="fa-solid fa-check"></i> Suporte Técnico</li>
                 <li><i class="fa-solid fa-check"></i> Instalação Rápida</li>
             </ul>
-            <a href="#contato" class="btn btn-primary w-100">ASSINAR AGORA</a>
+            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">ASSINAR AGORA</a>
         </div>
 
         <div class="plan-card popular">
@@ -935,13 +938,13 @@
             <h3 class="plan-name">ULTRA VELOZ</h3>
             <div class="plan-price">R$ 149<span>/mês</span></div>
             <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> ILIMITADO</li>
+                <li><i class="fa-solid fa-check"></i> 800 Mega de Velocidade</li>
                 <li><i class="fa-solid fa-check"></i> Latência Mínima</li>
                 <li><i class="fa-solid fa-check"></i> Roteador Gigabit Premium</li>
                 <li><i class="fa-solid fa-check"></i> Prioridade no Atendimento</li>
                 <li><i class="fa-solid fa-check"></i> Garantia de Estabilidade</li>
             </ul>
-            <a href="#contato" class="btn btn-primary w-100">ASSINAR PRO</a>
+            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">ASSINAR PRO</a>
         </div>
 
         <div class="plan-card">
@@ -954,7 +957,7 @@
                 <li><i class="fa-solid fa-check"></i> Cobertura em toda Amazônia</li>
                 <li><i class="fa-solid fa-check"></i> Suporte especializado</li>
             </ul>
-            <a href="#contato" class="btn btn-primary w-100">SOLICITAR ORÇAMENTO</a>
+            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">SOLICITAR ORÇAMENTO</a>
         </div>
 
         <div class="plan-card">
@@ -967,7 +970,7 @@
                 <li><i class="fa-solid fa-check"></i> Equipamento resistente</li>
                 <li><i class="fa-solid fa-check"></i> Suporte durante navegação</li>
             </ul>
-            <a href="#contato" class="btn btn-primary w-100">SOLICITAR PROJETO</a>
+            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">SOLICITAR PROJETO</a>
         </div>
 
         <div class="plan-card">
@@ -980,7 +983,7 @@
                 <li><i class="fa-solid fa-check"></i> Rede Otimizada</li>
                 <li><i class="fa-solid fa-check"></i> Contrato Flexível</li>
             </ul>
-            <a href="#contato" class="btn btn-primary w-100">SOLICITAR</a>
+            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">SOLICITAR</a>
         </div>
     </div>
 </section>
@@ -1012,7 +1015,7 @@
             <div class="social-links">
                 <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
                 <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="https://wa.me/5593991192244" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
             </div>
         </div>
         <div class="footer-col">
@@ -1026,7 +1029,7 @@
         <div class="footer-col">
             <h3>CONTATO</h3>
             <p><i class="fa-brands fa-whatsapp"></i> (93) 99119-2244</p>
-            <p><i class="fa-solid fa-map-marker-alt"></i> Santarém, Belterra, Alter do Chão e Mujuí dos Campos</p>
+            <p><i class="fa-solid fa-map-marker-alt"></i> Santarém, Belterra e região</p>
             <p><i class="fa-solid fa-clock"></i> Atendimento de segunda a sábado</p>
         </div>
     </div>
@@ -1070,34 +1073,4 @@
     }
 
     function nextSlide() { showSlide(currentSlide + 1); }
-    function prevSlide() { showSlide(currentSlide - 1); }
-
-    prevBtn.addEventListener('click', () => {
-        clearInterval(slideInterval);
-        prevSlide();
-        startAutoSlide();
-    });
-
-    nextBtn.addEventListener('click', () => {
-        clearInterval(slideInterval);
-        nextSlide();
-        startAutoSlide();
-    });
-
-    indicators.forEach((ind, i) => {
-        ind.addEventListener('click', () => {
-            clearInterval(slideInterval);
-            showSlide(i);
-            startAutoSlide();
-        });
-    });
-
-    function startAutoSlide() {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, slideDelay);
-    }
-
-    window.addEventListener('load', () => {
-        showSlide(0);
-        startAutoSlide();
-   
+    function prevSlide() { showSlide(currentSlide - 
