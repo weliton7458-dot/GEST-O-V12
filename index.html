@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB SISTEMAS | Solucoes em Telecom e Seguranca</title>
-    <meta name="description" content="Servicos completos em Telecom, Seguranca Eletronica, TI e Equipamentos - Regiao do Tapajos">
+    <title>WKB SISTEMAS | Estação Orbital</title>
+    <meta name="description" content="Soluções em Telecom, Segurança e TI — Região Tapajós">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <script>
@@ -12,661 +12,605 @@
             theme: {
                 extend: {
                     colors: {
-                        fundoBase: '#020a20',
-                        fundoPainel: '#051430',
-                        azulEscuro: '#0a2452',
-                        azulMedio: '#004099',
-                        azulBrilho: '#0099ff',
-                        azulClaro: '#66ccff',
-                        verdeStatus: '#33ff99',
-                        texto: '#e6f2ff',
-                        whatsapp: '#25d366',
-                        laranja: '#ff9500',
-                        vermelhoAlerta: '#ff4444',
-                        amareloAlerta: '#ffcc00'
+                        fundoPrincipal: '#051236',
+                        fundoAzulMedio: '#0A1A40',
+                        fundoAzulClaro: '#0F2860',
+                        vidro: 'rgba(28, 60, 120, 0.38)',
+                        bordaVidro: 'rgba(140, 200, 255, 0.3)',
+                        luzAzul: '#40B0FF',
+                        luzCiano: '#70D6FF',
+                        luzVerde: '#50FFA0',
+                        luzAmarela: '#FFE640',
+                        luzVermelha: '#FF5050',
+                        textoClaro: '#E0F2FF'
                     },
                     fontFamily: {
-                        terminal: ['Rajdhani', 'Orbitron', 'Consolas', 'sans-serif'],
+                        tituloTech: ['Share Tech Mono', 'Orbitron', 'monospace'],
+                        corpoTech: ['Rajdhani', 'Segoe UI', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600&family=Rajdhani:wght@400;500;600&display=swap');
-    </style>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .bg-nave {
-                background: radial-gradient(ellipse at center, #051430 0%, #020a20 75%, #00081a 100%);
-                min-height: 100vh;
-            }
-            .painel {
-                border: 1px solid rgba(0,153,255,0.3);
-                background: rgba(5, 20, 48, 0.85);
-                backdrop-filter: blur(5px);
-                border-radius: 6px;
-            }
-            .anim-entrada {
-                opacity: 0;
-                transform: translateY(10px);
-                transition: all 0.4s ease-out;
-            }
-            .anim-ativo {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            .texto-terminal {
-                font-family: 'Rajdhani', sans-serif;
-                color: #e6f2ff;
-                line-height: 1.55;
-            }
-            .cursor {
-                animation: piscar 1.2s infinite;
-            }
-            /* Carrossel menor */
-            .carrossel {
-                position: relative;
-                overflow: hidden;
-                border-radius: 6px;
-                height: 200px;
-            }
-            .carrossel-imagens {
-                display: flex;
-                transition: transform 0.7s ease;
-                width: 300%;
-            }
-            .carrossel-imagens img {
-                width: 33.333%;
-                height: 200px;
-                object-fit: cover;
-            }
-            .carrossel-controles {
-                position: absolute;
-                bottom: 8px;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                gap: 6px;
-            }
-            .carrossel-dot {
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background: rgba(255,255,255,0.4);
-                cursor: pointer;
-            }
-            .carrossel-dot.ativo {
-                background: #0099ff;
-                box-shadow: 0 0 6px #0099ff;
-            }
-            /* Botao WhatsApp */
-            .whatsapp-float {
-                position: fixed;
-                right: 18px;
-                bottom: 20px;
-                width: 56px;
-                height: 56px;
-                background: #25d366;
-                border-radius: 50%;
-                z-index: 9999;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #fff;
-                font-size: 28px;
-                text-decoration: none;
-                box-shadow: 0 0 12px rgba(37,211,102,0.6);
-                animation: pulsar 2s infinite ease-in-out;
-            }
-            .balao-whatsapp {
-                position: absolute;
-                right: 70px;
-                bottom: 10px;
-                background: #ffffff;
-                color: #111827;
-                padding: 8px 12px;
-                border-radius: 16px;
-                font-size: 13px;
-                max-width: 200px;
-                box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-                opacity: 0;
-                transform: translateX(8px);
-                transition: all 0.5s ease;
-                pointer-events: none;
-            }
-            .balao-whatsapp.mostrar {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            .balao-whatsapp::after {
-                content: "";
-                position: absolute;
-                right: -7px;
-                top: 50%;
-                transform: translateY(-50%);
-                border-left: 7px solid #ffffff;
-                border-top: 7px solid transparent;
-                border-bottom: 7px solid transparent;
-            }
-            @keyframes pulsar {
-                0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.6); }
-                70% { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
-                100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
-            }
-            @keyframes piscar {
-                0%,100% { opacity:1; }
-                50% { opacity:0.2; }
-            }
-            /* Botoes */
-            .btn-principal {
-                display: inline-block;
-                padding: 7px 14px;
-                border-radius: 5px;
-                font-weight: 600;
-                text-decoration: none;
-                transition: 0.2s;
-                font-size: 0.9rem;
-                border: none;
-                cursor: pointer;
-            }
-            .btn-central {
-                background: #ff9500;
-                color: #020a20;
-            }
-            .btn-central:hover {
-                background: #ffb84d;
-            }
-            .btn-orcamento {
-                background: #0099ff;
-                color: #ffffff;
-            }
-            .btn-orcamento:hover {
-                background: #33b5ff;
-            }
-            .btn-speedtest {
-                background: #0066cc;
-                color: #ffffff;
-            }
-            .btn-speedtest:hover {
-                background: #0080ff;
-            }
-            .btn-downdetector {
-                background: #6622cc;
-                color: #ffffff;
-            }
-            .btn-downdetector:hover {
-                background: #8844ee;
-            }
-            .form-campo {
-                width: 100%;
-                background: #0a2452;
-                border: 1px solid #004099;
-                border-radius: 4px;
-                color: #e6f2ff;
-                padding: 7px 9px;
-                font-size: 0.9rem;
-            }
-            .form-campo:focus {
-                outline: none;
-                border-color: #0099ff;
-                box-shadow: 0 0 5px rgba(0,153,255,0.4);
-            }
-            .card-info {
-                border: 1px solid rgba(0,153,255,0.25);
-                background: rgba(10, 36, 82, 0.6);
-                border-radius: 5px;
-                padding: 10px;
-            }
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;600&family=Rajdhani:wght@400;500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, #051236 0%, #0A1A40 50%, #0F2860 100%);
+            min-height: 100vh;
+            font-family: 'Rajdhani', sans-serif;
+            color: #E0F2FF;
+            overflow-x: hidden;
+        }
+
+        /* Efeito vidro embaçado */
+        .painel-vidro {
+            background: rgba(28, 60, 120, 0.38);
+            backdrop-filter: blur(14px) saturate(160%);
+            -webkit-backdrop-filter: blur(14px) saturate(160%);
+            border: 1px solid rgba(140, 200, 255, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 25, 90, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .painel-vidro::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(100, 200, 255, 0.6), transparent);
+            animation: varredura 8s linear infinite;
+        }
+
+        @keyframes varredura {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Estilos de texto */
+        .titulo {
+            font-family: 'Share Tech Mono', monospace;
+            color: #70D6FF;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .texto {
+            font-family: 'Rajdhani', sans-serif;
+            color: #E0F2FF;
+            line-height: 1.6;
+        }
+
+        /* Indicadores de status */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .status.online {
+            background: rgba(80, 255, 160, 0.15);
+            color: #50FFA0;
+            border: 1px solid rgba(80, 255, 160, 0.3);
+        }
+
+        .status.offline {
+            background: rgba(255, 80, 80, 0.15);
+            color: #FF5050;
+            border: 1px solid rgba(255, 80, 80, 0.3);
+        }
+
+        .ponto {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: piscar 2s infinite;
+        }
+
+        .online .ponto { background: #50FFA0; }
+        .offline .ponto { background: #FF5050; }
+
+        @keyframes piscar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Barra de carregamento */
+        .carregando {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            color: #FFE640;
+        }
+
+        .barra {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 230, 64, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .barra > div {
+            width: 40%;
+            height: 100%;
+            background: #FFE640;
+            animation: carregar 1.5s ease-in-out infinite;
+        }
+
+        @keyframes carregar {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(250%); }
+        }
+
+        /* Botões */
+        .botao {
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid rgba(120, 190, 255, 0.35);
+            background: rgba(60, 150, 255, 0.22);
+            color: #E0F2FF;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .botao:hover {
+            background: rgba(60, 150, 255, 0.38);
+            box-shadow: 0 0 12px rgba(80, 180, 255, 0.45);
+        }
+
+        .botao.whatsapp {
+            background: rgba(80, 255, 160, 0.22);
+            color: #D6FFEC;
+        }
+
+        .botao.whatsapp:hover {
+            background: rgba(80, 255, 160, 0.38);
+            box-shadow: 0 0 12px rgba(80, 255, 160, 0.45);
+        }
+
+        /* Campos de formulário */
+        .campo {
+            width: 100%;
+            padding: 9px 12px;
+            background: rgba(20, 50, 100, 0.45);
+            border: 1px solid rgba(130, 200, 255, 0.3);
+            border-radius: 8px;
+            color: #E0F2FF;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .campo:focus {
+            outline: none;
+            border-color: #40B0FF;
+            box-shadow: 0 0 8px rgba(60, 160, 255, 0.4);
+        }
+
+        /* Carrossel */
+        .carrossel {
+            height: 220px;
+            border: 1px solid rgba(150, 210, 255, 0.25);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            background: rgba(20, 50, 100, 0.3);
+        }
+
+        /* Animações de entrada */
+        .anim {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.5s ease-out;
+        }
+
+        .anim.ativo {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* WhatsApp flutuante */
+        .whatsapp-flutuante {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 62px;
+            height: 62px;
+            background: rgba(80, 255, 160, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(80, 255, 160, 0.45);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #50FFA0;
+            font-size: 29px;
+            box-shadow: 0 0 18px rgba(80, 255, 160, 0.35);
+            animation: pulsar 3s infinite ease-in-out;
+            z-index: 999;
+        }
+
+        @keyframes pulsar {
+            0% { box-shadow: 0 0 0 0 rgba(80, 255, 160, 0.4); }
+            70% { box-shadow: 0 0 0 16px rgba(80, 255, 160, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(80, 255, 160, 0); }
         }
     </style>
 </head>
-<body class="bg-nave text-texto font-terminal m-0 p-0 overflow-x-hidden">
+<body class="m-0 p-0">
 
-<!-- Tela de inicializacao -->
-<div id="boot" class="fixed inset-0 bg-fundoBase/95 z-50 flex flex-col justify-center items-center p-4">
-    <div class="w-full max-w-2xl painel p-4">
-        <div class="text-azulBrilho text-base mb-2 font-bold">> INICIALIZANDO SISTEMA WKB</div>
-        <div class="overflow-hidden whitespace-nowrap border-r-2 border-azulBrilho text-lg md:text-xl font-bold text-azulClaro mb-3" style="animation: digitar 2s steps(40, end), piscar 1s step-end infinite;">
-            WKB SISTEMAS | VERSAO 8.5
-        </div>
-        <div class="texto-terminal space-y-1 text-sm">
-            <div>> Modulos Carregados: <span class="text-verdeStatus">OK</span></div>
-            <div>> Regiao: <span class="text-azulClaro">Tapajos</span></div>
-            <div>> Atendimento: Santarem, Belterra, Alter do Chao, Mojui dos Campos</div>
+<!-- Tela de Inicialização -->
+<div id="boot" class="fixed inset-0 bg-gradient-to-br from-[#051236] to-[#0F2860] z-[9999] flex items-center justify-center transition-opacity duration-800">
+    <div class="painel-vidro p-6 max-w-xl w-full mx-4">
+        <h2 class="titulo text-2xl mb-4 font-bold">WKB • INICIALIZAÇÃO DE SISTEMA</h2>
+        <div class="texto space-y-3">
+            <div class="carregando">
+                <span>Carregando módulos</span>
+                <div class="barra"><div></div></div>
+            </div>
+            <p class="status online"><span class="ponto"></span> Servidor Principal: Operacional</p>
+            <p class="status online"><span class="ponto"></span> Rede de Comunicação: Conectada</p>
+            <p class="status online"><span class="ponto"></span> Banco de Dados: Sincronizado</p>
+            <p class="text-luzCiano text-sm mt-3">Versão: 9.3 • Região: Tapajós</p>
         </div>
     </div>
 </div>
 
-<!-- Cabecalho -->
-<header class="painel sticky top-0 z-40 border-b border-azulBrilho/30">
-    <div class="container mx-auto px-3 py-3 flex flex-col md:flex-row justify-between items-center gap-2">
-        <div class="flex items-center gap-3">
-            <img src="logo.png" alt="Logo WKB" class="w-14 h-auto">
+<!-- Cabeçalho -->
+<header class="painel-vidro mx-3 mt-3 sticky top-2 z-50">
+    <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex items-center gap-4">
+            <img src="logo.png" alt="Logo WKB" class="w-16 h-auto">
             <div>
-                <h1 class="text-xl md:text-2xl font-bold text-azulBrilho">WKB SISTEMAS</h1>
-                <p class="texto-terminal text-xs">CNPJ: 62.513.677/0001-80 | Regiao do Tapajos</p>
+                <h1 class="titulo text-3xl md:text-4xl">WKB SISTEMAS</h1>
+                <p class="texto text-sm">Telecom • Segurança • TI</p>
             </div>
         </div>
-        <div class="texto-terminal text-right text-sm">
-            <p> (93) 99119-2244</p>
-            <p> tecsegseguranca7@gmail.com</p>
+        <div class="texto text-right text-sm">
+            <p class="status online"><span class="ponto"></span> Atendimento: Online</p>
+            <p>📞 (93) 99119-2244</p>
+            <p>✉️ tecsegseguranca7@gmail.com</p>
         </div>
     </div>
 </header>
 
-<!-- Menu Navegacao -->
-<nav class="bg-azulEscuro/70 border-b border-azulBrilho/25 z-30">
-    <div class="container mx-auto px-3 py-2">
-        <div class="texto-terminal flex flex-wrap gap-4 text-sm">
-            <a href="#sistema" class="hover:text-azulBrilho">> EMPRESA</a>
-            <a href="#servicos" class="hover:text-azulBrilho">> SERVICOS</a>
-            <a href="#vendas" class="hover:text-azulBrilho">> VENDAS</a>
-            <a href="#planos" class="hover:text-azulBrilho">> PLANOS</a>
-            <a href="#conexao" class="hover:text-azulBrilho">> CONEXAO</a>
-            <a href="#orcamento" class="hover:text-azulBrilho">> ORCAMENTO</a>
-            <a href="#cobertura" class="hover:text-azulBrilho">> AREA</a>
-            <a href="#contato" class="hover:text-azulBrilho">> CONTATO</a>
+<!-- Menu -->
+<nav class="painel-vidro mx-3 my-3">
+    <div class="container mx-auto px-4 py-2">
+        <div class="texto flex flex-wrap gap-5 text-base">
+            <a href="#sobre" class="hover:text-luzCiano transition-colors">> EMPRESA</a>
+            <a href="#servicos" class="hover:text-luzCiano transition-colors">> SERVIÇOS</a>
+            <a href="#vendas" class="hover:text-luzCiano transition-colors">> EQUIPAMENTOS</a>
+            <a href="#planos" class="hover:text-luzCiano transition-colors">> PLANOS</a>
+            <a href="#dados" class="hover:text-luzCiano transition-colors">> CONEXÃO</a>
+            <a href="#orcamento" class="hover:text-luzCiano transition-colors">> ORÇAMENTO</a>
+            <a href="#cobertura" class="hover:text-luzCiano transition-colors">> ATENDIMENTO</a>
+            <a href="#contato" class="hover:text-luzCiano transition-colors">> CONTATO</a>
         </div>
     </div>
 </nav>
 
-<!-- Botoes Rapidos -->
-<div class="container mx-auto px-3 py-2 flex flex-wrap gap-2">
-    <a href="https://wkbtelecom.centralassinante.com.br/" target="_blank" class="btn-principal btn-central">
-        <i class="fa fa-user-circle"></i> Central do Cliente
+<!-- Botões Rápidos -->
+<div class="container mx-auto px-3 flex flex-wrap gap-3 mb-4">
+    <a href="https://wkbtelecom.centralassinante.com.br/" target="_blank" class="botao">
+        <i class="fa fa-user"></i> Central do Cliente
     </a>
-    <a href="https://www.speedtest.net/pt" target="_blank" class="btn-principal btn-speedtest">
+    <a href="https://www.speedtest.net/pt" target="_blank" class="botao">
         <i class="fa fa-tachometer"></i> Testar Velocidade
     </a>
-    <a href="https://downdetector.com.br/" target="_blank" class="btn-principal btn-downdetector">
-        <i class="fa fa-exclamation-triangle"></i> Status / Instabilidade
+    <a href="https://downdetector.com.br/" target="_blank" class="botao">
+        <i class="fa fa-signal"></i> Status de Rede
     </a>
-    <a href="#orcamento" class="btn-principal btn-orcamento">
-        <i class="fa fa-file-text-o"></i> Solicitar Orcamento
+    <a href="#orcamento" class="botao whatsapp">
+        <i class="fa fa-file-text"></i> Solicitar Orçamento
     </a>
 </div>
 
-<!-- Conteudo Principal -->
-<main class="container mx-auto px-3 py-5 space-y-6">
+<!-- Conteúdo Principal -->
+<main class="container mx-auto px-3 space-y-6">
 
-    <!-- Sobre a Empresa -->
-    <section id="sistema" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: WKB SISTEMAS E SEGURANCA</h2>
-            <div class="texto-terminal text-base space-y-3">
-                <p>Somos uma empresa especializada em solucoes completas para telecomunicacoes, seguranca eletronica e tecnologia da informacao, com atuacao exclusiva na regiao do Tapajos.</p>
-                <p>Nosso compromisso e oferecer produtos e servicos de alta qualidade, com suporte tecnico local, garantia real e atendimento personalizado para residencias, comercios, industrias e propriedades rurais.</p>
-                <p><strong>Diferenciais:</strong> Equipe propria, estoque de equipamentos, atendimento rapido, instalacao profissional e assistencia tecnica permanente.</p>
+    <section id="sobre" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">SOBRE A WKB</h2>
+                <span class="status online"><span class="ponto"></span> Sistema Ativo</span>
+            </div>
+            <div class="texto space-y-2">
+                <p>Referência em soluções tecnológicas na região do Tapajós, atendendo Santarém, Belterra, Alter do Chão e Mojui dos Campos.</p>
+                <p>Oferecemos instalação, venda e suporte completo para residências, comércios e áreas rurais.</p>
             </div>
         </div>
     </section>
 
-    <!-- Midia -->
-    <section id="midia" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: APOIO VISUAL</h2>
-            <div class="carrossel mb-4">
-                <div class="carrossel-imagens" id="carrosselImagens">
-                    <img src="banner1.png" alt="Banner 1">
-                    <img src="banner2.png" alt="Banner 2">
-                    <img src="banner3.png" alt="Banner 3">
+    <section class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">DESTAQUES</h2>
+                <span class="carregando"><div class="barra"><div></div></div></span>
+            </div>
+            <div class="carrossel">
+                <div class="carrossel-imagens" id="carrossel" style="display: flex; transition: transform 0.7s ease; width: 300%;">
+                    <img src="banner1.png" alt="Serviços" style="width: 33.333%; height: 220px; object-fit: cover;">
+                    <img src="banner2.png" alt="Equipamentos" style="width: 33.333%; height: 220px; object-fit: cover;">
+                    <img src="banner3.png" alt="Cobertura" style="width: 33.333%; height: 220px; object-fit: cover;">
                 </div>
-                <div class="carrossel-controles">
-                    <div class="carrossel-dot ativo" data-index="0"></div>
-                    <div class="carrossel-dot" data-index="1"></div>
-                    <div class="carrossel-dot" data-index="2"></div>
+                <div class="flex gap-2 justify-center mt-3">
+                    <div class="w-3 h-3 rounded-full bg-luzAzul cursor-pointer ativo" data-index="0" style="box-shadow: 0 0 6px #40B0FF;"></div>
+                    <div class="w-3 h-3 rounded-full bg-luzCiano/40 cursor-pointer" data-index="1"></div>
+                    <div class="w-3 h-3 rounded-full bg-luzCiano/40 cursor-pointer" data-index="2"></div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicos" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">NOSSOS SERVIÇOS</h2>
+                <span class="status online"><span class="ponto"></span> Módulos Operacionais</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 texto">
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h3 class="text-luzCiano text-lg font-semibold mb-2">🔒 Segurança Eletrônica</h3>
+                    <p class="status online text-xs mb-2"><span class="ponto"></span> Disponível</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Câmeras IP e sistemas de gravação</li>
+                        <li>Alarmes e cercas elétricas</li>
+                        <li>Controle de acesso</li>
+                        <li>Manutenção e instalação</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h3 class="text-luzCiano text-lg font-semibold mb-2">🌐 Redes e Fibra</h3>
+                    <p class="status online text-xs mb-2"><span class="ponto"></span> Disponível</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Fusão e instalação de fibra óptica</li>
+                        <li>Enlaces e antenas de longo alcance</li>
+                        <li>Hotspots e redes estruturadas</li>
+                        <li>Configuração de equipamentos</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h3 class="text-luzCiano text-lg font-semibold mb-2">💻 Tecnologia</h3>
+                    <p class="status online text-xs mb-2"><span class="ponto"></span> Disponível</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Suporte técnico presencial e remoto</li>
+                        <li>Sites e sistemas personalizados</li>
+                        <li>Segurança de rede</li>
+                        <li>Recuperação de dados</li>
+                    </ul>
+                </div>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h3 class="text-luzCiano text-lg font-semibold mb-2">📡 Soluções Especiais</h3>
+                    <p class="status online text-xs mb-2"><span class="ponto"></span> Disponível</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Internet Starlink</li>
+                        <li>Comunicação VHF/UHF</li>
+                        <li>Internet para áreas rurais</li>
+                        <li>Contratos de manutenção</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vendas" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">EQUIPAMENTOS À VENDA</h2>
+                <span class="status online"><span class="ponto"></span> Estoque Atualizado</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 texto">
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h4 class="text-luzVerde font-semibold mb-2">📷 Segurança</h4>
+                    <p>Câmeras, DVR, NVR, alarmes, fechaduras</p>
+                </div>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h4 class="text-luzVerde font-semibold mb-2">🔌 Redes</h4>
+                    <p>Cabos, conectores, switches, roteadores</p>
+                </div>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h4 class="text-luzVerde font-semibold mb-2">🛰️ Conexão</h4>
+                    <p>Kit Starlink, rádios, antenas, acessórios</p>
+                </div>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <h4 class="text-luzVerde font-semibold mb-2">🛠️ Ferramentas</h4>
+                    <p>Fusores, medidores, materiais de instalação</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planos" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">PLANOS DE INTERNET</h2>
+                <span class="status online"><span class="ponto"></span> Disponíveis</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <video src="video1.mp4" controls preload="metadata" class="w-full h-40 object-cover rounded"></video>
-                    <p class="text-center mt-1 text-sm">Apresentacao da Empresa</p>
-                </div>
-                <div>
-                    <video src="video2.mp4" controls preload="metadata" class="w-full h-40 object-cover rounded"></video>
-                    <p class="text-center mt-1 text-sm">Conheca Nossos Servicos</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Servicos Completos -->
-    <section id="servicos" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: SERVICOS OFERECIDOS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 texto-terminal text-sm">
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> SEGURANCA ELETRONICA</h3>
-                    <ul class="list-disc list-inside space-y-0.5">
-                        <li>Instalacao e configuracao de cameras analogicas e IP</li>
-                        <li>Sistemas DVR / NVR com acesso remoto via celular</li>
-                        <li>Alarmes monitorados e sensores de presenca/abertura</li>
-                        <li>Cercas eletricas, concertinas e sensores perimetrais</li>
-                        <li>Controle de acesso biometrico, cartao e senha</li>
-                        <li>Interfonia e video-portaria</li>
-                        <li>Manutencao preventiva e corretiva de sistemas</li>
-                        <li>Projetos personalizados para cada ambiente</li>
+                <div class="p-4 bg-vidro rounded-lg border border-bordaVidro text-center">
+                    <h3 class="text-luzCiano text-xl font-bold">400 MB</h3>
+                    <p class="text-luzAzul text-2xl my-3 font-bold">R$ 100,00 <span class="text-sm">/ mês</span></p>
+                    <ul class="texto text-left space-y-2">
+                        <li>✅ Download: até 400 Mbps</li>
+                        <li>✅ Upload: até 200 Mbps</li>
+                        <li>✅ Fibra óptica</li>
+                        <li>✅ Instalação gratuita</li>
                     </ul>
                 </div>
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> REDES E FIBRA OPTICA</h3>
-                    <ul class="list-disc list-inside space-y-0.5">
-                        <li>Instalacao e fusao de cabos de fibra optica monomodo e multimodo</li>
-                        <li>Certificacao e teste de rede com equipamentos profissionais</li>
-                        <li>Montagem de redes estruturadas para empresas</li>
-                        <li>Configuracao de switches, roteadores e pontos de acesso</li>
-                        <li>Desenvolvimento de hotspots personalizados para comercio</li>
-                        <li>Enlaces ponto a ponto e antenas de longo alcance</li>
-                        <li>Ampliacao de sinal para areas amplas e rurais</li>
-                        <li>Projetos de rede interna e externa</li>
-                    </ul>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> TECNOLOGIA DA INFORMACAO</h3>
-                    <ul class="list-disc list-inside space-y-0.5">
-                        <li>Suporte tecnico presencial e remoto</li>
-                        <li>Configuracao e manutencao de computadores e notebooks</li>
-                        <li>Instalacao e atualizacao de sistemas operacionais</li>
-                        <li>Desenvolvimento e ajustes de sites e sistemas web</li>
-                        <li>Criacao de sistemas de ordem de servico e controle de clientes</li>
-                        <li>Seguranca de rede, firewall e protecao contra virus</li>
-                        <li>Recuperacao de dados e formatacao segura</li>
-                        <li>Consultoria para modernizacao de infraestrutura</li>
-                    </ul>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> SOLUCOES ESPECIAIS</h3>
-                    <ul class="list-disc list-inside space-y-0.5">
-                        <li>Venda e instalacao oficial do sistema Starlink</li>
-                        <li>Internet de alta velocidade para areas rurais e ribeirinhas</li>
-                        <li>Comunicacao VHF/UHF: projetos, antenas e repetidores</li>
-                        <li>Orientacao sobre frequencias e licencas junto a ANATEL</li>
-                        <li>Solucao para embarcacoes e locais sem cobertura</li>
-                        <li>Contratos de manutencao mensal para empresas</li>
-                        <li>Treinamento de uso dos equipamentos instalados</li>
+                <div class="p-4 bg-vidro rounded-lg border border-luzVerde/30 text-center">
+                    <h3 class="text-luzVerde text-xl font-bold">1 GB</h3>
+                    <p class="text-luzVerde text-2xl my-3 font-bold">R$ 149,00 <span class="text-sm">/ mês</span></p>
+                    <ul class="texto text-left space-y-2">
+                        <li>✅ Download: até 1.000 Mbps</li>
+                        <li>✅ Upload: até 500 Mbps</li>
+                        <li>✅ Suporte prioritário</li>
+                        <li>✅ Garantia de estabilidade</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Vendas de Equipamentos -->
-    <section id="vendas" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: VENDA DE EQUIPAMENTOS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 texto-terminal text-sm">
-                <div class="card-info">
-                    <h3 class="text-sm text-azulClaro font-semibold mb-2"> SEGURANCA</h3>
-                    <ul class="space-y-0.5">
-                        <li>Cameras IP HD e Full HD</li>
-                        <li>Cameras infravermelho e colorida noturna</li>
-                        <li>Gravadores DVR e NVR 4 a 64 canais</li>
-                        <li>Discos rigidos para armazenamento</li>
-                        <li>Alarmes centrais e sensores</li>
-                        <li>Cercas eletricas e isoladores</li>
-                        <li>Controles de acesso e fechaduras</li>
-                    </ul>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-sm text-azulClaro font-semibold mb-2"> REDES E FIBRA</h3>
-                    <ul class="space-y-0.5">
-                        <li>Cabos de fibra optica e conectores</li>
-                        <li>Caixas de emenda e distribuicao</li>
-                        <li>Switches 8, 16, 24 e 48 portas</li>
-                        <li>Roteadores residenciais e empresariais</li>
-                        <li>Antenas direcionais, setoriais e omnidirecionais</li>
-                        <li>Radios para enlaces de longo alcance</li>
-                        <li>Fontes de alimentacao e estabilizadores</li>
-                    </ul>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-sm text-azulClaro font-semibold mb-2"> CONEXAO</h3>
-                    <ul class="space-y-0.5">
-                        <li>Kit Starlink Padrao e Alto Desempenho</li>
-                        <li>Suportes e instalacoes especiais</li>
-                        <li>Modens e repetidores de sinal</li>
-                        <li>Radios VHF/UHF homologados</li>
-                        <li>Antenas e cabos para comunicacao</li>
-                        <li>Equipamentos para areas remotas</li>
-                        <li>Acessorios e pecas originais</li>
-                    </ul>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-sm text-azulClaro font-semibold mb-2"> FERRAMENTAS</h3>
-                    <ul class="space-y-0.5">
-                        <li>Maquinas de fusao de fibra optica</li>
-                        <li>Medidores de potencia e sinal</li>
-                        <li>Localizadores de falhas</li>
-                        <li>Alicates, crimpadores e ferramentas</li>
-                        <li>Caixas de passagem e organizadores</li>
-                        <li>Suportes, hastes e fixacoes</li>
-                        <li>Material de instalacao geral</li>
-                    </ul>
-                </div>
+    <section id="dados" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">DADOS DE CONEXÃO</h2>
+                <span class="status online"><span class="ponto"></span> Monitorando</span>
             </div>
-            <p class="text-xs mt-3 opacity-80">Todos os equipamentos tem garantia do fabricante e procedencia garantida. Consulte estoque e valores.</p>
-        </div>
-    </section>
-
-    <!-- Planos de Internet -->
-    <section id="planos" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: PLANOS DE INTERNET</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="card-info border border-azulBrilho/40">
-                    <h3 class="text-lg font-bold text-azulClaro">PLANO 400 MB</h3>
-                    <p class="text-xl font-bold text-azulBrilho my-2">R$ 100,00 <span class="text-xs">/ mes</span></p>
-                    <ul class="texto-terminal text-sm space-y-1">
-                        <li> Download: ate 400 Mbps</li>
-                        <li> Upload: ate 200 Mbps</li>
-                        <li> Conexao via fibra optica</li>
-                        <li> Sem limite de consumo</li>
-                        <li> Suporte tecnico em ate 24h</li>
-                        <li> Instalacao gratuita na regiao</li>
-                        <li> Ideal para residencia e pequeno comercio</li>
-                    </ul>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 texto">
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <p><strong>IP:</strong> <span id="ip">Carregando...</span></p>
+                    <p><strong>Provedor:</strong> <span id="isp">Carregando...</span></p>
+                    <p><strong>Região:</strong> <span id="regiao">Carregando...</span></p>
+                    <p><strong>Latência:</strong> <span id="latencia">-- ms</span></p>
                 </div>
-                <div class="card-info border border-azulBrilho/40">
-                    <h3 class="text-lg font-bold text-azulClaro">PLANO ILIMITADO</h3>
-                    <p class="text-xl font-bold text-azulBrilho my-2">R$ 149,00 <span class="text-xs">/ mes</span></p>
-                    <ul class="texto-terminal text-sm space-y-1">
-                        <li> Download: ate 1 Gbps</li>
-                        <li> Upload: ate 500 Mbps</li>
-                        <li> Conexao dedicada e estavel</li>
-                        <li> Sem limite de trafego</li>
-                        <li> Suporte prioritario 8h as 22h</li>
-                        <li> Garantia de disponibilidade 99%</li>
-                        <li> Ideal para empresas e uso intenso</li>
-                    </ul>
-                </div>
-            </div>
-            <p class="text-xs mt-3 opacity-80">Valores validos para Santarem, Belterra, Alter do Chao e Mojui dos Campos. Outras localidades sob consulta.</p>
-        </div>
-    </section>
-
-    <!-- Conexao, Velocidade e Status -->
-    <section id="conexao" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: CONEXAO & STATUS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 texto-terminal text-sm">
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> SEUS DADOS DE CONEXAO</h3>
-                    <p><strong>IP:</strong> <span id="ipUsuario">Carregando...</span></p>
-                    <p><strong>Provedor:</strong> <span id="ispUsuario">Carregando...</span></p>
-                    <p><strong>Regiao:</strong> <span id="regiaoUsuario">Carregando...</span></p>
-                    <p><strong>Ping estimado:</strong> <span id="pingUsuario">-- ms</span></p>
-                    <p><strong>Latencia:</strong> <span id="latenciaUsuario">-- ms</span></p>
-                    <p><strong>Velocidade media:</strong> <span id="velUsuario">-- Mbps</span></p>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> STATUS E INSTABILIDADE</h3>
-                    <p>Verifique o desempenho da sua conexao e possiveis instabilidades:</p>
-                    <p class="mt-2">� <a href="https://www.speedtest.net/pt" target="_blank" class="text-azulClaro underline">Teste completo de velocidade no Speedtest</a></p>
-                    <p>� <a href="https://downdetector.com.br/" target="_blank" class="text-azulClaro underline">Acompanhe falhas e relatos no Downdetector</a></p>
-                    <p class="mt-2">Servidores principais: Santarem, Belem e Brasilia</p>
-                    <p>Disponibilidade atual: <span class="text-verdeStatus">99,7%</span></p>
+                <div class="p-3 bg-vidro rounded-lg border border-bordaVidro">
+                    <p><strong>Servidor:</strong> Santarém-PA</p>
+                    <p><strong>Status:</strong> <span class="text-luzVerde">Ativo</span></p>
+                    <p><strong>Velocidade:</strong> <span id="velocidade">-- Mbps</span></p>
+                    <p><strong>Disponibilidade:</strong> 99,7%</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Formul�rio Or�amento -->
-    <section id="orcamento" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-3">MODULO: SOLICITAR ORCAMENTO</h2>
-            <form onsubmit="enviarWhatsApp(); return false;" class="space-y-3 texto-terminal text-sm">
+    <section id="orcamento" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">SOLICITAR ORÇAMENTO</h2>
+                <span class="status online"><span class="ponto"></span> Canal Aberto</span>
+            </div>
+            <form onsubmit="enviarWhatsApp(); return false;" class="texto space-y-3">
                 <div>
                     <label>Nome completo:</label>
-                    <input type="text" id="nome" class="form-campo" required>
+                    <input type="text" id="nome" class="campo" required>
                 </div>
                 <div>
                     <label>Telefone / WhatsApp:</label>
-                    <input type="tel" id="telefone" class="form-campo" required>
+                    <input type="tel" id="telefone" class="campo" required>
                 </div>
                 <div>
                     <label>Cidade e Bairro:</label>
-                    <input type="text" id="local" class="form-campo" required>
+                    <input type="text" id="local" class="campo" required>
                 </div>
                 <div>
-                    <label>Tipo de servico ou equipamento:</label>
-                    <select id="tipo" class="form-campo" required>
-                        <option value="">Selecione</option>
-                        <option value="Internet">Plano de Internet</option>
-                        <option value="Seguranca">Seguranca Eletronica</option>
-                        <option value="Rede">Redes e Fibra Optica</option>
-                        <option value="Equipamento">Compra de Equipamento</option>
-                        <option value="Suporte">Suporte e Manutencao</option>
-                        <option value="Outro">Outro</option>
-                    </select>
+                    <label>Descrição do serviço:</label>
+                    <textarea id="descricao" rows="3" class="campo" required></textarea>
                 </div>
-                <div>
-                    <label>Descricao detalhada do que precisa:</label>
-                    <textarea id="descricao" rows="3" class="form-campo" required></textarea>
-                </div>
-                <button type="submit" class="btn-principal bg-verdeStatus text-fundoBase font-bold">
-                    <i class="fa fa-whatsapp"></i> Enviar para o WhatsApp
+                <button type="submit" class="botao whatsapp">
+                    <i class="fa fa-paper-plane"></i> Enviar Transmissão
                 </button>
             </form>
         </div>
     </section>
 
-    <!-- �rea de Atendimento -->
-    <section id="cobertura" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-2">MODULO: AREA DE ATENDIMENTO</h2>
-            <div class="texto-terminal text-sm space-y-2">
-                <p>Atendemos exclusivamente a regiao do Tapajos, incluindo:</p>
-                <ul class="list-disc list-inside space-y-1 pl-2">
-                    <li><strong>Santarem:</strong> Zona urbana, bairros, comunidades e zona rural</li>
-                    <li><strong>Belterra:</strong> Centro, distrito, propriedades rurais e comunidades</li>
-                    <li><strong>Alter do Chao:</strong> Orla, centro, regioes vizinhas e interior</li>
-                    <li><strong>Mojui dos Campos:</strong> Sede, zona rural e comunidades ribeirinhas</li>
-                </ul>
-                <p>Tambem atendemos embarcacoes e locais de acesso especial dentro desses municipios.</p>
+    <section id="cobertura" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">ÁREA DE ATENDIMENTO</h2>
+                <span class="status online"><span class="ponto"></span> Cobertura Expandida</span>
             </div>
+            <p class="texto">Santarém, Belterra, Alter do Chão e Mojui dos Campos — incluindo zonas urbanas, rurais e comunidades ribeirinhas.</p>
         </div>
     </section>
 
-    <!-- Garantias e Contato -->
-    <section id="contato" class="anim-entrada">
-        <div class="painel p-4">
-            <h2 class="text-xl font-bold text-azulBrilho mb-2">MODULO: GARANTIAS E CONTATO</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 texto-terminal text-sm">
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> NOSSAS GARANTIAS</h3>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>Garantia de instalacao: 90 dias</li>
-                        <li>Garantia de equipamentos: conforme fabricante</li>
-                        <li>Garantia de velocidade: 80% da contratada</li>
-                        <li>Garantia de atendimento: retorno em ate 24h</li>
-                        <li>Assistencia tecnica permanente</li>
-                    </ul>
-                </div>
-                <div class="card-info">
-                    <h3 class="text-base text-azulClaro font-semibold mb-2"> CANAIS DE ATENDIMENTO</h3>
-                    <p>Telefone / WhatsApp: (93) 99119-2244</p>
-                    <p>E-mail: tecsegseguranca7@gmail.com</p>
-                    <p>Suporte: suporte@wkbsistemas.com.br</p>
-                    <p>Horario: Segunda a Sabado - 08h as 18h</p>
-                </div>
+    <section id="contato" class="anim">
+        <div class="painel-vidro p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="titulo text-xl">CONTATO</h2>
+                <span class="status online"><span class="ponto"></span> Canais Abertos</span>
+            </div>
+            <div class="texto">
+                <p>📞 WhatsApp: (93) 99119-2244</p>
+                <p>📧 E-mail: tecsegseguranca7@gmail.com</p>
+                <p>⏰ Atendimento: Seg a Sáb — 08h às 18h</p>
             </div>
         </div>
     </section>
 
 </main>
 
-<!-- Botao WhatsApp Flutuante -->
-<a class="whatsapp-float" href="https://wa.me/5593991192244" target="_blank">
+<a href="https://wa.me/5593991192244" target="_blank" class="whatsapp-flutuante">
     <i class="fa fa-whatsapp"></i>
-    <div class="balao-whatsapp" id="balaoMsg">
-        Ola! Somos a WKB SISTEMAS. Como podemos ajudar?
-    </div>
 </a>
 
-<!-- Rodape -->
-<footer class="painel border-t border-azulBrilho/30 py-3 mt-6">
-    <div class="container mx-auto px-3 texto-terminal text-center text-xs">
-        <p>SISTEMA WKB v8.5 | &copy; 2026 WKB SISTEMAS E SEGURANCA � Regiao do Tapajos</p>
-    </div>
+<footer class="painel-vidro mx-3 my-4 text-center texto text-sm py-3">
+    WKB SISTEMAS © 2026 — Todos os direitos reservados | Status: <span class="text-luzVerde">Online 24h</span>
 </footer>
 
-<!-- Scripts -->
 <script>
-    // Inicializacao
+    // Tela de inicialização
     window.addEventListener('load', () => {
         setTimeout(() => {
             document.getElementById('boot').style.opacity = '0';
-            setTimeout(() => document.getElementById('boot').style.display = 'none', 600);
-        }, 2200);
-
-        // Mensagem WhatsApp uma vez
-        setTimeout(() => {
-            const b = document.getElementById('balaoMsg');
-            b.classList.add('mostrar');
-            setTimeout(() => b.classList.remove('mostrar'), 4500);
-        }, 3000);
+            setTimeout(() => document.getElementById('boot').style.display = 'none', 800);
+        }, 2800);
     });
 
-    // Animacao rolagem
-    const modulos = document.querySelectorAll('.anim-entrada');
-    const obs = new IntersectionObserver(e => e.forEach(el => el.isIntersecting && el.target.classList.add('anim-ativo')), { threshold: 0.05 });
-    modulos.forEach(m => obs.observe(m));
+    // Animação de entrada dos blocos
+    const blocos = document.querySelectorAll('.anim');
+    const observador = new IntersectionObserver((e) => {
+        e.forEach(el => el.isIntersecting && el.target.classList.add('ativo'));
+    }, { threshold: 0.1 });
+    blocos.forEach(m => observador.observe(m));
 
-    // Carrossel
-    const carrossel = document.getElementById('carrosselImagens');
-    const dots = document.querySelectorAll('.carrossel-dot');
-    let idx = 0;
-    function mostrar(i) { idx = i; carrossel.style.transform = `translateX(-${i*33.333}%)`; dots.forEach((d,j) => d.classList.toggle('ativo', j===i)); }
-    dots.forEach((d,i) => d.addEventListener('click', () => mostrar(i)));
-    setInterval(() => mostrar((idx+1)%3), 4000);
+    // Controle do carrossel
+    const carrossel = document.getElementById('carrossel');
+    const pontos = document.querySelectorAll('.cursor-pointer[data-index]');
+    let indice = 0;
+    function mostrarSlide(i) {
+        indice = i;
+        carrossel.style.transform = `translateX(-${i * 33.333}%)`;
+        pontos.forEach((p, j) => {
+            if(j === i) {
+                p.style.background = '#40B0FF';
+                p.style.boxShadow = '0 0 6px #40B0FF';
+            } else {
+                p.style.background = 'rgba(180, 220, 255, 0.35)';
+                p.style.boxShadow = 'none';
+            }
+        });
+    }
+    pontos.forEach((p, i) => p.addEventListener('click', () => mostrarSlide(i)));
+    setInterval(() => mostrarSlide((indice + 1) % 3), 5000);
 
-    // Dados de conexao
+    // Dados de conexão em tempo real
     fetch('https://ipwho.is/')
-        .then(r => r.json())
-        .then(d => {
-            document.getElementById('ipUsuario').textContent = d.ip || 'Nao identificado';
-            document.getElementById('ispUsuario').textContent = d.connection?.isp || 'Nao informado';
-            document.getElementById('regiaoUsuario').textContent = `${d.city || ''} - ${d.region || ''}, ${d.country || ''}`;
-            document.getElementById('pingUsuario').textContent = `${Math.floor(22 + Math.random()*18)} ms`;
-            document.getElementById('latenciaUsuario').textContent = `${Math.floor(28 + Math.random()*22)} ms`;
-            document.getElementById('velUsuario').textContent = `${Math.floor(480 + Math.random()*520)} Mbps`;
+        .then(res => res.json())
+        .then(dados => {
+            document.getElementById('ip').textContent = dados.ip || 'Indisponível';
+            document.getElementById('isp').textContent = dados.connection?.isp || 'Indisponível';
+            document.getElementById('regiao').textContent = `${dados.city || ''}, ${dados.region || ''}`;
+            document.getElementById('latencia').textContent = `${Math.floor(20 + Math.random() * 20)} ms`;
+            document.getElementById('velocidade').textContent = `${Math.floor(450 + Math.random() * 550)} Mbps`;
         })
         .catch(() => {
-            document.getElementById('ipUsuario').textContent = 'Indisponivel';
+            document.getElementById('ip').textContent = 'Sem sinal';
         });
 
-    // Enviar formulario para WhatsApp
+    // Função para enviar orçamento pelo WhatsApp
     function enviarWhatsApp() {
         const nome = document.getElementById('nome').value.trim();
-        const tel = document.getElementById('telefone').value.trim();
+        const telefone = document.getElementById('telefone').value.trim();
         const local = document.getElementById('local').value.trim();
-        const tipo = document.getElementById('tipo').value.trim();
         const descricao = document.getElementById('descricao').value.trim();
 
-        const texto = `Ola! Solicito orcamento:%0A%0ANome: ${nome}%0ATelefone: ${tel}%0ALocal: ${local}%0AServico/Equipamento: ${tipo}%0ADetalhes: ${descricao}`;
-        const url = `https://wa.me/5593991192244?text=${texto}`;
-        window.open(url, '_blank');
+        const mensagem = `Olá! Solicito orçamento:%0A%0ANome: ${nome}%0AContato: ${telefone}%0ALocal: ${local}%0ADetalhes: ${descricao}`;
+        window.open(`https://wa.me/5593991192244?text=${mensagem}`, '_blank');
     }
 </script>
 
