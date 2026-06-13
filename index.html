@@ -1,1069 +1,509 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB Telecom | Internet Fibra, Starlink e Seguran√ßa Eletr√¥nica</title>
-    
-    <meta name="description" content="Internet fibra √≥ptica, Starlink via sat√©lite com hostport, seguran√ßa eletr√¥nica, energia solar e redes em Belterra, Santar√©m e regi√£o.">
-    <meta name="keywords" content="internet belterra, fibra √≥ptica, starlink, internet para barcos, seguran√ßa eletr√¥nica, energia solar, redes mikrotik, cftv, alarmes">
-    <meta name="author" content="Welliton - WKB Telecom">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+    <title>WKB SISTEMAS | Painel de OperaÁıes</title>
+    <meta name="description" content="SoluÁıes em Telecom, SeguranÁa e TI exclusivas para a regi„o do TapajÛs: SantarÈm, Belterra, Alter do Ch„o e MojuÌ dos Campos.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: '#000514',
+                        fundoAzul: '#001233',
+                        azulPainel: '#003377',
+                        azulBrilho: '#0099ff',
+                        azulClaro: '#66ccff',
+                        verdeStatus: '#33ff99',
+                        texto: '#cce7ff'
+                    },
+                    fontFamily: {
+                        terminal: ['Rajdhani', 'Orbitron', 'Consolas', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #00B4D8;
-            --primary-light: #90E0EF;
-            --secondary: #7209B7;
-            --accent: #F72585;
-            --dark: #0A0E27;
-            --dark-medium: #161B33;
-            --dark-light: #242B4B;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text: #F8FAFC;
-            --text-muted: #BCC2E5;
-            --shadow: 0 8px 32px rgba(0, 180, 216, 0.18);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #05071E 0%, #0F1430 50%, #05071E 100%);
-            color: var(--text);
-            overflow-x: hidden;
-            line-height: 1.7;
-            min-height: 100vh;
-        }
-
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: 
-                radial-gradient(circle at 15% 25%, rgba(0, 180, 216, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 85% 75%, rgba(114, 9, 183, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(247, 37, 133, 0.06) 0%, transparent 65%);
-            animation: moveBg 28s ease-in-out infinite;
-        }
-
-        @keyframes moveBg {
-            0% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(-2%, 2%) scale(1.02); }
-            66% { transform: translate(2%, -2%) scale(0.98); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 7, 30, 0.78);
-            backdrop-filter: blur(4px);
-            z-index: -1;
-        }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.2rem 7%;
-            background: rgba(10, 14, 39, 0.92);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            text-decoration: none;
-        }
-
-        .logo-img {
-            height: 45px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .logo-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.7rem;
-            font-weight: 900;
-            color: var(--primary);
-            letter-spacing: 1px;
-        }
-
-        .logo-text span {
-            color: var(--text);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-family: 'Rajdhani', sans-serif;
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            position: relative;
-            letter-spacing: 0.3px;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transition: width 0.35s ease;
-            border-radius: 2px;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-light);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .btn-cliente {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff !important;
-            padding: 0.7rem 1.4rem;
-            border-radius: 10px;
-            font-weight: 700 !important;
-            box-shadow: 0 3px 12px rgba(0, 180, 216, 0.25);
-        }
-
-        .menu-btn {
-            display: none;
-            font-size: 1.6rem;
-            cursor: pointer;
-            color: var(--primary-light);
-        }
-
-        .banner {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            margin-top: 75px;
-        }
-
-        .carousel {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            background: #0a0e27;
-        }
-
-        .carousel-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.9s ease;
-        }
-
-        .carousel-slide.active {
-            opacity: 0.35;
-        }
-
-        .carousel-slide img,
-        .carousel-slide video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: #0a0e27;
-        }
-
-        .carousel-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 2.5rem;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .carousel-btn {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: rgba(0, 180, 216, 0.18);
-            border: 1px solid rgba(144, 224, 239, 0.3);
-            color: var(--text);
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
-            pointer-events: auto;
-        }
-
-        .carousel-btn:hover {
-            background: rgba(0, 180, 216, 0.35);
-            transform: scale(1.12);
-            box-shadow: 0 0 18px rgba(0, 180, 216, 0.4);
-        }
-
-        .carousel-indicators {
-            position: absolute;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1.1rem;
-            z-index: 3;
-        }
-
-        .indicator {
-            width: 13px;
-            height: 13px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.28);
-            cursor: pointer;
-            transition: all 0.35s ease;
-            border: 1px solid transparent;
-        }
-
-        .indicator.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            transform: scale(1.3);
-            box-shadow: 0 0 14px rgba(0, 180, 216, 0.6);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(10, 14, 39, 0.65) 0%, rgba(10, 14, 39, 0.85) 100%);
-            z-index: -1;
-        }
-
-        .banner-content {
-            max-width: 950px;
-            padding: 2rem;
-            z-index: 2;
-        }
-
-        .banner-content h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.3rem, 7vw, 4.5rem);
-            line-height: 1.05;
-            margin-bottom: 1.2rem;
-            font-weight: 900;
-            letter-spacing: 1.2px;
-        }
-
-        .banner-content h1 span {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 35px rgba(0, 180, 216, 0.55);
-        }
-
-        .banner-content h2 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: clamp(1.3rem, 3vw, 1.9rem);
-            color: var(--primary-light);
-            margin-bottom: 1.6rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .banner-content p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 2.8rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .banner-buttons {
-            display: flex;
-            gap: 1.6rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 1.2rem 2.4rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            transition: all 0.35s ease;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            box-shadow: 0 5px 18px rgba(0, 180, 216, 0.32);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 9px 28px rgba(0, 180, 216, 0.5);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary-light);
-        }
-
-        .btn-outline:hover {
-            background: rgba(0, 180, 216, 0.12);
-            transform: translateY(-4px);
-            border-color: var(--primary-light);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--accent), #C1121F);
-            color: white;
-            box-shadow: 0 5px 18px rgba(247, 37, 133, 0.32);
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 9px 28px rgba(247, 37, 133, 0.5);
-        }
-
-        .w-100 {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .container {
-            max-width: 1250px;
-            margin: 0 auto;
-            padding: 6.5rem 7%;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            font-size: clamp(1.7rem, 3.2vw, 2.4rem);
-            margin-bottom: 4.5rem;
-            position: relative;
-            font-weight: 700;
-            letter-spacing: 0.7px;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 3.5px;
-            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
-            border-radius: 2px;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 2.2rem;
-        }
-
-        .service-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 22px;
-            padding: 2.6rem 2rem;
-            text-align: center;
-            backdrop-filter: blur(12px);
-            transition: all 0.35s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 180, 216, 0.09), rgba(114, 9, 183, 0.06), transparent);
-            transition: left 0.7s ease;
-        }
-
-        .service-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-9px);
-            box-shadow: var(--shadow);
-        }
-
-        .service-card:hover::before {
-            left: 100%;
-        }
-
-        .icon-box {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 1.9rem;
-            background: linear-gradient(145deg, var(--dark-medium), var(--dark));
-            border-radius: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0, 180, 216, 0.22);
-        }
-
-        .icon-box i {
-            font-size: 2.3rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .service-card h3 {
-            font-family: 'Rajdhani', sans-serif;
-            margin-bottom: 1.1rem;
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .service-card p {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.85;
-        }
-
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-            gap: 2.6rem;
-        }
-
-        .plan-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 26px;
-            padding: 3.2rem 2.2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(13px);
-            transition: all 0.35s ease;
-        }
-
-        .plan-card.popular {
-            border-color: var(--primary);
-            transform: scale(1.06);
-            box-shadow: 0 0 35px rgba(0, 180, 216, 0.23);
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: 22px;
-            right: -38px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            padding: 0.45rem 3.2rem;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 700;
-            transform: rotate(45deg);
-            letter-spacing: 0.6px;
-        }
-
-        .plan-card:hover {
-            transform: translateY(-9px);
-            border-color: var(--primary-light);
-            box-shadow: 0 16px 42px rgba(0, 180, 216, 0.27);
-        }
-
-        .plan-card.popular:hover {
-            transform: scale(1.06) translateY(-9px);
-        }
-
-        .plan-name {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.1rem;
-            color: white;
-            font-weight: 700;
-        }
-
-        .plan-price {
-            font-size: 3.2rem;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 2.2rem;
-        }
-
-        .plan-price span {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        .plan-features {
-            list-style: none;
-            margin-bottom: 2.7rem;
-            text-align: left;
-        }
-
-        .plan-features li {
-            padding: 0.9rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            display: flex;
-            align-items: center;
-            gap: 0.9rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .plan-features i {
-            color: var(--primary);
-            font-size: 1.15rem;
-        }
-
-        footer {
-            background: rgba(10, 14, 39, 0.96);
-            border-top: 1px solid var(--glass-border);
-            padding: 4.5rem 7% 2.2rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 3.2rem;
-            margin-bottom: 3.2rem;
-        }
-
-        .footer-col h3 {
-            font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.6rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        .footer-col p,
-        .footer-col a {
-            color: var(--text-muted);
-            margin-bottom: 0.9rem;
-            display: block;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .footer-col a:hover {
-            color: var(--primary-light);
-            padding-left: 6px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.1rem;
-            margin-top: 1.2rem;
-        }
-
-        .social-links a {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: var(--primary-light);
-            transition: all 0.35s ease;
-        }
-
-        .social-links a:hover {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #fff;
-            transform: translateY(-4px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2.2rem;
-            border-top: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            font-size: 0.88rem;
-        }
-
-        .whatsapp-float {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            width: 62px;
-            height: 62px;
-            background: #25d366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.1rem;
-            color: white;
-            box-shadow: 0 5px 18px rgba(37, 211, 102, 0.45);
-            z-index: 999;
-            transition: all 0.35s ease;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.13);
-            box-shadow: 0 7px 24px rgba(37, 211, 102, 0.6);
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: rgba(10, 14, 39, 0.98);
-                flex-direction: column;
-                padding: 1.6rem 7%;
-                gap: 1.2rem;
-                display: none;
-                border-bottom: 1px solid var(--glass-border);
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@400;500;600&display=swap');
+    </style>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .bg-nave {
+                background: radial-gradient(ellipse at center, #001233 0%, #000514 70%, #000000 100%);
+                min-height: 100vh;
             }
 
-            .nav-links.active {
+            .painel {
+                border: 1px solid rgba(0, 153, 255, 0.35);
+                box-shadow: 0 0 15px rgba(0, 153, 255, 0.2);
+                background: rgba(0, 18, 51, 0.75);
+                backdrop-filter: blur(4px);
+                border-radius: 6px;
+            }
+
+            .anim-entrada {
+                opacity: 0;
+                transform: translateY(15px);
+                transition: all 0.5s ease-out;
+            }
+
+            .anim-ativo {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .texto-terminal {
+                font-family: 'Rajdhani', sans-serif;
+                color: #cce7ff;
+                letter-spacing: 0.4px;
+                line-height: 1.6;
+            }
+
+            .cursor {
+                animation: piscar 1.2s infinite;
+            }
+
+            /* Carrossel de banners */
+            .carrossel {
+                position: relative;
+                overflow: hidden;
+                border-radius: 6px;
+                height: 280px;
+            }
+
+            .carrossel-imagens {
                 display: flex;
+                transition: transform 0.8s ease;
+                width: 300%;
             }
 
-            .menu-btn {
-                display: block;
+            .carrossel-imagens img {
+                width: 33.333%;
+                height: 280px;
+                object-fit: cover;
             }
 
-            .banner-buttons {
-                flex-direction: column;
-                align-items: center;
+            .carrossel-controles {
+                position: absolute;
+                bottom: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 8px;
             }
 
-            .plan-card.popular {
-                transform: scale(1);
+            .carrossel-dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: rgba(255,255,255,0.4);
+                cursor: pointer;
+                transition: background 0.3s;
             }
 
-            .whatsapp-float {
-                bottom: 22px;
-                right: 22px;
-                width: 57px;
-                height: 57px;
-                font-size: 1.9rem;
+            .carrossel-dot.ativo {
+                background: #0099ff;
+                box-shadow: 0 0 8px #0099ff;
             }
+        }
 
-            .carousel-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 1.3rem;
-            }
+        @keyframes piscar {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
 
-            .logo-img {
-                height: 38px;
-            }
-
-            .logo-text {
-                font-size: 1.4rem;
-            }
+        @keyframes digitar {
+            from { width: 0; }
+            to { width: 100%; }
         }
     </style>
 </head>
-<body>
+<body class="bg-nave text-texto font-terminal m-0 p-0 overflow-x-hidden">
 
-<div class="bg-particles"></div>
-<div class="overlay"></div>
-
-<nav id="navbar">
-    <a href="#" class="logo">
-        <img src="logo.png" alt="WKB Telecom" class="logo-img">
-        <span class="logo-text">WKB <span>TELECOM</span></span>
-    </a>
-    <div class="menu-btn" id="menuBtn">
-        <i class="fa-solid fa-bars"></i>
-    </div>
-    <ul class="nav-links" id="navLinks">
-        <li><a href="#inicio">In√≠cio</a></li>
-        <li><a href="#servicos">Servi√ßos</a></li>
-        <li><a href="#planos">Planos</a></li>
-        <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#contato">Contato</a></li>
-        <li><a href="https://wkbtelecom.centralassinante.com.br/#/login" target="_blank" class="btn-cliente">√ÅREA DO CLIENTE</a></li>
-    </ul>
-</nav>
-
-<!-- Carrossel com caminhos originais (como no c√≥digo que funcionava) -->
-<section class="banner" id="inicio">
-    <div class="carousel">
-        <div class="carousel-slide active">
-            <video muted loop playsinline preload="auto" poster="banner1.png">
-                <source src="video1.mp4" type="video/mp4">
-            </video>
+<!-- Tela de inicializaÁ„o -->
+<div id="boot" class="fixed inset-0 bg-black/95 z-50 flex flex-col justify-center items-center p-6">
+    <div class="w-full max-w-3xl painel p-6 rounded-lg">
+        <div class="text-azulBrilho text-lg mb-3 font-bold tracking-wider">> INICIALIZANDO SISTEMA DE GEST√O WKB</div>
+        <div class="overflow-hidden whitespace-nowrap border-r-2 border-azulBrilho text-xl md:text-2xl font-bold text-azulClaro mb-5" style="animation: digitar 2.5s steps(50, end), piscar 1s step-end infinite;">
+            WKB SISTEMAS E SEGURAN«A | VERS√O 8.2.0
         </div>
-        <div class="carousel-slide">
-            <img src="banner1.png" alt="Internet Fibra √ìptica" loading="lazy">
-        </div>
-        <div class="carousel-slide">
-            <img src="banner2.png" alt="Starlink Internet" loading="lazy">
-        </div>
-        <div class="carousel-slide">
-            <video muted loop playsinline preload="auto" poster="banner2.png">
-                <source src="video2.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="carousel-slide">
-            <img src="banner3.png" alt="Seguran√ßa Eletr√¥nica" loading="lazy">
+        <div class="texto-terminal space-y-2 text-base">
+            <div>> MÛdulo de ComunicaÁ„o: <span class="text-verdeStatus">OPERACIONAL</span></div>
+            <div>> MÛdulo de MÌdia: <span class="text-verdeStatus">CARREGADO</span></div>
+            <div>> ¡rea de Atendimento: <span class="text-azulClaro">Regi„o do TapajÛs</span></div>
+            <div>> Cidades: <span class="text-azulClaro">SantarÈm, Belterra, Alter do Ch„o, MojuÌ dos Campos</span></div>
+            <div class="mt-5 text-azulBrilho">> Sistema Pronto para OperaÁ„o <span class="cursor">_</span></div>
         </div>
     </div>
+</div>
 
-    <div class="carousel-controls">
-        <button class="carousel-btn prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="carousel-btn next-btn"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-
-    <div class="carousel-indicators">
-        <div class="indicator active" data-index="0"></div>
-        <div class="indicator" data-index="1"></div>
-        <div class="indicator" data-index="2"></div>
-        <div class="indicator" data-index="3"></div>
-        <div class="indicator" data-index="4"></div>
-    </div>
-
-    <div class="banner-overlay"></div>
-    <div class="banner-content">
-        <h1>CONEX√ÉO E SEGURAN√áA <span>COMPLETAS</span></h1>
-        <h2>Internet Fibra, Starlink e Solu√ß√µes em Seguran√ßa Eletr√¥nica</h2>
-        <p>Levamos conectividade de alta qualidade e prote√ß√£o para resid√™ncias, empresas, √°reas rurais e embarca√ß√µes em toda a regi√£o. Tecnologia, confian√ßa e suporte que voc√™ pode contar.</p>
-        <div class="banner-buttons">
-            <a href="#planos" class="btn btn-primary"><i class="fa-solid fa-bolt"></i> Ver Planos</a>
-            <a href="#servicos" class="btn btn-outline"><i class="fa-solid fa-shield"></i> Conhecer Servi√ßos</a>
-            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp</a>
-        </div>
-    </div>
-</section>
-
-<section class="container" id="servicos">
-    <h2 class="section-title">NOSSOS SERVI√áOS</h2>
-    <div class="services-grid">
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-wifi"></i></div>
-            <h3>INTERNET FIBRA √ìPTICA</h3>
-            <p>Conex√£o 100% fibra, ultra-r√°pida e est√°vel para resid√™ncias e empresas em Belterra, Santar√©m e regi√£o.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-satellite-dish"></i></div>
-            <h3>STARLINK VIA SAT√âLITE</h3>
-            <p>Venda, instala√ß√£o e configura√ß√£o de internet via sat√©lite para √°reas rurais, ribeirinhas e locais sem fibra.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-ship"></i></div>
-            <h3>INTERNET PARA EMBARCA√á√ïES</h3>
-            <p>Solu√ß√£o exclusiva via Starlink com hostport personalizado para conex√£o est√°vel durante toda a navega√ß√£o.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-video"></i></div>
-            <h3>CFTV</h3>
-            <p>C√¢meras IP, AHD e Wi-Fi, gravadores DVR/NVR, monitoramento remoto e imagens em alta defini√ß√£o.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-bell"></i></div>
-            <h3>SISTEMAS DE ALARME</h3>
-            <p>Centrais monitoradas, sensores internos e externos, monitoramento 24h e controle de alertas.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-user-lock"></i></div>
-            <h3>CONTROLE DE ACESSO</h3>
-            <p>Biometria, senha, cart√£o e facial, controle de hor√°rios, integra√ß√£o com catracas e portas.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-door-open"></i></div>
-            <h3>ELETROIM√É</h3>
-            <p>Eletro√≠m√£s para portas, suportes e acess√≥rios, alta resist√™ncia e seguran√ßa para portas de vidro e metal.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-door-closed"></i></div>
-            <h3>MOTOR DE PORT√ÉO</h3>
-            <p>Deslizantes, basculantes e pivotantes, automatizadores Rossi e Garen, seguran√ßa e praticidade.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-bolt-lightning"></i></div>
-            <h3>CERCA EL√âTRICA</h3>
-            <p>Cercas, centrais e acess√≥rios, sensores de choque e alarme, alta prote√ß√£o perimetral e integra√ß√£o com alarmes.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-solar-panel"></i></div>
-            <h3>ENERGIA SOLAR</h3>
-            <p>Projetos completos, pain√©is, inversores e baterias, sustentabilidade e economia, energia limpa e inteligente.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-network-wired"></i></div>
-            <h3>REDES E TI</h3>
-            <p>Organiza√ß√£o de racks, switches gerenci√°veis, cabeamento estruturado e redes est√°veis e seguras.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-server"></i></div>
-            <h3>HOSTPORT PARA MIKROTIK</h3>
-            <p>Solu√ß√µes de acesso remoto, hostport e VPN, ideal para provedores e empresas, estabilidade e performance.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-camera"></i></div>
-            <h3>C√ÇMERAS PARA ELEVADOR</h3>
-            <p>Monitoramento interno, alta defini√ß√£o e √¢ngulo amplo, seguran√ßa em elevadores, modelos com IR e √°udio.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-ruler-combined"></i></div>
-            <h3>SENSORES DE BARREIRA</h3>
-            <p>Feixes infravermelhos, prote√ß√£o perimetral, alcance de 100m a 250m, uso externo e alta precis√£o.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-video"></i></div>
-            <h3>INTERFONES E V√çDEO PORTEIROS</h3>
-            <p>√Åudio e v√≠deo em HD, acesso remoto via app, modelos residenciais e prediais, integra√ß√£o com fechaduras.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-lock"></i></div>
-            <h3>FECHADURAS E TRAVAS</h3>
-            <p>Fechaduras eletr√¥nicas, travas magn√©ticas e el√©tricas, seguran√ßa sem contato, para portas de madeira e vidro.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-fire"></i></div>
-            <h3>DETEC√á√ÉO DE INC√äNDIO</h3>
-            <p>Centrais e detectores, sirenes e acionadores manuais, conformidade e seguran√ßa para resid√™ncias e com√©rcios.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-plug"></i></div>
-            <h3>ACESS√ìRIOS E MAIS</h3>
-            <p>Cabos, conectores, fontes e baterias, suportes, caixas e organizadores, parcerias para projetos especiais.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-laptop-code"></i></div>
-            <h3>MANUTEN√á√ÉO DE COMPUTADORES</h3>
-            <p>Reparo, formata√ß√£o, instala√ß√£o de programas e otimiza√ß√£o para notebooks e desktops.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-mobile-screen-button"></i></div>
-            <h3>ASSIST√äNCIA DE CELULARES</h3>
-            <p>Troca de tela, bateria, reparo de placas e manuten√ß√£o completa para smartphones.</p>
-        </div>
-        <div class="service-card">
-            <div class="icon-box"><i class="fa-solid fa-headset"></i></div>
-            <h3>SUPORTE T√âCNICO ESPECIALIZADO</h3>
-            <p>Atendimento antes, durante e ap√≥s a venda, equipes qualificadas e suporte √°gil para todas as solu√ß√µes.</p>
-        </div>
-    </div>
-</section>
-
-<section class="container" id="planos">
-    <h2 class="section-title">NOSSOS PLANOS</h2>
-    <div class="plans-grid">
-        <div class="plan-card">
-            <h3 class="plan-name">RESIDENCIAL</h3>
-            <div class="plan-price">R$ 99<span>/m√™s</span></div>
-            <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> 400 Mega de Velocidade</li>
-                <li><i class="fa-solid fa-check"></i> 100% Fibra √ìptica</li>
-                <li><i class="fa-solid fa-check"></i> Roteador Wi-Fi Incluso</li>
-                <li><i class="fa-solid fa-check"></i> Suporte T√©cnico</li>
-                <li><i class="fa-solid fa-check"></i> Instala√ß√£o R√°pida</li>
-            </ul>
-            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">ASSINAR AGORA</a>
-        </div>
-
-        <div class="plan-card popular">
-            <div class="popular-badge">MAIS ESCOLHIDO</div>
-            <h3 class="plan-name">ULTRA VELOZ</h3>
-            <div class="plan-price">R$ 149<span>/m√™s</span></div>
-            <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> 800 Mega de Velocidade</li>
-                <li><i class="fa-solid fa-check"></i> Lat√™ncia M√≠nima</li>
-                <li><i class="fa-solid fa-check"></i> Roteador Gigabit Premium</li>
-                <li><i class="fa-solid fa-check"></i> Prioridade no Atendimento</li>
-                <li><i class="fa-solid fa-check"></i> Garantia de Estabilidade</li>
-            </ul>
-            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">ASSINAR PRO</a>
-        </div>
-
-        <div class="plan-card">
-            <h3 class="plan-name">STARLINK</h3>
-            <div class="plan-price">CONSULTAR<span></span></div>
-            <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> Venda Oficial</li>
-                <li><i class="fa-solid fa-check"></i> Instala√ß√£o Profissional</li>
-                <li><i class="fa-solid fa-check"></i> Configura√ß√£o Completa</li>
-                <li><i class="fa-solid fa-check"></i> Cobertura em toda Amaz√¥nia</li>
-                <li><i class="fa-solid fa-check"></i> Suporte especializado</li>
-            </ul>
-            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">SOLICITAR OR√áAMENTO</a>
-        </div>
-
-        <div class="plan-card">
-            <h3 class="plan-name">EMBARCA√á√ïES</h3>
-            <div class="plan-price">PERSONALIZADO<span></span></div>
-            <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> Via Starlink</li>
-                <li><i class="fa-solid fa-check"></i> Hostport Personalizado</li>
-                <li><i class="fa-solid fa-check"></i> Conex√£o est√°vel em rios</li>
-                <li><i class="fa-solid fa-check"></i> Equipamento resistente</li>
-                <li><i class="fa-solid fa-check"></i> Suporte durante navega√ß√£o</li>
-            </ul>
-            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">SOLICITAR PROJETO</a>
-        </div>
-
-        <div class="plan-card">
-            <h3 class="plan-name">EMPRESARIAL</h3>
-            <div class="plan-price">R$ 219<span>/m√™s</span></div>
-            <ul class="plan-features">
-                <li><i class="fa-solid fa-check"></i> 1 Giga de Velocidade</li>
-                <li><i class="fa-solid fa-check"></i> IP Fixo Dedicado</li>
-                <li><i class="fa-solid fa-check"></i> Suporte Exclusivo</li>
-                <li><i class="fa-solid fa-check"></i> Rede Otimizada</li>
-                <li><i class="fa-solid fa-check"></i> Contrato Flex√≠vel</li>
-            </ul>
-            <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary w-100">SOLICITAR</a>
-        </div>
-    </div>
-</section>
-
-<section class="container" id="sobre">
-    <h2 class="section-title">SOBRE A WKB TELECOM</h2>
-    <div style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 24px; padding: 3rem; backdrop-filter: blur(12px); max-width: 750px; margin: 0 auto;">
-        <p style="text-align: center; font-size: 1.1rem; color: var(--text-muted); line-height: 1.9;">
-            Fundada e liderada pelo t√©cnico <strong style="color: var(--primary);">Welliton</strong>, a WKB Telecom √© refer√™ncia em tecnologia e seguran√ßa eletr√¥nica em Santar√©m, Belterra, Alter do Ch√£o e regi√£o. Trabalhamos com as melhores marcas do mercado como Intelbras, Hikvision, Rossi, Garen e JFL, oferecendo solu√ß√µes completas e personalizadas para cada necessidade. Nosso compromisso √© levar tecnologia de qualidade, com atendimento especializado e suporte que voc√™ pode confiar.
-        </p>
-    </div>
-</section>
-
-<section class="container" id="contato">
-    <h2 class="section-title">ENTRE EM CONTATO</h2>
-    <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-        <p style="font-size: 1.2rem; margin-bottom: 1rem;"><i class="fa-brands fa-whatsapp" style="color: #25d366; font-size: 1.5rem; margin-right: 0.5rem;"></i> (93) 99119-2244</p>
-        <p style="margin-bottom: 1rem;"><i class="fa-solid fa-map-marker-alt" style="color: var(--primary); margin-right: 0.5rem;"></i> Atendimento para: Santar√©m, Belterra, Alter do Ch√£o e Muju√≠ dos Campos</p>
-        <p style="margin-bottom: 2rem; font-style: italic;">Sua seguran√ßa e conex√£o, nossa prioridade!</p>
-        <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> Falar Agora no WhatsApp</a>
-    </div>
-</section>
-
-<footer>
-    <div class="footer-grid">
-        <div class="footer-col">
-            <h3>WKB TELECOM</h3>
-            <p>Conectividade, Seguran√ßa e TI para toda a regi√£o amaz√¥nica. Tecnologia e confian√ßa ao seu alcance.</p>
-            <div class="social-links">
-                <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://wa.me/5593991192244" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+<!-- CabeÁalho Principal -->
+<header class="painel sticky top-0 z-40 border-b border-azulBrilho/30">
+    <div class="container mx-auto px-5 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-5">
+            <img src="logo.png" alt="Logo WKB" class="w-20 h-auto drop-shadow-[0_0_10px_#0099ff70]">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-azulBrilho tracking-wider">WKB SISTEMAS</h1>
+                <p class="texto-terminal text-sm">CNPJ: 62.513.677/0001-80 | Regi„o do TapajÛs</p>
+                <p class="texto-terminal text-xs">SoluÁıes em Telecom, SeguranÁa e Tecnologia da InformaÁ„o</p>
             </div>
         </div>
-        <div class="footer-col">
-            <h3>SERVI√áOS</h3>
-            <a href="#servicos">Internet Fibra</a>
-            <a href="#servicos">Starlink</a>
-            <a href="#servicos">Seguran√ßa Eletr√¥nica</a>
-            <a href="#servicos">Energia Solar</a>
-            <a href="#servicos">Redes e TI</a>
-        </div>
-        <div class="footer-col">
-            <h3>CONTATO</h3>
-            <p><i class="fa-brands fa-whatsapp"></i> (93) 99119-2244</p>
-            <p><i class="fa-solid fa-map-marker-alt"></i> Santar√©m, Belterra e regi√£o</p>
-            <p><i class="fa-solid fa-clock"></i> Atendimento de segunda a s√°bado</p>
+        <div class="texto-terminal text-right">
+            <p> Central: <span class="text-azulBrilho">(93) 99119-2244</span></p>
+            <p> E-mail: <span class="text-azulBrilho">tecsegseguranca7@gmail.com</span></p>
+            <p> Atendimento: Seg a S·b | 08h ‡s 18h</p>
         </div>
     </div>
-    <div class="footer-bottom">
-        <p>&copy; 2026 WKB Telecom - Todos os direitos reservados. Desenvolvido por Welliton.</p>
+</header>
+
+<!-- Menu de NavegaÁ„o -->
+<nav class="bg-fundoAzul/70 border-b border-azulBrilho/25 z-30">
+    <div class="container mx-auto px-5 py-3">
+        <div class="texto-terminal flex flex-wrap gap-8 text-lg">
+            <a href="#sistema" class="hover:text-azulBrilho transition-colors duration-300">> SISTEMA</a>
+            <a href="#midia" class="hover:text-azulBrilho transition-colors duration-300">> MÕDIA</a>
+            <a href="#servicos" class="hover:text-azulBrilho transition-colors duration-300">> SERVI«OS</a>
+            <a href="#planos" class="hover:text-azulBrilho transition-colors duration-300">> CONEX’ES</a>
+            <a href="#equipamentos" class="hover:text-azulBrilho transition-colors duration-300">> EQUIPAMENTOS</a>
+            <a href="#cobertura" class="hover:text-azulBrilho transition-colors duration-300">> ¡REA DE ATENDIMENTO</a>
+            <a href="#suporte" class="hover:text-azulBrilho transition-colors duration-300">> SUPORTE</a>
+            <a href="#contato" class="hover:text-azulBrilho transition-colors duration-300">> CONTATO</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Conte˙do Principal -->
+<main class="container mx-auto px-5 py-10 space-y-10">
+
+    <!-- MÛdulo: Sobre o Sistema -->
+    <section id="sistema" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: IDENTIFICA«√O DA EMPRESA</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">EM OPERA«√O</span></span>
+            </div>
+            <div class="texto-terminal text-lg space-y-4">
+                <p>A WKB SISTEMAS E SEGURAN«A È uma empresa especializada em soluÁıes completas para telecomunicaÁıes, seguranÁa eletrÙnica e tecnologia da informaÁ„o, atuando exclusivamente na regi„o do TapajÛs.</p>
+                <p>Nossa miss„o È levar conectividade, proteÁ„o e tecnologia de qualidade para residÍncias, comÈrcios e propriedades rurais em SantarÈm, Belterra, Alter do Ch„o e MojuÌ dos Campos, com atendimento personalizado e suporte tÈcnico local.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÛdulo: MÌdia - Banners e VÌdeos -->
+    <section id="midia" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: APOIO VISUAL</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">EM EXECU«√O</span></span>
+            </div>
+
+            <!-- Carrossel de Banners -->
+            <h3 class="text-xl text-azulClaro font-semibold mb-3"> BANNERS PROMOCIONAIS</h3>
+            <div class="carrossel mb-8">
+                <div class="carrossel-imagens" id="carrosselImagens">
+                    <img src="banner1.png" alt="Banner 1">
+                    <img src="banner2.png" alt="Banner 2">
+                    <img src="banner3.png" alt="Banner 3">
+                </div>
+                <div class="carrossel-controles">
+                    <div class="carrossel-dot ativo" data-index="0"></div>
+                    <div class="carrossel-dot" data-index="1"></div>
+                    <div class="carrossel-dot" data-index="2"></div>
+                </div>
+            </div>
+
+            <!-- ¡rea de VÌdeos -->
+            <h3 class="text-xl text-azulClaro font-semibold mb-4"> VÕDEOS INSTITUCIONAIS</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="border border-azulBrilho/30 p-3 rounded bg-fundoAzul/55">
+                    <video src="video1.mp4" controls preload="metadata" class="w-full h-64 object-cover rounded"></video>
+                    <p class="texto-terminal text-center mt-2">VÌdeo 1 - ApresentaÁ„o</p>
+                </div>
+                <div class="border border-azulBrilho/30 p-3 rounded bg-fundoAzul/55">
+                    <video src="video2.mp4" controls preload="metadata" class="w-full h-64 object-cover rounded"></video>
+                    <p class="texto-terminal text-center mt-2">VÌdeo 2 - ServiÁos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÛdulo: ServiÁos Detalhados -->
+    <section id="servicos" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: SERVI«OS DISPONÕVEIS</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">TODOS ATIVOS</span></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 texto-terminal text-lg">
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> SEGURAN«A ELETR‘NICA</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>InstalaÁ„o e configuraÁ„o de c‚meras analÛgicas e IP</li>
+                        <li>Sistemas de gravaÁ„o DVR / NVR com acesso remoto</li>
+                        <li>Alarmes monitorados e sensores de presenÁa/abertura</li>
+                        <li>Cercas elÈtricas, concertinas e sensores perimetrais</li>
+                        <li>Controle de acesso biomÈtrico, por cart„o e senha</li>
+                        <li>Interfonia e vÌdeo-portaria</li>
+                        <li>ManutenÁ„o e troca de peÁas de sistemas existentes</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> REDES E FIBRA ”PTICA</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>InstalaÁ„o e fus„o de cabos de fibra Ûptica monomodo e multimodo</li>
+                        <li>CertificaÁ„o e teste de redes com equipamentos profissionais</li>
+                        <li>Montagem de redes estruturadas para residÍncias e empresas</li>
+                        <li>ConfiguraÁ„o de switches, roteadores e pontos de acesso</li>
+                        <li>Desenvolvimento de hotspots personalizados para comÈrcio</li>
+                        <li>AmpliaÁ„o de alcance de sinal com antenas direcionais e setoriais</li>
+                        <li>Projetos de rede interna e externa com c·lculo de sinal</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> TECNOLOGIA DA INFORMA«√O</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Suporte tÈcnico presencial e remoto para computadores e redes</li>
+                        <li>ConfiguraÁ„o e gerenciamento de servidores locais e em nuvem</li>
+                        <li>Desenvolvimento e ajustes de sistemas web e sites empresariais</li>
+                        <li>CriaÁ„o de sistemas de ordem de serviÁo e controle de clientes</li>
+                        <li>SeguranÁa de redes, instalaÁ„o de firewalls e antivÌrus</li>
+                        <li>RecuperaÁ„o de dados e formataÁ„o segura de equipamentos</li>
+                        <li>Consultoria para modernizaÁ„o de infraestrutura de TI</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> SOLU«’ES ESPECIAIS</h3>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Venda, instalaÁ„o e configuraÁ„o oficial do sistema Starlink</li>
+                        <li>Internet de alta velocidade para ·reas rurais e ribeirinhas</li>
+                        <li>Sistemas adaptados para embarcaÁıes e locais remotos</li>
+                        <li>Projetos de comunicaÁ„o VHF/UHF para longo alcance</li>
+                        <li>OrientaÁ„o sobre frequÍncias e licenÁas para r·dios</li>
+                        <li>InstalaÁ„o de antenas repetidoras e reforÁo de sinal</li>
+                        <li>Contratos de manutenÁ„o mensal para empresas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÛdulo: Planos de Conex„o -->
+    <section id="planos" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: PLANOS DE INTERNET</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">DISPONÕVEIS</span></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="border border-azulBrilho/40 rounded-lg p-5 bg-fundoAzul/60 hover:shadow-[0_0_20px_#0099ff35] transition-shadow duration-300">
+                    <h3 class="text-2xl font-bold text-azulClaro mb-3">PLANO 400 MB</h3>
+                    <p class="text-3xl font-bold text-azulBrilho my-3">R$ 100,00 <span class="text-sm texto-terminal">/ mÍs</span></p>
+                    <ul class="texto-terminal text-lg space-y-2">
+                        <li> Velocidade de download: atÈ 400 Mbps</li>
+                        <li> Velocidade de upload: atÈ 200 Mbps</li>
+                        <li> Conex„o via fibra Ûptica de alta qualidade</li>
+                        <li> Sem limites de tr·fego mensal</li>
+                        <li> Suporte tÈcnico em atÈ 24h ˙teis</li>
+                        <li> InstalaÁ„o gratuita na ·rea de atendimento</li>
+                        <li> Ideal para residÍncias e pequenos comÈrcios</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/40 rounded-lg p-5 bg-fundoAzul/60 hover:shadow-[0_0_20px_#0099ff35] transition-shadow duration-300">
+                    <h3 class="text-2xl font-bold text-azulClaro mb-3">PLANO ILIMITADO</h3>
+                    <p class="text-3xl font-bold text-azulBrilho my-3">R$ 149,00 <span class="text-sm texto-terminal">/ mÍs</span></p>
+                    <ul class="texto-terminal text-lg space-y-2">
+                        <li> Velocidade de download: atÈ 1 Gbps</li>
+                        <li> Velocidade de upload: atÈ 500 Mbps</li>
+                        <li> Conex„o est·vel e dedicada</li>
+                        <li> Sem limites de consumo</li>
+                        <li> Suporte tÈcnico priorit·rio 8h ‡s 22h</li>
+                        <li> Garantia de disponibilidade de 99%</li>
+                        <li> Ideal para empresas, escritÛrios e uso intenso</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="texto-terminal mt-5 text-sm">* Valores v·lidos exclusivamente para a regi„o do TapajÛs: SantarÈm, Belterra, Alter do Ch„o e MojuÌ dos Campos.</p>
+        </div>
+    </section>
+
+    <!-- MÛdulo: Equipamentos e Cat·logo -->
+    <section id="equipamentos" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: CAT¡LOGO DE EQUIPAMENTOS</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ESTOQUE ATUALIZADO</span></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 texto-terminal text-lg">
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> CONEX√O REMOTA</h3>
+                    <ul class="space-y-1">
+                        <li>ï Kit Starlink Padr„o</li>
+                        <li>ï Kit Starlink Alto Desempenho</li>
+                        <li>ï Antenas repetidoras de sinal</li>
+                        <li>ï R·dios enlaces ponto a ponto</li>
+                        <li>ï Fontes e acessÛrios para instalaÁ„o</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> SEGURAN«A</h3>
+                    <ul class="space-y-1">
+                        <li>ï C‚meras IP HD e Full HD</li>
+                        <li>ï C‚meras infravermelho e colorida noturna</li>
+                        <li>ï Gravadores DVR e NVR de 4 a 32 canais</li>
+                        <li>ï Alarmes e sensores sem fio e com fio</li>
+                        <li>ï Controles de acesso e fechaduras digitais</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> REDES E FIBRA</h3>
+                    <ul class="space-y-1">
+                        <li>ï Cabos de fibra Ûptica e conectores</li>
+                        <li>ï Switches de 8, 16 e 24 portas</li>
+                        <li>ï Roteadores empresariais e residenciais</li>
+                        <li>ï Antenas direcionais e setoriais</li>
+                        <li>ï Caixas de emenda e organizadores</li>
+                    </ul>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> FERRAMENTAS E ACESS”RIOS</h3>
+                    <ul class="space-y-1">
+                        <li>ï M·quinas de fus„o de fibra Ûptica</li>
+                        <li>ï Medidores de potÍncia e sinal</li>
+                        <li>ï Alicates, conectores e caixas de passagem</li>
+                        <li>ï Fontes de alimentaÁ„o e estabilizadores</li>
+                        <li>ï Suportes, hastes e materiais de fixaÁ„o</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÛdulo: ¡rea de Atendimento -->
+    <section id="cobertura" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: ¡REA DE ATENDIMENTO</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ATENDIMENTO EXCLUSIVO</span></span>
+            </div>
+            <div class="texto-terminal text-lg space-y-4">
+                <p>Atendemos <strong>exclusivamente a regi„o do TapajÛs</strong>, nas seguintes localidades:</p>
+                <ul class="list-disc list-inside space-y-2 pl-2">
+                    <li><strong>SantarÈm</strong> ó Zona urbana, bairros e comunidades prÛximas</li>
+                    <li><strong>Belterra</strong> ó Centro, zona rural e comunidades</li>
+                    <li><strong>Alter do Ch„o</strong> ó Orla, centro e localidades vizinhas</li>
+                    <li><strong>MojuÌ dos Campos</strong> ó Sede e ·rea rural</li>
+                </ul>
+                <p>TambÈm atendemos propriedades rurais, comunidades ribeirinhas e embarcaÁıes dentro desses municÌpios.</p>
+                <p><strong>Importante:</strong> N„o realizamos atendimento fora da regi„o acima informada.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÛdulo: Suporte e Garantias -->
+    <section id="suporte" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: SUPORTE E GARANTIAS</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ATIVO</span></span>
+            </div>
+            <div class="texto-terminal text-lg space-y-4">
+                <p><strong> Canais de Suporte:</strong></p>
+                <ul class="list-disc list-inside space-y-1 pl-2">
+                    <li>WhatsApp: (93) 99119-2244 ó atendimento r·pido e direto</li>
+                    <li>E-mail: suporte@wkbsistemas.com.br ó abertura de chamados formais</li>
+                    <li>Hor·rio de atendimento: Segunda a S·bado das 08h ‡s 18h</li>
+                    <li>Plant„o de emergÍncia: disponÌvel para falhas crÌticas na regi„o atendida</li>
+                </ul>
+                <p><strong> Garantias Oferecidas:</strong></p>
+                <ul class="list-disc list-inside space-y-1 pl-2">
+                    <li>Garantia de serviÁo: 90 dias para qualquer instalaÁ„o realizada</li>
+                    <li>Garantia de equipamentos: conforme prazo do fabricante</li>
+                    <li>Garantia de velocidade: cumprimento de 80% da velocidade contratada</li>
+                    <li>Garantia de atendimento: retorno em atÈ 24h ˙teis</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- MÛdulo: Contato Completo -->
+    <section id="contato" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho"> M”DULO: DADOS DE CONTATO</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">CANAL ABERTO</span></span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 texto-terminal text-lg">
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> DADOS CADASTRAIS</h3>
+                    <p><strong>Raz„o Social:</strong> WKB SISTEMAS E SEGURAN«A LTDA</p>
+                    <p><strong>CNPJ:</strong> 62.513.677/0001-80</p>
+                    <p><strong>Regi„o:</strong> TapajÛs ó Oeste do Par·</p>
+                    <p><strong>Atendimento:</strong> SantarÈm, Belterra, Alter do Ch„o e MojuÌ dos Campos</p>
+                </div>
+                <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> CANAIS DE COMUNICA«√O</h3>
+                    <p><strong>Telefone / WhatsApp:</strong> (93) 99119-2244</p>
+                    <p><strong>E-mail Comercial:</strong> tecsegseguranca7@gmail.com</p>
+                    <p><strong>E-mail Suporte:</strong> suporte@wkbsistemas.com.br</p>
+                    <p><strong>Hor·rio:</strong> Seg a S·b ó 08h ‡s 18h</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- RodapÈ do Sistema -->
+<footer class="painel border-t border-azulBrilho/30 py-4 mt-8">
+    <div class="container mx-auto px-5 texto-terminal text-center text-base">
+        <p>SISTEMA WKB v8.2.0 | &copy; 2026 WKB SISTEMAS E SEGURAN«A ó Regi„o do TapajÛs</p>
+        <p class="text-azulBrilho mt-2">Aguardando nova solicitaÁ„o <span class="cursor">_</span></p>
     </div>
 </footer>
 
-<a href="https://wa.me/5593991192244" class="whatsapp-float" target="_blank">
-    <i class="fa-brands fa-whatsapp"></i>
-</a>
-
+<!-- Scripts -->
 <script>
-    const menuBtn = document.getElementById('menuBtn');
-    const navLinks = document.getElementById('navLinks');
-    menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+    // Tela de inicializaÁ„o
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const boot = document.getElementById('boot');
+            boot.style.opacity = '0';
+            setTimeout(() => boot.style.display = 'none', 700);
+        }, 2500);
+    });
 
-    const slides = document.querySelectorAll('.carousel-slide');
-    const indicators = document.querySelectorAll('.indicator');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    let currentSlide = 0;
-    let slideInterval;
-    const slideDelay = 7000;
+    // AnimaÁ„o suave ao rolar
+    const modulos = document.querySelectorAll('.anim-entrada');
+    const observador = new IntersectionObserver((entradas) => {
+        entradas.forEach(entrada => {
+            if (entrada.isIntersecting) entrada.target.classList.add('anim-ativo');
+        });
+    }, { threshold: 0.05 });
 
-    function showSlide(index) {
-        document.querySelectorAll('.carousel-slide video').forEach(vid => vid.pause());
-        
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(ind => ind.classList.remove('active'));
-        
-        currentSlide = (index + slides.length) % slides.length;
-        
-        slides[currentSlide].classList.add('active');
-        indicators[currentSlide].classList.add('active');
-        
-        const activeVideo = slide
+    modulos.forEach(modulo => observador.observe(modulo));
+
+    // Carrossel autom·tico e manual
+    const carrosselImagens = document.getElementById('carrosselImagens');
+    const dots = document.querySelectorAll('.carrossel-dot');
+    let indiceAtual = 0;
+
+    function mostrarSlide(indice) {
+        indiceAtual = indice;
+        carrosselImagens.style.transform = `translateX(-${indice * 33.333}%)`;
+        dots.forEach((dot, i) => dot.classList.toggle('ativo', i === indice));
+    }
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => mostrarSlide(i)));
+
+    setInterval(() => {
+        const proximo = (indiceAtual + 1) % 3;
+        mostrarSlide(proximo);
+    }, 4500);
+</script>
+
+</body>
+</html>
