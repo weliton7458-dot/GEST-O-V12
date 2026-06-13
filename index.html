@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WKB SISTEMAS | Painel de Operações</title>
-    <meta name="description" content="Soluções em Telecom, Segurança e TI exclusivas para a região do Tapajós: Santarém, Belterra, Alter do Chão e Mojuí dos Campos.">
+    <title>WKB SISTEMAS | Painel de Operacoes</title>
+    <meta name="description" content="Solucoes em Telecom, Seguranca e TI exclusivas para a regiao do Tapajos: Santarem, Belterra, Alter do Chao e Mojui dos Campos.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <script>
@@ -18,7 +18,8 @@
                         azulBrilho: '#0099ff',
                         azulClaro: '#66ccff',
                         verdeStatus: '#33ff99',
-                        texto: '#cce7ff'
+                        texto: '#cce7ff',
+                        whatsapp: '#25d366'
                     },
                     fontFamily: {
                         terminal: ['Rajdhani', 'Orbitron', 'Consolas', 'monospace'],
@@ -109,6 +110,95 @@
                 background: #0099ff;
                 box-shadow: 0 0 8px #0099ff;
             }
+
+            /* Botao WhatsApp */
+            .whatsapp-float {
+                position: fixed;
+                right: 20px;
+                bottom: 25px;
+                width: 62px;
+                height: 62px;
+                background: #25d366;
+                border-radius: 50%;
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #ffffff;
+                font-size: 32px;
+                text-decoration: none;
+                box-shadow: 0 0 15px rgba(37, 211, 102, 0.7);
+                animation: pulsar 2s infinite ease-in-out;
+            }
+
+            .whatsapp-float:hover {
+                transform: scale(1.07);
+            }
+
+            /* Balao de mensagem - aparece apenas uma vez */
+            .balao-whatsapp {
+                position: absolute;
+                right: 80px;
+                bottom: 15px;
+                background: #ffffff;
+                color: #111111;
+                padding: 10px 14px;
+                border-radius: 18px;
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                max-width: 220px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                opacity: 0;
+                transform: translateX(10px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+                pointer-events: none;
+            }
+
+            .balao-whatsapp.mostrar {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            .balao-whatsapp::after {
+                content: "";
+                position: absolute;
+                right: -8px;
+                top: 50%;
+                transform: translateY(-50%);
+                border-left: 8px solid #ffffff;
+                border-top: 8px solid transparent;
+                border-bottom: 8px solid transparent;
+            }
+
+            @keyframes pulsar {
+                0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+                70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+            }
+
+            .local-card {
+                border: 1px solid rgba(0, 153, 255, 0.35);
+                background: rgba(0, 18, 51, 0.55);
+                border-radius: 6px;
+                padding: 16px;
+            }
+
+            .local-btn {
+                background: #0099ff;
+                color: #000514;
+                padding: 10px 16px;
+                border-radius: 6px;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 0 10px rgba(0,153,255,0.5);
+                transition: background 0.2s;
+            }
+
+            .local-btn:hover {
+                background: #66ccff;
+            }
         }
 
         @keyframes piscar {
@@ -124,87 +214,88 @@
 </head>
 <body class="bg-nave text-texto font-terminal m-0 p-0 overflow-x-hidden">
 
-<!-- Tela de inicialização -->
+<!-- Tela de inicializacao -->
 <div id="boot" class="fixed inset-0 bg-black/95 z-50 flex flex-col justify-center items-center p-6">
     <div class="w-full max-w-3xl painel p-6 rounded-lg">
-        <div class="text-azulBrilho text-lg mb-3 font-bold tracking-wider">> INICIALIZANDO SISTEMA DE GESTÃO WKB</div>
+        <div class="text-azulBrilho text-lg mb-3 font-bold tracking-wider">> INICIALIZANDO SISTEMA DE GESTAO WKB</div>
         <div class="overflow-hidden whitespace-nowrap border-r-2 border-azulBrilho text-xl md:text-2xl font-bold text-azulClaro mb-5" style="animation: digitar 2.5s steps(50, end), piscar 1s step-end infinite;">
-            WKB SISTEMAS E SEGURANÇA | VERSÃO 8.2.0
+            WKB SISTEMAS E SEGURANCA | VERSAO 8.2.0
         </div>
         <div class="texto-terminal space-y-2 text-base">
-            <div>> Módulo de Comunicação: <span class="text-verdeStatus">OPERACIONAL</span></div>
-            <div>> Módulo de Mídia: <span class="text-verdeStatus">CARREGADO</span></div>
-            <div>> Área de Atendimento: <span class="text-azulClaro">Região do Tapajós</span></div>
-            <div>> Cidades: <span class="text-azulClaro">Santarém, Belterra, Alter do Chão, Mojuí dos Campos</span></div>
-            <div class="mt-5 text-azulBrilho">> Sistema Pronto para Operação <span class="cursor">_</span></div>
+            <div>> Modulo de Comunicacao: <span class="text-verdeStatus">OPERACIONAL</span></div>
+            <div>> Modulo de Midia: <span class="text-verdeStatus">CARREGADO</span></div>
+            <div>> Area de Atendimento: <span class="text-azulClaro">Regiao do Tapajos</span></div>
+            <div>> Cidades: <span class="text-azulClaro">Santarem, Belterra, Alter do Chao, Mojui dos Campos</span></div>
+            <div class="mt-5 text-azulBrilho">> Sistema Pronto para Operacao <span class="cursor">_</span></div>
         </div>
     </div>
 </div>
 
-<!-- Cabeçalho Principal -->
+<!-- Cabecalho Principal -->
 <header class="painel sticky top-0 z-40 border-b border-azulBrilho/30">
     <div class="container mx-auto px-5 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="flex items-center gap-5">
             <img src="logo.png" alt="Logo WKB" class="w-20 h-auto drop-shadow-[0_0_10px_#0099ff70]">
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold text-azulBrilho tracking-wider">WKB SISTEMAS</h1>
-                <p class="texto-terminal text-sm">CNPJ: 62.513.677/0001-80 | Região do Tapajós</p>
-                <p class="texto-terminal text-xs">Soluções em Telecom, Segurança e Tecnologia da Informação</p>
+                <p class="texto-terminal text-sm">CNPJ: 62.513.677/0001-80 | Regiao do Tapajos</p>
+                <p class="texto-terminal text-xs">Solucoes em Telecom, Seguranca e Tecnologia da Informacao</p>
             </div>
         </div>
         <div class="texto-terminal text-right">
             <p> Central: <span class="text-azulBrilho">(93) 99119-2244</span></p>
             <p> E-mail: <span class="text-azulBrilho">tecsegseguranca7@gmail.com</span></p>
-            <p> Atendimento: Segunda a Sábado | 08h às 18h</p>
+            <p> Atendimento: Segunda a Sabado | 08h as 18h</p>
         </div>
     </div>
 </header>
 
-<!-- Menu de Navegação -->
+<!-- Menu de Navegacao -->
 <nav class="bg-fundoAzul/70 border-b border-azulBrilho/25 z-30">
     <div class="container mx-auto px-5 py-3">
         <div class="texto-terminal flex flex-wrap gap-8 text-lg">
             <a href="#sistema" class="hover:text-azulBrilho transition-colors duration-300">> SISTEMA</a>
-            <a href="#midia" class="hover:text-azulBrilho transition-colors duration-300">> MÍDIA</a>
-            <a href="#servicos" class="hover:text-azulBrilho transition-colors duration-300">> SERVIÇOS</a>
-            <a href="#planos" class="hover:text-azulBrilho transition-colors duration-300">> CONEXÕES</a>
+            <a href="#midia" class="hover:text-azulBrilho transition-colors duration-300">> MIDIA</a>
+            <a href="#servicos" class="hover:text-azulBrilho transition-colors duration-300">> SERVICOS</a>
+            <a href="#conexoes" class="hover:text-azulBrilho transition-colors duration-300">> CONEXOES</a>
             <a href="#equipamentos" class="hover:text-azulBrilho transition-colors duration-300">> EQUIPAMENTOS</a>
-            <a href="#cobertura" class="hover:text-azulBrilho transition-colors duration-300">> ÁREA DE ATENDIMENTO</a>
+            <a href="#cobertura" class="hover:text-azulBrilho transition-colors duration-300">> AREA DE ATENDIMENTO</a>
+            <a href="#localizacao" class="hover:text-azulBrilho transition-colors duration-300">> LOCALIZACAO</a>
             <a href="#suporte" class="hover:text-azulBrilho transition-colors duration-300">> SUPORTE</a>
             <a href="#contato" class="hover:text-azulBrilho transition-colors duration-300">> CONTATO</a>
         </div>
     </div>
 </nav>
 
-<!-- Conteúdo Principal -->
+<!-- Conteudo Principal -->
 <main class="container mx-auto px-5 py-10 space-y-10">
 
-    <!-- Módulo: Sobre o Sistema -->
+    <!-- Modulo: Sobre o Sistema -->
     <section id="sistema" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: IDENTIFICAÇÃO DA EMPRESA</h2>
-                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">EM OPERAÇÃO</span></span>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: IDENTIFICACAO DA EMPRESA</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">EM OPERACAO</span></span>
             </div>
             <div class="texto-terminal text-lg space-y-4">
-                <p>A WKB SISTEMAS E SEGURANÇA é uma empresa especializada em soluções completas para telecomunicações, segurança eletrônica e tecnologia da informação, atuando exclusivamente na região do Tapajós.</p>
-                <p>Nossa missão é levar conectividade, proteção e tecnologia de qualidade para residências, comércios e propriedades rurais em Santarém, Belterra, Alter do Chão e Mojuí dos Campos, com atendimento personalizado e suporte técnico local.</p>
-                <p><strong>Áreas de Atuação:</strong> Instalação, configuração, manutenção preventiva e corretiva, projetos personalizados, venda de equipamentos e consultoria técnica.</p>
-                <p><strong>Diferenciais:</strong> Equipe própria, estoque de peças, atendimento rápido na região, garantia de serviço e suporte pós-venda.</p>
+                <p>A WKB SISTEMAS E SEGURANCA e uma empresa especializada em solucoes completas para telecomunicacoes, seguranca eletronica e tecnologia da informacao, atuando exclusivamente na regiao do Tapajos.</p>
+                <p>Nossa missao e levar conectividade, protecao e tecnologia de qualidade para residencias, comercios e propriedades rurais em Santarem, Belterra, Alter do Chao e Mojui dos Campos, com atendimento personalizado e suporte tecnico local.</p>
+                <p>Areas de Atuacao: Instalacao, configuracao, manutencao preventiva e corretiva, projetos personalizados, venda de equipamentos e consultoria tecnica.</p>
+                <p>Diferenciais: Equipe propria, estoque de pecas, atendimento rapido na regiao, garantia de servico e suporte pos-venda.</p>
             </div>
         </div>
     </section>
 
-    <!-- Módulo: Mídia - Banners e Vídeos -->
+    <!-- Modulo: Midia - Banners e Videos -->
     <section id="midia" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: APOIO VISUAL</h2>
-                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">EM EXECUÇÃO</span></span>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: APOIO VISUAL</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">EM EXECUCAO</span></span>
             </div>
 
             <!-- Carrossel de Banners -->
-            <h3 class="text-xl text-azulClaro font-semibold mb-3"> BANNERS PROMOCIONAIS</h3>
+            <h3 class="text-xl text-azulClaro font-semibold mb-3">BANNERS PROMOCIONAIS</h3>
             <div class="carrossel mb-8">
                 <div class="carrossel-imagens" id="carrosselImagens">
                     <img src="banner1.png" alt="Banner 1">
@@ -218,240 +309,286 @@
                 </div>
             </div>
 
-            <!-- Área de Vídeos -->
-            <h3 class="text-xl text-azulClaro font-semibold mb-4"> VÍDEOS INSTITUCIONAIS</h3>
+            <!-- Area de Videos -->
+            <h3 class="text-xl text-azulClaro font-semibold mb-4">VIDEOS INSTITUCIONAIS</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="border border-azulBrilho/30 p-3 rounded bg-fundoAzul/55">
                     <video src="video1.mp4" controls preload="metadata" class="w-full h-64 object-cover rounded"></video>
-                    <p class="texto-terminal text-center mt-2">Vídeo 1 - Apresentação</p>
+                    <p class="texto-terminal text-center mt-2">Video 1 - Apresentacao</p>
                 </div>
                 <div class="border border-azulBrilho/30 p-3 rounded bg-fundoAzul/55">
                     <video src="video2.mp4" controls preload="metadata" class="w-full h-64 object-cover rounded"></video>
-                    <p class="texto-terminal text-center mt-2">Vídeo 2 - Serviços</p>
+                    <p class="texto-terminal text-center mt-2">Video 2 - Servicos</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Módulo: Serviços Detalhados -->
+    <!-- Modulo: Localizacao e IP -->
+    <section id="localizacao" class="anim-entrada">
+        <div class="painel p-6">
+            <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: DADOS DO VISITANTE</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ATIVO</span></span>
+            </div>
+
+            <div class="texto-terminal text-lg space-y-5">
+                <p>Exibicao de endereco IP e localizacao aproximada do visitante.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="local-card">
+                        <h3 class="text-xl text-azulClaro font-semibold mb-3">DADOS DE IP</h3>
+                        <p><strong>IP:</strong> <span id="visitanteIp">Carregando...</span></p>
+                        <p><strong>Pais:</strong> <span id="visitantePais">Carregando...</span></p>
+                        <p><strong>Estado:</strong> <span id="visitanteEstado">Carregando...</span></p>
+                        <p><strong>Cidade:</strong> <span id="visitanteCidade">Carregando...</span></p>
+                        <p><strong>Provedor:</strong> <span id="visitanteProvedor">Carregando...</span></p>
+                    </div>
+
+                    <div class="local-card">
+                        <h3 class="text-xl text-azulClaro font-semibold mb-3">LOCALIZACAO GPS</h3>
+                        <p><strong>Status:</strong> <span id="gpsStatus">Aguardando permissao</span></p>
+                        <p><strong>Latitude:</strong> <span id="gpsLat">Nao ativado</span></p>
+                        <p><strong>Longitude:</strong> <span id="gpsLon">Nao ativado</span></p>
+                        <p><strong>Precisao:</strong> <span id="gpsPrecisao">Nao ativado</span></p>
+                        <p><strong>Ultima Atualizacao:</strong> <span id="gpsHora">Nao ativado</span></p>
+
+                        <button class="local-btn mt-4" onclick="ativarLocalizacao()">
+                            ATIVAR LOCALIZACAO
+                        </button>
+
+                        <a id="abrirMapa" href="#" target="_blank" class="block mt-4 text-azulBrilho hidden">
+                            Ver no Google Maps
+                        </a>
+                    </div>
+                </div>
+
+                <p class="text-sm opacity-80">
+                    Aviso: A localizacao GPS depende de permissao do navegador. O IP e aproximado e pode corresponder a cidade do provedor de internet.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modulo: Servicos Detalhados -->
     <section id="servicos" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: SERVIÇOS DISPONÍVEIS</h2>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: SERVICOS DISPONIVEIS</h2>
                 <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">TODOS ATIVOS</span></span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 texto-terminal text-lg">
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> SEGURANÇA ELETRÔNICA</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3">SEGURANCA ELETRONICA</h3>
                     <ul class="list-disc list-inside space-y-1">
-                        <li>Instalação e configuração de câmeras analógicas e IP</li>
-                        <li>Sistemas de gravação DVR / NVR com acesso remoto</li>
-                        <li>Alarmes monitorados e sensores de presença/abertura</li>
-                        <li>Cercas elétricas, concertinas e sensores perimetrais</li>
-                        <li>Controle de acesso biométrico, por cartão e senha</li>
-                        <li>Interfonia e vídeo-portaria</li>
-                        <li>Manutenção e troca de peças de sistemas existentes</li>
+                        <li>Instalacao e configuracao de cameras analogicas e IP</li>
+                        <li>Sistemas de gravacao DVR / NVR com acesso remoto</li>
+                        <li>Alarmes monitorados e sensores de presenca e abertura</li>
+                        <li>Cercas eletricas, concertinas e sensores perimetrais</li>
+                        <li>Controle de acesso biometrico, por cartao e senha</li>
+                        <li>Interfonia e video-portaria</li>
+                        <li>Manutencao e troca de pecas de sistemas existentes</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> REDES E FIBRA ÓPTICA</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3">REDES E FIBRA OPTICA</h3>
                     <ul class="list-disc list-inside space-y-1">
-                        <li>Instalação e fusão de cabos de fibra óptica monomodo e multimodo</li>
-                        <li>Certificação e teste de redes com equipamentos profissionais</li>
-                        <li>Montagem de redes estruturadas para residências e empresas</li>
-                        <li>Configuração de switches, roteadores e pontos de acesso</li>
-                        <li>Desenvolvimento de hotspots personalizados para comércio</li>
-                        <li>Ampliação de alcance de sinal com antenas direcionais e setoriais</li>
-                        <li>Projetos de rede interna e externa com cálculo de sinal</li>
+                        <li>Instalacao e fusao de cabos de fibra optica monomodo e multimodo</li>
+                        <li>Certificacao e teste de redes com equipamentos profissionais</li>
+                        <li>Montagem de redes estruturadas para residencias e empresas</li>
+                        <li>Configuracao de switches, roteadores e pontos de acesso</li>
+                        <li>Desenvolvimento de hotspots personalizados para comercio</li>
+                        <li>Ampliacao de alcance de sinal com antenas direcionais e setoriais</li>
+                        <li>Projetos de rede interna e externa com calculo de sinal</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> TECNOLOGIA DA INFORMAÇÃO</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3">TECNOLOGIA DA INFORMACAO</h3>
                     <ul class="list-disc list-inside space-y-1">
-                        <li>Suporte técnico presencial e remoto para computadores e redes</li>
-                        <li>Configuração e gerenciamento de servidores locais e em nuvem</li>
+                        <li>Suporte tecnico presencial e remoto para computadores e redes</li>
+                        <li>Configuracao e gerenciamento de servidores locais e em nuvem</li>
                         <li>Desenvolvimento e ajustes de sistemas web e sites empresariais</li>
-                        <li>Criação de sistemas de ordem de serviço e controle de clientes</li>
-                        <li>Segurança de redes, instalação de firewalls e antivírus</li>
-                        <li>Recuperação de dados e formatação segura de equipamentos</li>
-                        <li>Consultoria para modernização de infraestrutura de TI</li>
+                        <li>Criacao de sistemas de ordem de servico e controle de clientes</li>
+                        <li>Seguranca de redes, instalacao de firewalls e antivirus</li>
+                        <li>Recuperacao de dados e formatacao segura de equipamentos</li>
+                        <li>Consultoria para modernizacao de infraestrutura de TI</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> SOLUÇÕES ESPECIAIS</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3">SOLUCOES ESPECIAIS</h3>
                     <ul class="list-disc list-inside space-y-1">
-                        <li>Venda, instalação e configuração oficial do sistema Starlink</li>
-                        <li>Internet de alta velocidade para áreas rurais e ribeirinhas</li>
-                        <li>Sistemas adaptados para embarcações e locais remotos</li>
-                        <li>Projetos de comunicação VHF/UHF para longo alcance</li>
-                        <li>Orientação sobre frequências e licenças para rádios</li>
-                        <li>Instalação de antenas repetidoras e reforço de sinal</li>
-                        <li>Contratos de manutenção mensal para empresas</li>
+                        <li>Venda, instalacao e configuracao oficial do sistema Starlink</li>
+                        <li>Internet de alta velocidade para areas rurais e ribeirinhas</li>
+                        <li>Sistemas adaptados para embarcacoes e locais remotos</li>
+                        <li>Projetos de comunicacao VHF/UHF para longo alcance</li>
+                        <li>Orientacao sobre frequencias e licencas para radios</li>
+                        <li>Instalacao de antenas repetidoras e reforco de sinal</li>
+                        <li>Contratos de manutencao mensal para empresas</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Módulo: Planos de Conexão -->
-    <section id="planos" class="anim-entrada">
+    <!-- Modulo: Planos de Conexao -->
+    <section id="conexoes" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: PLANOS DE INTERNET</h2>
-                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">DISPONÍVEIS</span></span>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: PLANOS DE INTERNET</h2>
+                <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">DISPONIVEIS</span></span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="border border-azulBrilho/40 rounded-lg p-5 bg-fundoAzul/60 hover:shadow-[0_0_20px_#0099ff35] transition-shadow duration-300">
                     <h3 class="text-2xl font-bold text-azulClaro mb-3">PLANO 400 MB</h3>
-                    <p class="text-3xl font-bold text-azulBrilho my-3">R$ 100,00 <span class="text-sm texto-terminal">/ mês</span></p>
+                    <p class="text-3xl font-bold text-azulBrilho my-3">R$ 100,00 <span class="text-sm texto-terminal">/ mes</span></p>
                     <ul class="texto-terminal text-lg space-y-2">
-                        <li> Velocidade de download: até 400 Mbps</li>
-                        <li> Velocidade de upload: até 200 Mbps</li>
-                        <li> Conexão via fibra óptica de alta qualidade</li>
-                        <li> Sem limites de tráfego mensal</li>
-                        <li> Suporte técnico em até 24h úteis</li>
-                        <li> Instalação gratuita na área de atendimento</li>
-                        <li> Ideal para residências e pequenos comércios</li>
+                        <li>Velocidade de download: ate 400 Mbps</li>
+                        <li>Velocidade de upload: ate 200 Mbps</li>
+                        <li>Conexao via fibra optica de alta qualidade</li>
+                        <li>Sem limites de trafego mensal</li>
+                        <li>Suporte tecnico em ate 24h uteis</li>
+                        <li>Instalacao gratuita na area de atendimento</li>
+                        <li>Ideal para residencias e pequenos comercios</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/40 rounded-lg p-5 bg-fundoAzul/60 hover:shadow-[0_0_20px_#0099ff35] transition-shadow duration-300">
                     <h3 class="text-2xl font-bold text-azulClaro mb-3">PLANO ILIMITADO</h3>
-                    <p class="text-3xl font-bold text-azulBrilho my-3">R$ 149,00 <span class="text-sm texto-terminal">/ mês</span></p>
+                    <p class="text-3xl font-bold text-azulBrilho my-3">R$ 149,00 <span class="text-sm texto-terminal">/ mes</span></p>
                     <ul class="texto-terminal text-lg space-y-2">
-                        <li> Velocidade de download: até 1 Gbps</li>
-                        <li> Velocidade de upload: até 500 Mbps</li>
-                        <li> Conexão estável e dedicada</li>
-                        <li> Sem limites de consumo</li>
-                        <li> Suporte técnico prioritário 8h às 22h</li>
-                        <li> Garantia de disponibilidade de 99%</li>
-                        <li> Ideal para empresas, escritórios e uso intenso</li>
+                        <li>Velocidade de download: ate 1 Gbps</li>
+                        <li>Velocidade de upload: ate 500 Mbps</li>
+                        <li>Conexao estavel e dedicada</li>
+                        <li>Sem limites de consumo</li>
+                        <li>Suporte tecnico prioritario 8h as 22h</li>
+                        <li>Garantia de disponibilidade de 99%</li>
+                        <li>Ideal para empresas, escritorios e uso intenso</li>
                     </ul>
                 </div>
             </div>
-            <p class="texto-terminal mt-5 text-sm">* Valores válidos exclusivamente para a região do Tapajós: Santarém, Belterra, Alter do Chão e Mojuí dos Campos.</p>
+            <p class="texto-terminal mt-5 text-sm">* Valores validos exclusivamente para a regiao do Tapajos: Santarem, Belterra, Alter do Chao e Mojui dos Campos.</p>
         </div>
     </section>
 
-    <!-- Módulo: Equipamentos e Catálogo -->
+    <!-- Modulo: Equipamentos e Catalogo -->
     <section id="equipamentos" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: CATÁLOGO DE EQUIPAMENTOS</h2>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: CATALOGO DE EQUIPAMENTOS</h2>
                 <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ESTOQUE ATUALIZADO</span></span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 texto-terminal text-lg">
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> CONEXÃO REMOTA</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2">CONEXAO REMOTA</h3>
                     <ul class="space-y-1">
-                        <li>• Kit Starlink Padrão</li>
-                        <li>• Kit Starlink Alto Desempenho</li>
-                        <li>• Antenas repetidoras de sinal</li>
-                        <li>• Rádios enlaces ponto a ponto</li>
-                        <li>• Fontes e acessórios para instalação</li>
+                        <li>Kit Starlink Padrao</li>
+                        <li>Kit Starlink Alto Desempenho</li>
+                        <li>Antenas repetidoras de sinal</li>
+                        <li>Radios enlaces ponto a ponto</li>
+                        <li>Fontes e acessorios para instalacao</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> SEGURANÇA</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2">SEGURANCA</h3>
                     <ul class="space-y-1">
-                        <li>• Câmeras IP HD e Full HD</li>
-                        <li>• Câmeras infravermelho e colorida noturna</li>
-                        <li>• Gravadores DVR e NVR de 4 a 32 canais</li>
-                        <li>• Alarmes e sensores sem fio e com fio</li>
-                        <li>• Controles de acesso e fechaduras digitais</li>
+                        <li>Cameras IP HD e Full HD</li>
+                        <li>Cameras infravermelho e colorida noturna</li>
+                        <li>Gravadores DVR e NVR de 4 a 32 canais</li>
+                        <li>Alarmes e sensores sem fio e com fio</li>
+                        <li>Controles de acesso e fechaduras digitais</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> REDES E FIBRA</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2">REDES E FIBRA</h3>
                     <ul class="space-y-1">
-                        <li>• Cabos de fibra óptica e conectores</li>
-                        <li>• Switches de 8, 16 e 24 portas</li>
-                        <li>• Roteadores empresariais e residenciais</li>
-                        <li>• Antenas direcionais e setoriais</li>
-                        <li>• Caixas de emenda e organizadores</li>
+                        <li>Cabos de fibra optica e conectores</li>
+                        <li>Switches de 8, 16 e 24 portas</li>
+                        <li>Roteadores empresariais e residenciais</li>
+                        <li>Antenas direcionais e setoriais</li>
+                        <li>Caixas de emenda e organizadores</li>
                     </ul>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-2"> FERRAMENTAS E ACESSÓRIOS</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-2">FERRAMENTAS E ACESSORIOS</h3>
                     <ul class="space-y-1">
-                        <li>• Máquinas de fusão de fibra óptica</li>
-                        <li>• Medidores de potência e sinal</li>
-                        <li>• Alicates, conectores e caixas de passagem</li>
-                        <li>• Fontes de alimentação e estabilizadores</li>
-                        <li>• Suportes, hastes e materiais de fixação</li>
+                        <li>Maquinas de fusao de fibra optica</li>
+                        <li>Medidores de potencia e sinal</li>
+                        <li>Alicates, conectores e caixas de passagem</li>
+                        <li>Fontes de alimentacao e estabilizadores</li>
+                        <li>Suportes, hastes e materiais de fixacao</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Módulo: Área de Atendimento -->
+    <!-- Modulo: Area de Atendimento -->
     <section id="cobertura" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: ÁREA DE ATENDIMENTO</h2>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: AREA DE ATENDIMENTO</h2>
                 <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ATENDIMENTO EXCLUSIVO</span></span>
             </div>
             <div class="texto-terminal text-lg space-y-4">
-                <p>Atendemos <strong>exclusivamente a região do Tapajós</strong>, nas seguintes localidades:</p>
+                <p>Atendemos exclusivamente a regiao do Tapajos, nas seguintes localidades:</p>
                 <ul class="list-disc list-inside space-y-2 pl-2">
-                    <li><strong>Santarém</strong> — Zona urbana, bairros e comunidades próximas</li>
+                    <li><strong>Santarem</strong> — Zona urbana, bairros e comunidades proximas</li>
                     <li><strong>Belterra</strong> — Centro, zona rural e comunidades</li>
-                    <li><strong>Alter do Chão</strong> — Orla, centro e localidades vizinhas</li>
-                    <li><strong>Mojuí dos Campos</strong> — Sede e área rural</li>
+                    <li><strong>Alter do Chao</strong> — Orla, centro e localidades vizinhas</li>
+                    <li><strong>Mojui dos Campos</strong> — Sede e area rural</li>
                 </ul>
-                <p>Também atendemos propriedades rurais, comunidades ribeirinhas e embarcações dentro desses municípios.</p>
-                <p><strong>Importante:</strong> Não realizamos atendimento fora da região acima informada.</p>
+                <p>Tambem atendemos propriedades rurais, comunidades ribeirinhas e embarcacoes dentro desses municipios.</p>
+                <p>Importante: Nao realizamos atendimento fora da regiao acima informada.</p>
             </div>
         </div>
     </section>
 
-    <!-- Módulo: Suporte e Garantias -->
+    <!-- Modulo: Suporte e Garantias -->
     <section id="suporte" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: SUPORTE E GARANTIAS</h2>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: SUPORTE E GARANTIAS</h2>
                 <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">ATIVO</span></span>
             </div>
             <div class="texto-terminal text-lg space-y-4">
-                <p><strong> Canais de Suporte:</strong></p>
+                <p><strong>Canais de Suporte:</strong></p>
                 <ul class="list-disc list-inside space-y-1 pl-2">
-                    <li>WhatsApp: (93) 99119-2244 — atendimento rápido e direto</li>
+                    <li>WhatsApp: (93) 99119-2244 — atendimento rapido e direto</li>
                     <li>E-mail: suporte@wkbsistemas.com.br — abertura de chamados formais</li>
-                    <li>Horário de atendimento: Segunda a Sábado das 08h às 18h</li>
-                    <li>Plantão de emergência: disponível para falhas críticas na região atendida</li>
+                    <li>Horario de atendimento: Segunda a Sabado das 08h as 18h</li>
+                    <li>Plantao de emergencia: disponivel para falhas criticas na regiao atendida</li>
                 </ul>
-                <p><strong> Garantias Oferecidas:</strong></p>
+                <p><strong>Garantias Oferecidas:</strong></p>
                 <ul class="list-disc list-inside space-y-1 pl-2">
-                    <li>Garantia de serviço: 90 dias para qualquer instalação realizada</li>
+                    <li>Garantia de servico: 90 dias para qualquer instalacao realizada</li>
                     <li>Garantia de equipamentos: conforme prazo do fabricante</li>
                     <li>Garantia de velocidade: cumprimento de 80% da velocidade contratada</li>
-                    <li>Garantia de atendimento: retorno em até 24h úteis</li>
+                    <li>Garantia de atendimento: retorno em ate 24h uteis</li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- Módulo: Contato Completo -->
+    <!-- Modulo: Contato Completo -->
     <section id="contato" class="anim-entrada">
         <div class="painel p-6">
             <div class="flex justify-between items-center border-b border-azulBrilho/30 pb-3 mb-5">
-                <h2 class="text-2xl font-bold text-azulBrilho"> MÓDULO: DADOS DE CONTATO</h2>
+                <h2 class="text-2xl font-bold text-azulBrilho">MODULO: DADOS DE CONTATO</h2>
                 <span class="texto-terminal text-sm">STATUS: <span class="text-verdeStatus">CANAL ABERTO</span></span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 texto-terminal text-lg">
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> DADOS CADASTRAIS</h3>
-                    <p><strong>Razão Social:</strong> WKB SISTEMAS E SEGURANÇA LTDA</p>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3">DADOS CADASTRAIS</h3>
+                    <p><strong>Razao Social:</strong> WKB SISTEMAS E SEGURANCA LTDA</p>
                     <p><strong>CNPJ:</strong> 62.513.677/0001-80</p>
-                    <p><strong>Região:</strong> Tapajós — Oeste do Pará</p>
-                    <p><strong>Atendimento:</strong> Santarém, Belterra, Alter do Chão e Mojuí dos Campos</p>
+                    <p><strong>Regiao:</strong> Tapajos — Oeste do Para</p>
+                    <p><strong>Atendimento:</strong> Santarem, Belterra, Alter do Chao e Mojui dos Campos</p>
                 </div>
                 <div class="border border-azulBrilho/30 p-4 rounded bg-fundoAzul/55">
-                    <h3 class="text-xl text-azulClaro font-semibold mb-3"> CANAIS DE COMUNICAÇÃO</h3>
+                    <h3 class="text-xl text-azulClaro font-semibold mb-3">CANAIS DE COMUNICACAO</h3>
                     <p><strong>Telefone / WhatsApp:</strong> (93) 99119-2244</p>
                     <p><strong>E-mail Comercial:</strong> tecsegseguranca7@gmail.com</p>
                     <p><strong>E-mail Suporte:</strong> suporte@wkbsistemas.com.br</p>
-                    <p><strong>Horário:</strong> Segunda a Sábado — 08h às 18h</p>
+                    <p><strong>Horario:</strong> Segunda a Sabado — 08h as 18h</p>
                 </div>
             </div>
         </div>
@@ -459,26 +596,47 @@
 
 </main>
 
-<!-- Rodapé do Sistema -->
+<!-- Botao WhatsApp Flutuante -->
+<a class="whatsapp-float"
+   href="https://wa.me/5593991192244?text=Ola%20WKB%20Sistemas%2C%20gostaria%20de%20mais%20informacoes."
+   target="_blank"
+   aria-label="Fale conosco pelo WhatsApp">
+    <i class="fa fa-whatsapp"></i>
+    <div class="balao-whatsapp" id="balaoMsg">
+        Ola! Somos a WKB SISTEMAS. Como podemos ajudar?
+    </div>
+</a>
+
+<!-- Rodape do Sistema -->
 <footer class="painel border-t border-azulBrilho/30 py-4 mt-8">
     <div class="container mx-auto px-5 texto-terminal text-center text-base">
-        <p>SISTEMA WKB v8.2.0 | &copy; 2026 WKB SISTEMAS E SEGURANÇA — Região do Tapajós</p>
-        <p class="text-azulBrilho mt-2">Aguardando nova solicitação <span class="cursor">_</span></p>
+        <p>SISTEMA WKB v8.2.0 | &copy; 2026 WKB SISTEMAS E SEGURANCA — Regiao do Tapajos</p>
+        <p class="text-azulBrilho mt-2">Aguardando nova solicitacao <span class="cursor">_</span></p>
     </div>
 </footer>
 
 <!-- Scripts -->
 <script>
-    // Tela de inicialização
+    // Tela de inicializacao
     window.addEventListener('load', () => {
         setTimeout(() => {
             const boot = document.getElementById('boot');
             boot.style.opacity = '0';
             setTimeout(() => boot.style.display = 'none', 700);
         }, 2500);
+
+        // Mostra a mensagem do WhatsApp apenas uma vez
+        setTimeout(() => {
+            const balao = document.getElementById('balaoMsg');
+            balao.classList.add('mostrar');
+
+            setTimeout(() => {
+                balao.classList.remove('mostrar');
+            }, 5000); // Fica visivel por 5 segundos
+        }, 3500); // Comeca a aparecer 3,5s apos carregar o site
     });
 
-    // Animação suave ao rolar
+    // Animacao suave ao rolar
     const modulos = document.querySelectorAll('.anim-entrada');
     const observador = new IntersectionObserver((entradas) => {
         entradas.forEach(entrada => {
@@ -488,7 +646,7 @@
 
     modulos.forEach(modulo => observador.observe(modulo));
 
-    // Carrossel automático e manual
+    // Carrossel automatico e manual
     const carrosselImagens = document.getElementById('carrosselImagens');
     const dots = document.querySelectorAll('.carrossel-dot');
     let indiceAtual = 0;
@@ -505,6 +663,70 @@
         const proximo = (indiceAtual + 1) % 3;
         mostrarSlide(proximo);
     }, 4500);
+
+    // Carregar dados de IP e localizacao aproximada
+    async function carregarDadosIP() {
+        try {
+            const resposta = await fetch('https://ipwho.is/');
+            const dados = await resposta.json();
+
+            if (dados && dados.success) {
+                document.getElementById('visitanteIp').textContent = dados.ip || 'Nao informado';
+                document.getElementById('visitantePais').textContent = dados.country || 'Nao informado';
+                document.getElementById('visitanteEstado').textContent = dados.region || 'Nao informado';
+                document.getElementById('visitanteCidade').textContent = dados.city || 'Nao informado';
+                document.getElementById('visitanteProvedor').textContent = dados.connection?.isp || 'Nao informado';
+            } else {
+                document.getElementById('visitanteIp').textContent = 'Nao foi possivel identificar';
+            }
+        } catch (erro) {
+            document.getElementById('visitanteIp').textContent = 'Erro na consulta';
+        }
+    }
+
+    let monitorGPS = null;
+
+    function ativarLocalizacao() {
+        const status = document.getElementById('gpsStatus');
+        const latEl = document.getElementById('gpsLat');
+        const lonEl = document.getElementById('gpsLon');
+        const precisaoEl = document.getElementById('gpsPrecisao');
+        const horaEl = document.getElementById('gpsHora');
+        const linkMapa = document.getElementById('abrirMapa');
+
+        if (!navigator.geolocation) {
+            status.textContent = 'Navegador nao suporta GPS';
+            return;
+        }
+
+        status.textContent = 'Solicitando permissao...';
+
+        monitorGPS = navigator.geolocation.watchPosition(
+            (pos) => {
+                const lat = pos.coords.latitude.toFixed(6);
+                const lon = pos.coords.longitude.toFixed(6);
+                const precisao = Math.round(pos.coords.accuracy);
+
+                status.textContent = 'Ativo';
+                latEl.textContent = lat;
+                lonEl.textContent = lon;
+                precisaoEl.textContent = precisao + ' metros';
+                horaEl.textContent = new Date().toLocaleTimeString('pt-BR');
+
+                linkMapa.href = `https://www.google.com/maps?q=${lat},${lon}`;
+                linkMapa.classList.remove('hidden');
+            },
+            (erro) => {
+                if (erro.code === 1) status.textContent = 'Permissao negada';
+                else if (erro.code === 2) status.textContent = 'Sinal indisponivel';
+                else if (erro.code === 3) status.textContent = 'Tempo esgotado';
+                else status.textContent = 'Erro ao obter dados';
+            },
+            { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+        );
+    }
+
+    carregarDadosIP();
 </script>
 
 </body>
