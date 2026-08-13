@@ -1,499 +1,748 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WKB Sistemas e Segurança</title>
-
-  <!-- FontAwesome (Ícones) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    /* RESET BÁSICO */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    body {
-      background-color: #060b13;
-      color: #e2e8f0;
-      line-height: 1.6;
-      background-image: radial-gradient(rgba(0, 162, 255, 0.08) 1px, transparent 0);
-      background-size: 24px 24px;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* HEADER / NAVBAR */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background-color: rgba(6, 11, 19, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 15px 0;
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand-logo {
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo-wkb {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 2px;
-      line-height: 1;
-    }
-
-    .logo-sub {
-      font-size: 0.65rem;
-      color: #00a2ff;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-top: 3px;
-    }
-
-    .nav-links {
-      display: none;
-      gap: 20px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: #94a3b8;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: #00a2ff;
-    }
-
-    .btn-header {
-      display: none;
-      background: linear-gradient(135deg, #0088ff, #0055ff);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: background 0.3s ease;
-    }
-
-    .btn-header:hover {
-      background: linear-gradient(135deg, #0077e6, #0044cc);
-    }
-
-    /* HERO SECTION */
-    .hero {
-      padding: 60px 0;
-      text-align: center;
-    }
-
-    .hero-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #00a2ff;
-      color: #00a2ff;
-      background-color: rgba(0, 162, 255, 0.08);
-      padding: 6px 16px;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 25px;
-      text-transform: uppercase;
-    }
-
-    .hero-logo-wrapper {
-      margin-bottom: 10px;
-      max-width: 100%;
-    }
-
-    .hero-logo-img {
-      max-width: 320px;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      filter: drop-shadow(0px 0px 12px rgba(0, 162, 255, 0.35));
-    }
-
-    .hero-subtitle {
-      font-size: 2rem;
-      color: #00b7ff;
-      margin-bottom: 25px;
-      font-weight: 800;
-      text-shadow: 0 0 15px rgba(0, 183, 255, 0.4);
-    }
-
-    .hero-tagline {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #ffffff;
-      max-width: 750px;
-      margin-bottom: 20px;
-    }
-
-    .hero-description {
-      font-size: 0.95rem;
-      color: #94a3b8;
-      max-width: 700px;
-      margin-bottom: 35px;
-      line-height: 1.7;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      width: 100%;
-      max-width: 380px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 14px 24px;
-      border-radius: 8px;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-primary {
-      background: #0088ff;
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(0, 136, 255, 0.3);
-    }
-
-    .btn-primary:hover {
-      background: #0077e6;
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.05);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* SEÇÃO DE SERVIÇOS */
-    .services {
-      padding: 80px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 2rem;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .section-desc {
-      text-align: center;
-      color: #94a3b8;
-      margin-bottom: 40px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .service-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 30px;
-      border-radius: 12px;
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-
-    .service-card:hover {
-      transform: translateY(-5px);
-      border-color: #00a2ff;
-    }
-
-    .service-icon {
-      font-size: 2rem;
-      color: #00a2ff;
-      margin-bottom: 15px;
-    }
-
-    .service-card h3 {
-      color: #fff;
-      margin-bottom: 10px;
-      font-size: 1.2rem;
-    }
-
-    .service-card p {
-      color: #94a3b8;
-      font-size: 0.9rem;
-    }
-
-    /* SEÇÃO DE CONTATO */
-    .contact {
-      padding: 80px 0;
-      background: rgba(10, 16, 26, 0.8);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .contact-box {
-      max-width: 600px;
-      margin: 0 auto;
-      background: rgba(15, 23, 42, 0.8);
-      padding: 30px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      color: #cbd5e1;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-    }
-
-    .form-group input, 
-    .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: #060b13;
-      color: #fff;
-      font-size: 0.9rem;
-    }
-
-    .form-group input:focus, 
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #00a2ff;
-    }
-
-    /* FOOTER / RODAPÉ */
-    footer {
-      padding: 30px 0;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      color: #64748b;
-      font-size: 0.85rem;
-    }
-
-    /* BOTÃO WHATSAPP */
-    .whatsapp-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 55px;
-      height: 55px;
-      background-color: #25d366;
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      z-index: 999;
-      text-decoration: none;
-      transition: transform 0.3s ease;
-    }
-
-    .whatsapp-btn:hover {
-      transform: scale(1.1);
-    }
-
-    /* MEDIA QUERIES */
-    @media (min-width: 768px) {
-      .nav-links, .btn-header {
-        display: flex;
-      }
-
-      .hero-logo-img {
-        max-width: 460px;
-      }
-
-      .hero-subtitle {
-        font-size: 2.8rem;
-      }
-
-      .hero-actions {
-        flex-direction: row;
-        max-width: none;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WKB Sistemas e Segurança | Monitoramento e TI</title>
+    <meta name="description" content="WKB Sistemas e Segurança oferece soluções em energia solar, internet, redes, segurança eletrônica, desenvolvimento de sistemas, criação de sites e tecnologia. Atendimento em Belterra, Mogi dos Campos, Santarém e Alter do Chão.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Montserrat:wght@400;600;700;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- NAVBAR / CABEÇALHO -->
-  <header class="navbar">
-    <div class="container nav-container">
-      <a href="#" class="brand-logo">
-        <span class="logo-wkb">WKB</span>
-        <span class="logo-sub">SISTEMAS E SEGURANÇA</span>
-      </a>
+    <!-- Header Grid & Navigation -->
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#inicio" class="logo">
+                <span class="logo-main">WKB</span>
+                <span class="logo-sub">SISTEMAS E SEGURANÇA</span>
+            </a>
 
-      <ul class="nav-links">
-        <li><a href="#home">Início</a></li>
-        <li><a href="#servicos">Serviços</a></li>
-        <li><a href="#contato">Contato</a></li>
-      </ul>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="#inicio" class="nav-link active">Início</a>
+                <a href="#servicos" class="nav-link">Serviços</a>
+                <a href="#simulador" class="nav-link highlight-link"><i class="fa-solid fa-solar-panel"></i> Simulador Solar</a>
+                <a href="#sobre" class="nav-link">Sobre a WKB</a>
+                <a href="#atendimento" class="nav-link">Atendimento</a>
+                <a href="#orcamento" class="nav-link">Contato</a>
+            </nav>
 
-      <a href="#contato" class="btn btn-header">SOLICITAR ORÇAMENTO</a>
-    </div>
-  </header>
+            <div class="nav-actions">
+                <a href="#orcamento" class="btn btn-primary btn-sm btn-glow">SOLICITAR ORÇAMENTO</a>
+                <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="home">
-    <div class="container hero-container">
-      
-      <div class="badge">
-        <i class="fa-solid fa-shield-halved"></i> TECNOLOGIA & SEGURANÇA INTEGRADA
-      </div>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg-overlay"></div>
+        <div class="grid-pattern"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="tech-badge"><i class="fa-solid fa-shield-halved"></i> TECNOLOGIA & SEGURANÇA INTEGRADA</div>
+                <h1 class="hero-title">WKB Sistemas e Segurança <span class="glow-text">Monitoramento e TI</span></h1>
+                <p class="hero-subtitle">Tecnologia, conectividade, segurança e soluções inteligentes para sua empresa, residência ou projeto.</p>
+                <p class="hero-description">A WKB oferece soluções completas em tecnologia, infraestrutura de redes, internet, energia solar, segurança eletrônica e desenvolvimento de sistemas, levando mais conectividade, proteção e eficiência para nossos clientes.</p>
+                <div class="hero-actions">
+                    <a href="#orcamento" class="btn btn-primary btn-glow">SOLICITAR ORÇAMENTO <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#servicos" class="btn btn-secondary">CONHECER NOSSOS SERVIÇOS</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hud-box">
+                    <div class="hud-header">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="hud-title">WKB_CORE_SYS v13.0</span>
+                    </div>
+                    <div class="hud-body">
+                        <div class="code-line"><span class="c-blue">&gt; SYSTEM.INIT:</span> CONNECTIVITY_ONLINE</div>
+                        <div class="code-line"><span class="c-blue">&gt; SECURITY.STATUS:</span> MONITORING_ACTIVE</div>
+                        <div class="code-line"><span class="c-blue">&gt; SOLAR_GEN:</span> OPTIMAL_EFFICIENCY</div>
+                        <div class="code-line"><span class="c-blue">&gt; NETWORK:</span> FIBER_STARLINK_LINKED</div>
+                        <div class="hud-graphic">
+                            <i class="fa-solid fa-network-wired hud-icon"></i>
+                            <div class="hud-radar"></div>
+                        </div>
+                        <div class="brand-tagline-hud">WKB — Tecnologia que conecta. Segurança que protege.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <!-- LOGO SUBSTITUINDO TEXTO WKB SISTEMAS -->
-      <div class="hero-logo-wrapper">
-        <img src="logo.png" alt="WKB Sistemas Logo" class="hero-logo-img">
-      </div>
+    <!-- Banner Solar Callout -->
+    <section class="banner-callout">
+        <div class="container">
+            <div class="callout-card">
+                <div class="callout-text">
+                    <i class="fa-solid fa-sun callout-icon"></i>
+                    <div>
+                        <h3>QUANTO VOCÊ PODE GERAR COM ENERGIA SOLAR?</h3>
+                        <p>Faça uma simulação gratuita e descubra uma estimativa do sistema ideal para seu consumo.</p>
+                    </div>
+                </div>
+                <a href="#simulador" class="btn btn-primary btn-glow">SIMULAR AGORA</a>
+            </div>
+        </div>
+    </section>
 
-      <h1 class="hero-subtitle">Monitoramento e TI</h1>
+    <!-- Seção Diferenciais -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">TECNOLOGIA QUE CONECTA. <span class="glow-text">SEGURANÇA QUE PROTEGE.</span></h2>
+                <p class="section-subtitle">A WKB Sistemas e Segurança trabalha para entregar soluções completas, integrando tecnologia, conectividade, segurança e infraestrutura em um único lugar.</p>
+            </div>
 
-      <p class="hero-tagline">
-        Tecnologia, conectividade, segurança e soluções inteligentes para sua empresa, residência ou projeto.
-      </p>
+            <div class="cards-grid cols-4">
+                <div class="card-feature">
+                    <div class="icon-wrapper"><i class="fa-solid fa-boxes-stacked"></i></div>
+                    <h3>Soluções completas</h3>
+                    <p>Tecnologia, redes, segurança eletrônica, energia solar e desenvolvimento de sistemas em uma única parceira.</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-wrapper"><i class="fa-solid fa-user-shield"></i></div>
+                    <h3>Atendimento profissional</h3>
+                    <p>Soluções planejadas de acordo com a necessidade de cada cliente, garantindo prazos e eficiência.</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-wrapper"><i class="fa-solid fa-microchip"></i></div>
+                    <h3>Tecnologia de Ponta</h3>
+                    <p>Utilização de equipamentos e soluções modernas para entregar mais eficiência e alta confiabilidade.</p>
+                </div>
+                <div class="card-feature">
+                    <div class="icon-wrapper"><i class="fa-solid fa-sliders"></i></div>
+                    <h3>Personalização</h3>
+                    <p>Cada projeto pode ser adaptado à realidade da empresa, residência, propriedade rural ou embarcação.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      <p class="hero-description">
-        A WKB oferece soluções completas em tecnologia, infraestrutura de redes, internet, energia solar, segurança eletrônica e desenvolvimento de sistemas, levando mais conectividade, proteção e eficiência para nossos clientes.
-      </p>
+    <!-- Seção Serviços -->
+    <section class="section" id="servicos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">NOSSOS <span class="glow-text">SERVIÇOS</span></h2>
+                <p class="section-subtitle">Soluções tecnológicas especializadas divididas por categoria para atender todas as suas demandas.</p>
+            </div>
 
-      <div class="hero-actions">
-        <a href="#contato" class="btn btn-primary">
-          SOLICITAR ORÇAMENTO <i class="fa-solid fa-arrow-right"></i>
-        </a>
-        <a href="#servicos" class="btn btn-secondary">
-          CONHECER NOSSOS SERVIÇOS
-        </a>
-      </div>
+            <!-- Categoria Energia Solar -->
+            <div class="category-block">
+                <div class="category-title"><i class="fa-solid fa-solar-panel"></i> Energia Solar Fotovoltaica</div>
+                <div class="cards-grid cols-3">
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-sun"></i></div>
+                        <h3>Instalação de Módulos Fotovoltaicos</h3>
+                        <p>Instalação profissional de módulos fotovoltaicos para sistemas de energia solar, buscando eficiência, segurança e melhor aproveitamento da geração de energia.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                </div>
+            </div>
 
-    </div>
-  </section>
+            <!-- Categoria Internet & Conectividade -->
+            <div class="category-block">
+                <div class="category-title"><i class="fa-solid fa-wifi"></i> Internet e Conectividade</div>
+                <div class="cards-grid cols-3">
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                        <h3>Instalação de Starlink</h3>
+                        <p>Instalação, configuração e preparação da estrutura necessária para utilização da internet via satélite Starlink.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-cable-car"></i></div>
+                        <h3>Internet via Fibra Óptica</h3>
+                        <p>Instalação e organização de infraestrutura para conexão de internet via fibra óptica com altíssimo desempenho.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-network-wired"></i></div>
+                        <h3>Configuração de MikroTik</h3>
+                        <p>Configuração de equipamentos MikroTik para gerenciamento, controle de banda, balanceamento e distribuição de redes.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-building-user"></i></div>
+                        <h3>Hotspot para Empresas</h3>
+                        <p>Criação e configuração de redes Hotspot com login gerenciado para oferecer acesso seguro a clientes e colaboradores.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-ship"></i></div>
+                        <h3>Hotspot para Embarcações</h3>
+                        <p>Implementação de Hotspot para embarcações e ambientes fluviais/marítimos, criando conectividade organizada e estável.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                </div>
+            </div>
 
-  <!-- SEÇÃO DE SERVIÇOS -->
-  <section class="services" id="servicos">
-    <div class="container">
-      <h2 class="section-title">Nossos Serviços</h2>
-      <p class="section-desc">Soluções completas e sob medida para sua necessidade.</p>
+            <!-- Categoria Cabeamento e Infra -->
+            <div class="category-block">
+                <div class="category-title"><i class="fa-solid fa-server"></i> Cabeamento Estruturado e Infraestrutura de Redes</div>
+                <div class="cards-grid cols-3">
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-sitemap"></i></div>
+                        <h3>Cabeamento Estruturado Empresarial</h3>
+                        <p>Planejamento, instalação e organização de cabeamento para empresas, criando infraestrutura preparada para expansão.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-ethernet"></i></div>
+                        <h3>Lançamento de Cabos</h3>
+                        <p>Instalação e lançamento técnico de cabos de rede UTP/Fibra em ambientes corporativos e industriais.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-server"></i></div>
+                        <h3>Infraestrutura de Rede</h3>
+                        <p>Organização de Racks, Patch Panels, Switches e servidores para garantir estabilidade e fácil manutenção.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                </div>
+            </div>
 
-      <div class="services-grid">
-        <div class="service-card">
-          <i class="fa-solid fa-video service-icon"></i>
-          <h3>Segurança Eletrônica</h3>
-          <p>Instalação e manutenção de CFTV, câmeras IP, alarmes monitorados e controle de acesso.</p>
+            <!-- Categoria Segurança Eletrônica -->
+            <div class="category-block">
+                <div class="category-title"><i class="fa-solid fa-video"></i> Segurança Eletrônica</div>
+                <div class="cards-grid cols-3">
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-camera-web"></i></div>
+                        <h3>Instalação de Câmeras (CFTV)</h3>
+                        <p>Instalação e configuração de sistemas de videomonitoramento IP e HD para residências, empresas e comércios.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-bell"></i></div>
+                        <h3>Sistemas de Alarmes</h3>
+                        <p>Instalação de alarmes monitorados e sensores de intrusão para proteção completa do imóvel.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Cerca Elétrica</h3>
+                        <p>Instalação e manutenção de cerca elétrica e concertina para proteção perimetral ostensiva.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-door-open"></i></div>
+                        <h3>Motor de Portão</h3>
+                        <p>Instalação e parametrização de motores rápidos para automação e controle de portões de acesso.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                        <h3>Controle de Acesso</h3>
+                        <p>Soluções com biometria, tags de aproximação e fechaduras eletroímãs para gestão de fluxo de pessoas.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-id-card"></i></div>
+                        <h3>Vídeo Porteiro</h3>
+                        <p>Instalação de sistemas de vídeo porteiro para comunicação e liberação remota com comodidade e segurança.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-concierge-bell"></i></div>
+                        <h3>Campainhas Inteligentes</h3>
+                        <p>Instalação de dispositivos digitais e acionadores sem fio para comércios e residências.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-border-all"></i></div>
+                        <h3>Sensor de Barreira (IVA)</h3>
+                        <p>Instalação de sensores infravermelhos perimetrais para detecção antecipada de invasões.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                    <div class="card-service">
+                        <div class="service-icon"><i class="fa-solid fa-person-rays"></i></div>
+                        <h3>Sensor de Presença</h3>
+                        <p>Instalação de sensores inteligentes para acionamento de iluminação e disparos de segurança.</p>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">SOLICITAR ORÇAMENTO</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outras Categorias -->
+            <div class="cards-grid cols-3" style="margin-top: 30px;">
+                <!-- Comunicação -->
+                <div class="card-service highlight-border">
+                    <div class="service-icon"><i class="fa-solid fa-walkie-talkie"></i></div>
+                    <h3>Comunicação Profissional</h3>
+                    <p>Venda de rádios comunicadores para comunicação rápida e eficiente em operações, eventos e equipes em campo.</p>
+                    <a href="#orcamento" class="btn btn-primary btn-sm">CONSULTAR RÁDIOS DISPONÍVEIS</a>
+                </div>
+
+                <!-- Assistência Técnica -->
+                <div class="card-service highlight-border">
+                    <div class="service-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3>Assistência Técnica</h3>
+                    <p>Serviço especializado de manutenção e reparo de celulares e dispositivos de comunicação corporativa.</p>
+                    <a href="#orcamento" class="btn btn-primary btn-sm">SOLICITAR ATENDIMENTO</a>
+                </div>
+
+                <!-- Desenvolvimento -->
+                <div class="card-service highlight-border">
+                    <div class="service-icon"><i class="fa-solid fa-code"></i></div>
+                    <h3>Desenvolvimento de Sistemas e Sites</h3>
+                    <p>Criação de sistemas web sob medida (HTML, CSS, JS, PHP, Firebase) e desenvolvimento de sites institucionais modernos.</p>
+                    <div class="btn-group-stacked">
+                        <a href="#orcamento" class="btn btn-outline btn-sm">QUERO CRIAR MEU SISTEMA</a>
+                        <a href="#orcamento" class="btn btn-outline btn-sm">QUERO CRIAR MEU SITE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção SIMULADOR SOLAR WKB -->
+    <section class="section section-dark section-solar" id="simulador">
+        <div class="container">
+            <div class="section-header">
+                <span class="tech-badge"><i class="fa-solid fa-calculator"></i> FERRAMENTA TÉCNICA</span>
+                <h2 class="section-title">SIMULADOR SOLAR <span class="glow-text">WKB</span></h2>
+                <p class="section-subtitle">Descubra uma estimativa do sistema de energia solar ideal para o seu consumo.</p>
+            </div>
+
+            <div class="simulator-card">
+                <!-- Stepper Progress Bar -->
+                <div class="sim-progress-bar">
+                    <div class="sim-step-indicator active" id="step-ind-1">1. Sistema</div>
+                    <div class="sim-step-indicator" id="step-ind-2">2. Consumo</div>
+                    <div class="sim-step-indicator" id="step-ind-3">3. Localização</div>
+                    <div class="sim-step-indicator" id="step-ind-4">4. Equipamentos</div>
+                    <div class="sim-step-indicator" id="step-ind-5">5. Resultado</div>
+                </div>
+
+                <form id="solar-sim-form">
+                    <!-- ETAPA 1: Tipo de Sistema -->
+                    <div class="sim-step-content active" id="sim-step-1">
+                        <h3 class="step-title">Escolha o Tipo de Sistema Desejado</h3>
+                        <div class="system-options-grid">
+                            <label class="sys-option-card">
+                                <input type="radio" name="sys_type" value="ON-GRID" checked>
+                                <div class="sys-card-inner">
+                                    <i class="fa-solid fa-solar-panel sys-icon"></i>
+                                    <h4>ON-GRID</h4>
+                                    <p>Conectado à rede elétrica da distribuidora. O excedente é injetado gerando créditos.</p>
+                                    <div class="diagram-mini">Painéis → Inversor → Consumo → Rede</div>
+                                </div>
+                            </label>
+
+                            <label class="sys-option-card">
+                                <input type="radio" name="sys_type" value="OFF-GRID">
+                                <div class="sys-card-inner">
+                                    <i class="fa-solid fa-battery-full sys-icon"></i>
+                                    <h4>OFF-GRID</h4>
+                                    <p>100% autônomo com armazenamento em baterias. Ideal para locais sem rede de energia.</p>
+                                    <div class="diagram-mini">Painéis → Controlador → Baterias → Consumo</div>
+                                </div>
+                            </label>
+
+                            <label class="sys-option-card">
+                                <input type="radio" name="sys_type" value="HIBRIDO">
+                                <div class="sys-card-inner">
+                                    <i class="fa-solid fa-charging-station sys-icon"></i>
+                                    <h4>HÍBRIDO</h4>
+                                    <p>Geração solar + baterias + rede elétrica. Segurança total contra quedas de energia.</p>
+                                    <div class="diagram-mini">Painéis → Inversor Híbrido → Baterias/Rede</div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="sim-nav">
+                            <div></div>
+                            <button type="button" class="btn btn-primary btn-next" data-next="2">Avançar <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- ETAPA 2: Dados de Consumo -->
+                    <div class="sim-step-content" id="sim-step-2">
+                        <h3 class="step-title">Dados de Consumo Energético</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="sim_consumo">Consumo Médio Mensal (kWh)</label>
+                                <input type="number" id="sim_consumo" placeholder="Ex: 450" required min="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="sim_valor">Valor da Conta de Energia (R$)</label>
+                                <input type="number" id="sim_valor" placeholder="Ex: 450.00" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="sim_distribuidora">Distribuidora de Energia</label>
+                                <select id="sim_distribuidora">
+                                    <option value="Equatorial" selected>Equatorial Pará</option>
+                                    <option value="Outra">Outra Distribuidora</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="sim-nav">
+                            <button type="button" class="btn btn-secondary btn-prev" data-prev="1">Voltar</button>
+                            <button type="button" class="btn btn-primary btn-next" data-next="3">Avançar <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- ETAPA 3: Localização e Tipo de Imóvel -->
+                    <div class="sim-step-content" id="sim-step-3">
+                        <h3 class="step-title">Localização e Perfil do Imóvel</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="sim_cidade">Cidade de Instalação</label>
+                                <input type="text" id="sim_cidade" placeholder="Ex: Belterra, Santarém, Mogi dos Campos..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sim_imovel">Tipo de Imóvel</label>
+                                <select id="sim_imovel">
+                                    <option value="Residencial">Residencial</option>
+                                    <option value="Comercial">Comercial</option>
+                                    <option value="Rural">Rural / Propriedade</option>
+                                    <option value="Industrial">Industrial</option>
+                                    <option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="sim-nav">
+                            <button type="button" class="btn btn-secondary btn-prev" data-prev="2">Voltar</button>
+                            <button type="button" class="btn btn-primary btn-next" data-next="4">Avançar <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- ETAPA 4: Configuração de Equipamentos -->
+                    <div class="sim-step-content" id="sim-step-4">
+                        <h3 class="step-title">Parâmetros dos Equipamentos</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="sim_modulo_pot">Potência do Módulo Fotovoltaico desejada</label>
+                                <select id="sim_modulo_pot">
+                                    <option value="450">450 W</option>
+                                    <option value="550" selected>550 W (Recomendado)</option>
+                                    <option value="580">580 W</option>
+                                    <option value="600">600 W</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Configurações Dinâmicas para Off-Grid / Híbrido -->
+                        <div id="extra-offgrid-fields" class="extra-fields-panel hidden">
+                            <h4 class="sub-panel-title"><i class="fa-solid fa-battery-half"></i> Parâmetros de Autonomia (Baterias)</h4>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="sim_autonomia">Autonomia Desejada em Baterias</label>
+                                    <select id="sim_autonomia">
+                                        <option value="Algumas horas">Algumas Horas (Backup)</option>
+                                        <option value="1 dia" selected>1 Dia de Autonomia</option>
+                                        <option value="2 dias">2 Dias de Autonomia</option>
+                                        <option value="3 dias">3 Dias de Autonomia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sim-nav">
+                            <button type="button" class="btn btn-secondary btn-prev" data-prev="3">Voltar</button>
+                            <button type="button" class="btn btn-primary btn-glow" id="btn-run-sim">CALCULAR MINHA SIMULAÇÃO <i class="fa-solid fa-calculator"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- ETAPA 5: Tela de Resultado -->
+                    <div class="sim-step-content" id="sim-step-5">
+                        <div class="result-header">
+                            <i class="fa-solid fa-circle-check check-icon"></i>
+                            <h3>RESULTADO DA SUA SIMULAÇÃO SOLAR</h3>
+                            <p>Estimativa gerada com base nos dados informados.</p>
+                        </div>
+
+                        <div class="cards-grid cols-3 sim-results-grid">
+                            <div class="card-result">
+                                <span class="res-label">Consumo Informado</span>
+                                <span class="res-value" id="res-consumo">0 kWh/mês</span>
+                            </div>
+                            <div class="card-result">
+                                <span class="res-label">Sistema Selecionado</span>
+                                <span class="res-value glow-text" id="res-sistema">ON-GRID</span>
+                            </div>
+                            <div class="card-result">
+                                <span class="res-label">Potência Estimada</span>
+                                <span class="res-value" id="res-potencia">0.00 kWp</span>
+                            </div>
+                            <div class="card-result">
+                                <span class="res-label">Quantidade de Módulos</span>
+                                <span class="res-value" id="res-modulos">0 painéis</span>
+                            </div>
+                            <div class="card-result">
+                                <span class="res-label">Potência por Módulo</span>
+                                <span class="res-value" id="res-mod-pot">550 W</span>
+                            </div>
+                            <div class="card-result" id="res-box-storage">
+                                <span class="res-label">Armazenamento / Baterias</span>
+                                <span class="res-value" id="res-storage">N/A</span>
+                            </div>
+                        </div>
+
+                        <div class="disclaimer-box">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <p><strong>Atenção:</strong> esta é uma simulação preliminar. O dimensionamento definitivo do sistema depende de análise técnica, localização, orientação dos módulos, área disponível, características da instalação, equipamentos utilizados, perfil de consumo e demais condições do projeto.</p>
+                        </div>
+
+                        <div class="sim-callout-action">
+                            <h4>Gostou da simulação?</h4>
+                            <p>Agora deixe a WKB transformar essa estimativa em um projeto personalizado para você.</p>
+                            <div class="hero-actions center">
+                                <button type="button" class="btn btn-primary btn-glow" id="btn-send-sim-wa"><i class="fa-brands fa-whatsapp"></i> ENVIAR SIMULAÇÃO PELO WHATSAPP</button>
+                                <a href="#orcamento" class="btn btn-secondary">SOLICITAR ORÇAMENTO COMPLETO</a>
+                            </div>
+                        </div>
+
+                        <div class="sim-nav">
+                            <button type="button" class="btn btn-secondary btn-prev" data-prev="4">Refazer Cálculo</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Por que escolher a WKB -->
+    <section class="section" id="sobre">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">POR QUE ESCOLHER A <span class="glow-text">WKB?</span></h2>
+                <p class="section-subtitle">Mais do que instalar equipamentos, a WKB busca entregar soluções. Nosso objetivo é entender a necessidade do cliente e transformar tecnologia em segurança, conectividade, praticidade e eficiência.</p>
+            </div>
+
+            <div class="indicators-grid">
+                <div class="ind-card"><i class="fa-solid fa-microchip"></i><span>Tecnologia</span></div>
+                <div class="ind-card"><i class="fa-solid fa-shield-halved"></i><span>Segurança</span></div>
+                <div class="ind-card"><i class="fa-solid fa-wifi"></i><span>Conectividade</span></div>
+                <div class="ind-card"><i class="fa-solid fa-user-check"></i><span>Profissionalismo</span></div>
+                <div class="ind-card"><i class="fa-solid fa-sliders"></i><span>Soluções Personalizadas</span></div>
+            </div>
+
+            <!-- Sobre a Empresa Texto -->
+            <div class="about-box">
+                <div class="about-content">
+                    <h3>SOBRE A WKB</h3>
+                    <p>A WKB Sistemas e Segurança nasceu com o propósito de oferecer soluções integradas em tecnologia, conectividade, segurança e infraestrutura.</p>
+                    <p>Atuamos com energia solar, internet, redes, segurança eletrônica, desenvolvimento de sistemas, criação de sites e diversas soluções tecnológicas para empresas, residências e projetos especiais.</p>
+                    <p>Nosso diferencial está em reunir diferentes áreas da tecnologia em um único lugar, oferecendo soluções personalizadas para cada necessidade.</p>
+                    <div class="about-highlights">
+                        <span class="hl-tag">Tecnologia</span> +
+                        <span class="hl-tag">Segurança</span> +
+                        <span class="hl-tag">Conectividade</span> +
+                        <span class="hl-tag">Inovação</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Onde Atendemos -->
+    <section class="section section-dark" id="atendimento">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">ONDE <span class="glow-text">ATENDEMOS</span></h2>
+                <p class="section-subtitle">A WKB Sistemas e Segurança atende clientes em Belterra, Mogi dos Campos, Santarém e Alter do Chão.</p>
+            </div>
+
+            <div class="cards-grid cols-4">
+                <div class="card-location">
+                    <i class="fa-solid fa-location-dot loc-icon"></i>
+                    <h3>Belterra</h3>
+                    <p>Atendimento presencial técnico para residências, comércios e propriedades rurais.</p>
+                </div>
+                <div class="card-location">
+                    <i class="fa-solid fa-location-dot loc-icon"></i>
+                    <h3>Mogi dos Campos</h3>
+                    <p>Projetos corporativos, sistemas e suporte em conectividade e infraestrutura.</p>
+                </div>
+                <div class="card-location">
+                    <i class="fa-solid fa-location-dot loc-icon"></i>
+                    <h3>Santarém</h3>
+                    <p>Sistemas de segurança, redes empresariais, Starlink e desenvolvimento sob medida.</p>
+                </div>
+                <div class="card-location">
+                    <i class="fa-solid fa-location-dot loc-icon"></i>
+                    <h3>Alter do Chão</h3>
+                    <p>Soluções em energia solar, internet para pousadas, embarcações e monitoramento.</p>
+                </div>
+            </div>
+
+            <div class="map-visual-placeholder">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <span>COBERTURA DE ATENDIMENTO REGIONAL ESPECIALIZADA</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Área de Orçamento -->
+    <section class="section" id="orcamento">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">SOLICITE SEU <span class="glow-text">ORÇAMENTO</span></h2>
+                <p class="section-subtitle">Preencha as informações abaixo e envie sua solicitação. Nossa equipe receberá os dados pelo WhatsApp para analisar sua necessidade e retornar com as informações e valores do serviço.</p>
+            </div>
+
+            <div class="form-container-box">
+                <form id="orcamento-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="orc_nome">Nome *</label>
+                            <input type="text" id="orc_nome" required placeholder="Seu nome completo">
+                        </div>
+                        <div class="form-group">
+                            <label for="orc_empresa">Empresa (Opcional)</label>
+                            <input type="text" id="orc_empresa" placeholder="Nome da sua empresa">
+                        </div>
+                        <div class="form-group">
+                            <label for="orc_telefone">Telefone / WhatsApp *</label>
+                            <input type="tel" id="orc_telefone" required placeholder="(93) 99119-2244">
+                        </div>
+                        <div class="form-group">
+                            <label for="orc_cidade">Cidade *</label>
+                            <input type="text" id="orc_cidade" required placeholder="Sua cidade">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="orc_endereco">Endereço do Serviço *</label>
+                            <input type="text" id="orc_endereco" required placeholder="Endereço ou local da instalação">
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="orc_servico">Tipo de Serviço *</label>
+                            <select id="orc_servico" required>
+                                <option value="" disabled selected>Selecione um serviço...</option>
+                                <option value="Energia Solar Fotovoltaica">Energia Solar Fotovoltaica</option>
+                                <option value="Instalação de Starlink">Instalação de Starlink</option>
+                                <option value="Internet via Fibra Óptica">Internet via Fibra Óptica</option>
+                                <option value="Configuração de MikroTik">Configuração de MikroTik</option>
+                                <option value="Hotspot para Empresas/Embarcações">Hotspot para Empresas ou Embarcações</option>
+                                <option value="Cabeamento Estruturado / Infra de Redes">Cabeamento Estruturado / Infra de Redes</option>
+                                <option value="Câmeras de Segurança (CFTV)">Câmeras de Segurança (CFTV)</option>
+                                <option value="Alarmes / Cerca Elétrica / Sensores">Alarmes / Cerca Elétrica / Sensores</option>
+                                <option value="Motor de Portão / Controle de Acesso">Motor de Portão / Controle de Acesso</option>
+                                <option value="Rádios Comunicadores">Rádios Comunicadores</option>
+                                <option value="Assistência Técnica de Celulares">Assistência Técnica de Celulares</option>
+                                <option value="Desenvolvimento de Sistemas / Sites">Desenvolvimento de Sistemas / Sites</option>
+                                <option value="Outros Serviços">Outros Serviços</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="orc_descricao">Descreva sua Necessidade *</label>
+                            <textarea id="orc_descricao" rows="4" required placeholder="Detalhes do projeto, número de pontos, metragem ou particularidades..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="orc_obs">Observações (Opcional)</label>
+                            <textarea id="orc_obs" rows="2" placeholder="Informações adicionais ou melhor horário para contato"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-glow btn-full" style="margin-top: 20px;">
+                        <i class="fa-brands fa-whatsapp"></i> ENVIAR ORÇAMENTO PELO WHATSAPP
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chamada para Ação Final -->
+    <section class="section section-cta">
+        <div class="container text-center">
+            <h2 class="cta-title">PRECISA DE UMA SOLUÇÃO EM TECNOLOGIA, SEGURANÇA OU CONECTIVIDADE?</h2>
+            <p class="cta-subtitle">Fale com a WKB e descubra a melhor solução para seu projeto.</p>
+            <div class="hero-actions center">
+                <a href="#orcamento" class="btn btn-primary btn-glow">SOLICITAR ORÇAMENTO</a>
+                <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-whatsapp"></i> FALAR NO WHATSAPP</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="logo">
+                    <span class="logo-main">WKB</span>
+                    <span class="logo-sub">SISTEMAS E SEGURANÇA</span>
+                </div>
+                <p class="footer-desc">WKB Sistemas e Segurança, Monitoramento e TI. Tecnologia, conectividade, segurança e soluções inteligentes.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Serviços</h4>
+                <ul>
+                    <li>Energia Solar</li>
+                    <li>Internet & Starlink</li>
+                    <li>Redes & Cabeamento</li>
+                    <li>Segurança Eletrônica</li>
+                    <li>Comunicação Profissional</li>
+                    <li>Assistência Técnica</li>
+                    <li>Desenvolvimento de Sistemas</li>
+                    <li>Criação de Sites</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Atendimento</h4>
+                <p>Belterra | Mogi dos Campos | Santarém | Alter do Chão</p>
+                <br>
+                <h4>Contato</h4>
+                <p><i class="fa-brands fa-whatsapp"></i> +55 93 99119-2244</p>
+            </div>
+            <div class="footer-col">
+                <a href="https://wa.me/5593991192244" target="_blank" class="btn btn-primary btn-glow btn-sm">FALAR NO WHATSAPP</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2026 WKB Sistemas e Segurança. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Widget Flutuante WhatsApp / Simulação de Atendimento -->
+    <div class="wa-widget-container">
+        <!-- Janela do Chat -->
+        <div class="wa-chat-window hidden" id="wa-chat-window">
+            <div class="wa-chat-header">
+                <div class="wa-chat-profile">
+                    <div class="wa-avatar">WKB</div>
+                    <div class="wa-info">
+                        <strong>WKB Sistemas e Segurança</strong>
+                        <span class="status-online">● Online</span>
+                    </div>
+                </div>
+                <button class="wa-close-btn" id="wa-close-btn">&times;</button>
+            </div>
+            <div class="wa-chat-body" id="wa-chat-body">
+                <div class="chat-msg bot">
+                    Olá! 👋 Seja bem-vindo à WKB Sistemas e Segurança.
+                </div>
+                <div class="chat-msg bot">
+                    Como podemos ajudar você hoje?
+                </div>
+            </div>
+            <div class="wa-quick-options">
+                <button class="chip-opt" data-msg="Gostaria de solicitar um orçamento.">Solicitar orçamento</button>
+                <button class="chip-opt" data-msg="Quero conhecer os serviços da WKB.">Conhecer serviços</button>
+                <button class="chip-opt" data-msg="Gostaria de falar com o atendimento.">Falar com a WKB</button>
+            </div>
+            <div class="wa-chat-footer">
+                <input type="text" id="wa-input-msg" placeholder="Digite sua mensagem...">
+                <button id="wa-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
         </div>
 
-        <div class="service-card">
-          <i class="fa-solid fa-network-wired service-icon"></i>
-          <h3>Redes & Conectividade</h3>
-          <p>Infraestrutura de redes estruturadas, suporte Mikrotik, Wi-Fi corporativo e fibra óptica.</p>
-        </div>
-
-        <div class="service-card">
-          <i class="fa-solid fa-code service-icon"></i>
-          <h3>Desenvolvimento de Sistemas</h3>
-          <p>Criação de sistemas personalizados, painéis de gestão e integração com APIs.</p>
-        </div>
-
-        <div class="service-card">
-          <i class="fa-solid fa-solar-panel service-icon"></i>
-          <h3>Energia Solar Off-Grid</h3>
-          <p>Projetos e instalação de sistemas solares para alimentar segurança e redes em locais remotos.</p>
-        </div>
-      </div>
+        <!-- Botão Flutuante Principal -->
+        <button class="wa-float-btn" id="wa-float-btn" aria-label="Abrir conversa WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </button>
     </div>
-  </section>
 
-  <!-- SEÇÃO DE CONTATO -->
-  <section class="contact" id="contato">
-    <div class="container">
-      <h2 class="section-title">Solicite um Orçamento</h2>
-      <p class="section-desc">Preencha os dados abaixo ou nos chame no WhatsApp.</p>
-
-      <div class="contact-box">
-        <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Mensagem enviada com sucesso!');">
-          <div class="form-group">
-            <label for="nome">Nome Completo</label>
-            <input type="text" id="nome" required placeholder="Digite seu nome">
-          </div>
-
-          <div class="form-group">
-            <label for="telefone">Telefone / WhatsApp</label>
-            <input type="tel" id="telefone" required placeholder="(00) 00000-0000">
-          </div>
-
-          <div class="form-group">
-            <label for="mensagem">Detalhes do Projeto</label>
-            <textarea id="mensagem" rows="4" placeholder="Descreva brevemente o que você precisa"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary" style="width: 100%;">ENVIAR SOLICITAÇÃO</button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- RODAPÉ -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2026 WKB Sistemas e Segurança. Todos os direitos reservados.</p>
-    </div>
-  </footer>
-
-  <!-- BOTÃO FLUTUANTE WHATSAPP -->
-  <a href="https://wa.me/5593999999999" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Contato via WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-  </a>
-
+    <script src="script.js"></script>
 </body>
 </html>
