@@ -1,4 +1,4 @@
-// 1. CARREGAMENTO DA INTRO SEM RETENÇÃO
+// 1. CARREGAMENTO E REMOÇÃO FORÇADA DA INTRO
 document.addEventListener("DOMContentLoaded", () => {
   const progressBar = document.getElementById("progressBar");
   const pingVal = document.getElementById("pingVal");
@@ -7,27 +7,27 @@ document.addEventListener("DOMContentLoaded", () => {
   let progress = 0;
   
   const interval = setInterval(() => {
-    progress += 25;
+    progress += 20;
     if (pingVal) pingVal.innerText = `${Math.floor(Math.random() * 8) + 8} ms`;
     if (progressBar) progressBar.style.width = `${progress}%`;
 
     if (progress >= 100) {
       clearInterval(interval);
-      fecharIntro();
+      removerIntro();
     }
-  }, 100);
+  }, 80);
 
-  function fecharIntro() {
+  function removerIntro() {
     if (introOverlay) {
-      introOverlay.classList.add("fade-out");
+      introOverlay.style.opacity = '0';
       setTimeout(() => {
-        introOverlay.style.display = "none";
-      }, 500);
+        introOverlay.classList.add("hidden");
+      }, 400);
     }
   }
 
-  // Trava de segurança: oculta a introdução após 2 segundos em caso de atraso
-  setTimeout(fecharIntro, 2000);
+  // Garantia: se demorar mais de 1.2s, força o desaparecimento
+  setTimeout(removerIntro, 1200);
 });
 
 // 2. ANIMACAO DE FUNDO DO CANVAS
@@ -89,7 +89,7 @@ if (waCloseBtn && waChatBox) {
 
 function irParaWhatsapp() {
   const msgText = waInputMsg ? waInputMsg.value.trim() : "";
-  const textoFinal = msgText ? msgText : "Olá! Gostaria de mais informações sobre os serviços da WKB Sistemas.";
+  const textoFinal = msgText ? msgText : "Ola! Gostaria de mais informacoes sobre os servicos da WKB Sistemas.";
   window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(textoFinal)}`, '_blank');
 }
 
