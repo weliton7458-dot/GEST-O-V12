@@ -1,4 +1,4 @@
-// 1. ANIMAÇÃO MATRIX / SERVIDOR NO CANVAS
+// 1. ANIMAÇÃO DE FUNDO DO SERVIDOR
 const canvas = document.getElementById('serverCanvas');
 if (canvas) {
   const ctx = canvas.getContext('2d');
@@ -35,9 +35,8 @@ if (canvas) {
   setInterval(drawServerAnimation, 33);
 }
 
-// 2. CONFIGURAÇÃO DO SEU WHATSAPP (DDD + NÚMERO)
-const NUMERO_WHATSAPP = "5593999999999"; 
-
+// 2. WHATSAPP FLUTUANTE
+const NUMERO_WHATSAPP = "5593999999999"; // Substitua com seu número
 const whatsappFloat = document.getElementById('whatsappFloat');
 if (whatsappFloat) {
   whatsappFloat.href = `https://wa.me/${NUMERO_WHATSAPP}`;
@@ -45,15 +44,15 @@ if (whatsappFloat) {
 
 // 3. MENU MOBILE TOGGLE
 const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
+const navMenu = document.getElementById('navMenu');
 
-if (menuToggle && navLinks) {
+if (menuToggle && navMenu) {
   menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
+    navMenu.classList.toggle('active');
   });
 }
 
-// 4. FORMULÁRIO ENVIANDO MENSAGEM PARA O WHATSAPP
+// 4. ENVIO DO FORMULÁRIO PARA O WHATSAPP
 const whatsappForm = document.getElementById('whatsappForm');
 if (whatsappForm) {
   whatsappForm.addEventListener('submit', function(e) {
@@ -63,7 +62,7 @@ if (whatsappForm) {
     const servico = document.getElementById('servico').value;
     const mensagem = document.getElementById('mensagem').value;
 
-    const texto = `*SOLICITAÇÃO DE ORÇAMENTO WKB*\n\n*Nome:* ${nome}\n*Serviço:* ${servico}\n*Detalhes:* ${mensagem}`;
+    const texto = `*SOLICITACAO DE ORCAMENTO WKB*\n\n*Nome:* ${nome}\n*Servico:* ${servico}\n*Detalhes:* ${mensagem}`;
     const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
 
     window.open(url, '_blank');
