@@ -3,25 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WKB Sistemas | Conectividade & Segurança Tecnologia</title>
+  <title>WKB Sistemas | Conectividade & Seguran�a High-Tech</title>
 
-  <!-- FontAwesome Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Estilo CSS Principal -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ANIMAÇÃO DE SERVIDORES DE FUNDO -->
+  <div id="introOverlay" class="intro-overlay">
+    <div class="glass-card intro-box">
+      <div class="intro-header">
+        <span class="logo-wkb">WKB</span>
+        <span class="status-pulse"></span>
+      </div>
+      <p class="intro-title"><i class="fa-solid fa-server"></i> CONECTANDO AO SERVIDOR...</p>
+      
+      <div class="intro-stats">
+        <div class="stat-line"><span>STATUS DA REDE:</span> <strong style="color: #00e5ff;">ONLINE</strong></div>
+        <div class="stat-line"><span>LAT�NCIA:</span> <strong id="pingVal">12 ms</strong></div>
+        <div class="stat-line"><span>SEGURAN�A:</span> <strong style="color: #25d366;">CRIPTOGRAFADO</strong></div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <button id="btnEnterSite" class="btn-cyber btn-glow-blue" style="width: 100%; margin-top: 15px; display: none;">
+        ACESSAR SISTEMA <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
   <canvas id="serverCanvas"></canvas>
 
-  <!-- NAVBAR / CABEÇALHO -->
   <header class="navbar">
     <div class="container nav-container">
       <a href="#" class="brand-logo">
         <span class="logo-wkb">WKB</span>
-        <span class="logo-sub">SISTEMAS & SEGURANÇA</span>
+        <span class="logo-sub">SISTEMAS & TELECOM</span>
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
@@ -40,12 +60,11 @@
     </div>
   </header>
 
-  <!-- HERO SECTION -->
   <section class="hero">
     <div class="container hero-container">
       
       <div class="badge-cyber">
-        <i class="fa-solid fa-shield-halved"></i> TECNOLOGIA SEGURANÇA & CONECTIVIDADE
+        <i class="fa-solid fa-shield-halved"></i> TECNOLOGIA HIGH-TECH & CONECTIVIDADE
       </div>
 
       <div class="hero-logo-wrapper">
@@ -62,7 +81,6 @@
         Solucoes integradas de telecomunicacoes, redes de alta performance, projetos de energia solar e sistemas customizados.
       </p>
 
-      <!-- BOTÕES DE AÇÃO -->
       <div class="hero-actions">
         <a href="./planos/index.html" class="btn-cyber btn-glow-blue">
           <i class="fa-solid fa-wifi"></i> NOSSOS PLANOS
@@ -84,7 +102,6 @@
     </div>
   </section>
 
-  <!-- SEÇÃO SOBRE A EMPRESA -->
   <section class="about-section" id="sobre">
     <div class="container">
       <div class="section-header">
@@ -120,7 +137,7 @@
             <div class="stat-label">Clientes Conectados</div>
           </div>
           <div class="glass-card stat-box">
-            <div class="stat-number">OffGrid-OnGrid</div>
+            <div class="stat-number">Off-Grid</div>
             <div class="stat-label">Solucoes em Energia Solar</div>
           </div>
         </div>
@@ -128,7 +145,6 @@
     </div>
   </section>
 
-  <!-- SEÇÃO DE CONTATO / ORÇAMENTO -->
   <section class="contact-section" id="contato">
     <div class="container">
       <div class="section-header">
@@ -161,7 +177,6 @@
     </div>
   </section>
 
-  <!-- RODAPÉ PROFISSIONAL -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -194,9 +209,10 @@
 
         <div class="footer-col">
           <h4>Contato</h4>
-          <p><i class="fa-solid fa-phone" style="color: #00e5ff;"></i> Atendimento Comercial</p>
+          <p><i class="fa-solid fa-phone" style="color: #00e5ff;"></i> (93) 99119-2244</p>
+          <p><i class="fa-solid fa-phone" style="color: #00e5ff;"></i> (93) 99239-1763</p>
           <p><i class="fa-solid fa-envelope" style="color: #00e5ff;"></i> weliton7458@gmail.com</p>
-          <p><i class="fa-solid fa-location-dot" style="color: #00e5ff;"></i> Atendemos: Belterra, Santarem, Mujui dos Campos e Alter do Chão</p>
+          <p><i class="fa-brands fa-instagram" style="color: #00e5ff;"></i> @wkbsistemas</p>
         </div>
 
       </div>
@@ -207,12 +223,41 @@
     </div>
   </footer>
 
-  <!-- BOTÃO WHATSAPP FLUTUANTE -->
-  <a href="#" id="whatsappFloat" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-    <i class="fa-brands fa-whatsapp"></i>
-  </a>
+  <div class="wa-widget-container">
+    <div id="waChatBox" class="wa-chat-box">
+      <div class="wa-chat-header">
+        <div class="wa-profile">
+          <img src="logo.png" alt="WKB Logo" class="wa-avatar">
+          <div class="wa-user-info">
+            <strong>WKB Sistemas & Telecom</strong>
+            <span id="waStatus">Online</span>
+          </div>
+        </div>
+        <button id="waCloseBtn" class="wa-close-btn">&times;</button>
+      </div>
 
-  <!-- Script JS Principal -->
+      <div class="wa-chat-body">
+        <div class="wa-msg-bubble">
+          <p>Ol�! Seja bem-vindo � WKB Sistemas. </p>
+          <p>Como podemos te ajudar hoje?</p>
+          <span class="wa-msg-time">Agora</span>
+        </div>
+        <div id="waTyping" class="wa-typing" style="display: none;">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="wa-chat-footer">
+        <input type="text" id="waInputMsg" placeholder="Digite sua mensagem..." class="wa-input">
+        <button id="waSendBtn" class="wa-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+    <button id="waFloatBtn" class="wa-float-btn" aria-label="Abrir WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
