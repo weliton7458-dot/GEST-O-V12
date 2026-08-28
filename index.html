@@ -3,72 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WKB Sistemas e Conectividade</title>
+  <title>WKB Sistemas | Conectividade & Segurança High-Tech</title>
 
-  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- CSS Principal -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <canvas id="serverCanvas"></canvas>
+
   <header class="navbar">
     <div class="container nav-container">
-      <a href="./index.html" class="brand-logo">
+      <a href="#" class="brand-logo">
         <span class="logo-wkb">WKB</span>
-        <span class="logo-sub">CONECTIVIDADE E SEGURANÇA</span>
+        <span class="logo-sub">SISTEMAS & TELECOM</span>
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
 
-      <nav class="nav-menu">
+      <nav>
         <ul class="nav-links" id="navLinks">
           <li><a href="./planos/index.html"><i class="fa-solid fa-box-archive"></i> Planos</a></li>
-          <li><a href="./servicos/index.html"><i class="fa-solid fa-gears"></i> Serviços</a></li>
-          <li><a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-gauge-high"></i> Teste de Velocidade</a></li>
-          <li><a href="https://wkbtelecom.centralassinante.com.br/" target="_blank" rel="noopener noreferrer" class="btn-client-link"><i class="fa-solid fa-user-lock"></i> Central do Cliente</a></li>
+          <li><a href="./servicos/index.html"><i class="fa-solid fa-microchip"></i> Serviços</a></li>
+          <li><a href="#sobre"><i class="fa-solid fa-building"></i> Sobre Nós</a></li>
+          <li><a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-gauge-high"></i> SpeedTest</a></li>
+          <li><a href="https://wkbtelecom.centralassinante.com.br/" target="_blank" rel="noopener noreferrer" style="color:#00e5ff;"><i class="fa-solid fa-user-shield"></i> Central do Cliente</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="home">
+  <section class="hero">
     <div class="container hero-container">
       
-      <div class="badge">
-        <i class="fa-solid fa-shield-halved"></i> TECNOLOGIA & CONECTIVIDADE
+      <div class="badge-cyber">
+        <i class="fa-solid fa-shield-halved"></i> TECNOLOGIA HIGH-TECH & CONECTIVIDADE
       </div>
 
       <div class="hero-logo-wrapper">
         <img src="logo.png" alt="WKB Logo" class="hero-logo-img">
       </div>
 
-      <h1 class="hero-subtitle">Soluções Integradas</h1>
+      <h1 class="hero-title">Infraestrutura, TI & Monitoramento</h1>
 
       <p class="hero-tagline">
-        Conectividade, segurança eletrônica, energia solar e inteligência em TI para sua empresa ou residência.
+        Conectando sua empresa ao futuro com máxima velocidade, segurança em dados e monitoramento inteligente.
       </p>
 
-      <!-- BOTÕES DE NAVEGAÇÃO -->
+      <p class="hero-description">
+        Soluções integradas de telecomunicações, redes de alta performance, projetos de energia solar e sistemas customizados.
+      </p>
+
       <div class="hero-actions">
-        <a href="./planos/index.html" class="btn btn-primary">
-          <i class="fa-solid fa-box-archive"></i> VER PLANOS
+        <a href="./planos/index.html" class="btn-cyber btn-glow-blue">
+          <i class="fa-solid fa-wifi"></i> NOSSOS PLANOS
         </a>
 
-        <a href="./servicos/index.html" class="btn btn-secondary">
+        <a href="./servicos/index.html" class="btn-cyber btn-glow-cyan">
           <i class="fa-solid fa-gears"></i> NOSSOS SERVIÇOS
         </a>
 
-        <a href="https://wkbtelecom.centralassinante.com.br/" target="_blank" rel="noopener noreferrer" class="btn btn-client">
+        <a href="https://wkbtelecom.centralassinante.com.br/" target="_blank" rel="noopener noreferrer" class="btn-cyber btn-glow-purple">
           <i class="fa-solid fa-user-lock"></i> CENTRAL DO CLIENTE
         </a>
 
-        <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="btn btn-speed">
+        <a href="https://www.speedtest.net/" target="_blank" rel="noopener noreferrer" class="btn-cyber btn-glow-cyan">
           <i class="fa-solid fa-gauge-high"></i> TESTE DE VELOCIDADE
         </a>
       </div>
@@ -76,49 +78,130 @@
     </div>
   </section>
 
-  <!-- CONTATO -->
-  <section class="contact" id="contato">
+  <section class="about-section" id="sobre">
     <div class="container">
-      <h2 class="contact-title">Solicite um Orçamento</h2>
-      <p class="contact-desc">Preencha os dados abaixo para falar direto no nosso WhatsApp.</p>
+      <div class="section-header">
+        <span class="section-subtitle">Nossa História</span>
+        <h2 class="section-title">Sobre a WKB Sistemas</h2>
+      </div>
 
-      <div class="contact-box">
+      <div class="about-grid">
+        <div class="glass-card about-content" style="padding: 35px;">
+          <h3 style="color: #00e5ff; font-size: 1.5rem; margin-bottom: 15px;">Como Surgiu a WKB</h3>
+          <p>
+            A <strong>WKB Sistemas e Telecom</strong> nasceu da necessidade de entregar soluções reais de conectividade e segurança em regiões que exigem máxima estabilidade de rede e infraestrutura robusta.
+          </p>
+          <p>
+            O que começou como uma consultoria especializada em engenharia de redes e TI evoluiu para uma empresa completa de tecnologia. Hoje, unimos telecomunicações de ponta, monitoramento eletrônico, desenvolvimento de sistemas e projetos de energia solar autônomos.
+          </p>
+          <p>
+            Nosso compromisso é manter pessoas e empresas sempre conectadas, protegidas e prontas para as exigências do mercado digital moderno.
+          </p>
+        </div>
+
+        <div class="stats-grid">
+          <div class="glass-card stat-box">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Fibra Óptica & Alta Velocidade</div>
+          </div>
+          <div class="glass-card stat-box">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Monitoramento & Suporte</div>
+          </div>
+          <div class="glass-card stat-box">
+            <div class="stat-number">+1000</div>
+            <div class="stat-label">Clientes Conectados</div>
+          </div>
+          <div class="glass-card stat-box">
+            <div class="stat-number">Off-Grid</div>
+            <div class="stat-label">Soluções em Energia Solar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-section" id="contato">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Atendimento Rápido</span>
+        <h2 class="section-title">Solicite um Orçamento</h2>
+      </div>
+
+      <div class="glass-card contact-box">
         <form id="whatsappForm">
           <div class="form-group">
-            <label for="nome">Nome Completo</label>
-            <input type="text" id="nome" required placeholder="Digite seu nome">
+            <label for="nome"><i class="fa-solid fa-user"></i> SEU NOME</label>
+            <input type="text" id="nome" class="form-control" required placeholder="Digite seu nome completo">
           </div>
 
           <div class="form-group">
-            <label for="servico">Serviço de Interesse</label>
-            <input type="text" id="servico" placeholder="Ex: Internet, Câmeras, Energia Solar">
+            <label for="servico"><i class="fa-solid fa-list-check"></i> SERVIÇO DE INTERESSE</label>
+            <input type="text" id="servico" class="form-control" placeholder="Ex: Internet, CFTV, Energia Solar">
           </div>
 
           <div class="form-group">
-            <label for="mensagem">Detalhes</label>
-            <textarea id="mensagem" rows="3" placeholder="Como podemos ajudar?"></textarea>
+            <label for="mensagem"><i class="fa-solid fa-comment-dots"></i> DETALHES</label>
+            <textarea id="mensagem" class="form-control" rows="4" placeholder="Descreva o que você precisa..."></textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary" style="width: 100%;">
-            <i class="fa-brands fa-whatsapp"></i> ENVIAR PELO WHATSAPP
+          <button type="submit" class="btn-cyber btn-glow-blue" style="width: 100%;">
+            <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> ENVIAR SOLICITAÇÃO VIA WHATSAPP
           </button>
         </form>
       </div>
     </div>
   </section>
 
-  <footer>
+  <footer class="footer">
     <div class="container">
-      <p>&copy; 2026 WKB Conectividade e Segurança. Todos os direitos reservados.</p>
+      <div class="footer-grid">
+        
+        <div class="footer-col">
+          <span class="logo-wkb">WKB</span>
+          <p style="margin-top: 15px;">
+            Líder em soluções de conectividade, infraestrutura de redes, monitoramento eletrônico e sistemas inteligentes.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="./planos/index.html">Planos de Internet</a></li>
+            <li><a href="./servicos/index.html">Serviços Técnicos</a></li>
+            <li><a href="#sobre">Sobre a Empresa</a></li>
+            <li><a href="#contato">Solicitar Orçamento</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Área do Cliente</h4>
+          <ul>
+            <li><a href="https://wkbtelecom.centralassinante.com.br/" target="_blank">2ª Via de Fatura</a></li>
+            <li><a href="https://wkbtelecom.centralassinante.com.br/" target="_blank">Central do Assinante</a></li>
+            <li><a href="https://www.speedtest.net/" target="_blank">SpeedTest</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contato</h4>
+          <p><i class="fa-solid fa-phone" style="color: #00e5ff;"></i> Atendimento Comercial</p>
+          <p><i class="fa-solid fa-envelope" style="color: #00e5ff;"></i> suporte@wkbsistemas.com.br</p>
+          <p><i class="fa-solid fa-location-dot" style="color: #00e5ff;"></i> Atendimento Regional</p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 WKB Sistemas e Telecomunicações. Todos os direitos reservados.</p>
+      </div>
     </div>
   </footer>
 
-  <!-- WHATSAPP FLUTUANTE -->
-  <a href="#" id="whatsappFloat" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Contato via WhatsApp">
+  <a href="#" id="whatsappFloat" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- JS Principal -->
   <script src="script.js"></script>
 </body>
 </html>
