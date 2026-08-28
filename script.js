@@ -63,7 +63,7 @@ if (whatsappForm) {
     const mensagem = document.getElementById('mensagem').value;
 
     const texto = `*SOLICITACAO DE ORCAMENTO WKB*\n\n*Nome:* ${nome}\n*Servico:* ${servico}\n*Detalhes:* ${mensagem}`;
-    const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(texto)}`;
+    const url = `https://wa.me/${93991192244}?text=${encodeURIComponent(texto)}`;
 
     window.open(url, '_blank');
   });
